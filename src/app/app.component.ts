@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import {SidebarComponent} from './core/components/sidebar/sidebar.component';
 
 @Component({
@@ -8,9 +8,11 @@ import {SidebarComponent} from './core/components/sidebar/sidebar.component';
 	imports: [
 		RouterOutlet,
 		SidebarComponent
-	],
-	styleUrl: './app.component.css'
+	]
 })
 export class AppComponent {
   title = 'peps-backoffice';
+
+  constructor(public router: Router) {
+  }
 }

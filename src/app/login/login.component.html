@@ -1,0 +1,16 @@
+<div class="w-screen h-screen items-center flex justify-center">
+	<div class="p-8 rounded-lg shadow-lg bg-gray-400 dark:bg-gray-900 flex flex-col justify-center">
+		<img src="assets/team-peps-logo.png" alt="" class="w-80 h-32">
+		<form [formGroup]="form" class="pt-4">
+			<div class="flex flex-col">
+				<label for="username" class="text-lg">Username</label>
+				<input type="text" id="username" class="p-2 border rounded-lg" formControlName="username">
+			</div>
+			<div class="flex flex-col">
+				<label for="password" class="text-lg">Password</label>
+				<input type="password" id="password" class="p-2 border rounded-lg" formControlName="password">
+			</div>
+			<button (click)="onSubmit()" type="submit" class="bg-[#9E2F1E] text-white p-2 rounded-lg mt-4 w-full cursor-pointer">Login</button>
+		</form>
+	</div>
+</div>
