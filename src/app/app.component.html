@@ -1,6 +1,8 @@
 <div style="height: calc(100%)" class="flex flex-row">
-	<app-sidebar></app-sidebar>
-	<div class="px-8">
+	@if (router.url !== '/login') {
+		<app-sidebar></app-sidebar>
+	}
+	<div>
 		<router-outlet></router-outlet>
 	</div>
 </div>
