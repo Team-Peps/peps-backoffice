@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+    repository: monrepo/angular-app
+    tag: latest
+    pullPolicy: IfNotPresent
+
+service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 80
+
+ingress:
+    enabled: true
+    hostname: angular.mondomaine.com
+    tls: true
