@@ -33,6 +33,7 @@
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^22.13.5",
     "husky": "^9.1.7",
     "jasmine-core": "~5.5.0",
     "karma": "~6.4.0",

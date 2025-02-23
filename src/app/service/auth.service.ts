@@ -5,6 +5,7 @@ import {environment} from '../../environment/environment';
 import {Router} from '@angular/router';
 import {catchError, Observable, tap} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {Authority} from '../model/authority';
 
 @Injectable({
 	providedIn: 'root'
@@ -28,8 +29,16 @@ export class AuthService {
 	}
 
 	logout() {
-		this.destroyToken();
-		this.router.navigate(['/login']);
+		this.http.post(`${environment.backendUrl}/auth/logout`, {}).subscribe(
+			() => {
+				this.destroyToken();
+				this.router.navigate(['/login']);
+			}
+		);
+	}
+
+	getToken(): string {
+		return <string>sessionStorage.getItem('token');
 	}
 
 	private destroyToken() {
@@ -62,7 +71,25 @@ export class AuthService {
 	}
 
 	isAuthenticated(): boolean {
-		return !!sessionStorage.getItem('token');
+		return !!this.getToken();
 	}
+
+	isAdmin(): boolean {
+		const token = this.getToken();
+		if (!token) {
+			return false;
+		}
+
+		try {
+			const payload = JSON.parse(atob(token.split('.')[1]));
+			const authorities: Authority[] = payload.authorities || [];
+
+			return authorities.some((authority: Authority) => authority === Authority.ADMIN);
+		} catch (error) {
+			console.error('Error parsing token:', error);
+			return false;
+		}
+	}
+
 
 }
