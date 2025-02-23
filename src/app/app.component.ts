@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {SidebarComponent} from './core/components/sidebar/sidebar.component';
+import {NavbarComponent} from './core/components/navbar/navbar.component';
 import {AuthService} from './service/auth.service';
 
 @Component({
@@ -8,7 +8,7 @@ import {AuthService} from './service/auth.service';
 	templateUrl: './app.component.html',
 	imports: [
 		RouterOutlet,
-		SidebarComponent
+		NavbarComponent
 	]
 })
 export class AppComponent {
