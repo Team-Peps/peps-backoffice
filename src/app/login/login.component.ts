@@ -28,7 +28,7 @@ export class LoginComponent {
 
 		const user: User = {
 			username: this.form.value.username,
-			password: this.form.value.password
+			password: this.form.value.password,
 		}
 
 		this.authService.login(user);
