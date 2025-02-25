@@ -4,6 +4,7 @@ import {LoginComponent} from './login/login.component';
 import {NotAuthenticatedGuard} from './guard/not-authenticated.guard';
 import {AuthenticatedGuard} from './guard/authenticated.guard';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {ManageUserComponent} from './manage-user/manage-user.component';
 
 export const routes: Routes = [
 	{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -11,7 +12,7 @@ export const routes: Routes = [
 	{ path: 'edit', component: HomeComponent, canActivate: [AuthenticatedGuard] },
 	{ path: 'statistics', component: HomeComponent, canActivate: [AuthenticatedGuard] },
 	{ path: 'orders', component: HomeComponent, canActivate: [AuthenticatedGuard] },
-	{ path: 'users', component: HomeComponent, canActivate: [AuthenticatedGuard] },
+	{ path: 'users', component: ManageUserComponent, canActivate: [AuthenticatedGuard] },
 	{ path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
 	{path: '**', component: PageNotFoundComponent}
 
