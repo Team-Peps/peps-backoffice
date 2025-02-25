@@ -19,7 +19,6 @@ import {TooltipDirective} from '../core/components/tooltip/tooltip.directive';
 		TooltipDirective,
 	],
   templateUrl: './manage-user.component.html',
-  styleUrl: './manage-user.component.css'
 })
 export class ManageUserComponent {
 

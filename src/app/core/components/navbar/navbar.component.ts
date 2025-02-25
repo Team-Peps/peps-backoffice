@@ -20,6 +20,7 @@ export class NavbarComponent {
 
 	isMobileMenuOpen = false;
 	isProfilDropdownOpen = false;
+	isMobileDropdownOpen = false;
 
 	toggleMobileMenu() {
 		this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -27,6 +28,10 @@ export class NavbarComponent {
 
 	toggleProfilDropdown() {
 		this.isProfilDropdownOpen = !this.isProfilDropdownOpen;
+	}
+
+	toggleMobileDropdown() {
+		this.isMobileDropdownOpen = !this.isMobileDropdownOpen;
 	}
 
 	logout() {
