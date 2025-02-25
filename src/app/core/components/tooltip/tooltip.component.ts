@@ -5,7 +5,6 @@ import {TooltipPosition} from './tooltip.enum';
   selector: 'app-tooltip',
   imports: [],
   templateUrl: './tooltip.component.html',
-  styleUrl: './tooltip.component.css'
 })
 export class TooltipComponent {
 

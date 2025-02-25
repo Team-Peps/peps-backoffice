@@ -2,7 +2,7 @@
 	<div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
 		<div class="relative flex h-16 items-center justify-between">
 			<div class="absolute inset-y-0 left-0 flex items-center md:hidden">
-				<button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-hidden focus:ring-inset" aria-controls="mobile-menu" aria-expanded="false" (click)="toggleMobileMenu()">
+				<button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-hidden focus:ring-inset cursor-pointer" aria-controls="mobile-menu" aria-expanded="false" (click)="toggleMobileMenu()">
 					<span class="absolute -inset-0.5"></span>
 					<span class="sr-only">Open main menu</span>
 
@@ -25,7 +25,20 @@
 				<div class="hidden md:ml-6 md:block">
 					<div class="flex space-x-4">
 						<a [routerLink]="['/dashboard']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('dashboard')}" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Tableau de bord</a>
-<!--						<a [routerLink]="['/edit']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit')}" class="rounded-md px-3 py-2 text-sm font-medium">Edition</a>-->
+						<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-row items-center gap-1 group" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit')}">
+							<span>Edition</span>
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 group-hover:rotate-180 transition">
+								<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+							</svg>
+							<div class="absolute z-50 top-full left-0 group-hover:block hidden transition">
+								<div class="bg-white dark:bg-gray-900 rounded-lg text-gray-900 dark:text-white border border-gray-300 dark:border-gray-800 mt-2 py-1 flex flex-col w-max">
+									<button [routerLink]="['/edit/rosters']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('edit/rosters'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('edit/rosters')}">Gestion des équipes</button>
+									<button [routerLink]="['/edit/members']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('edit/members'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('edit/members')}">Gestion des membres</button>
+								</div>
+							</div>
+						</div>
+
+
 <!--						<a [routerLink]="['/statistics']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('statistics')}" class="rounded-md px-3 py-2 text-sm font-medium">Statistiques</a>-->
 <!--						<a [routerLink]="['/orders']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('orders')}" class="rounded-md px-3 py-2 text-sm font-medium">Commandes</a>-->
 						<a [routerLink]="['/users']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="rounded-md px-3 py-2 text-sm font-medium">Utilisateurs</a>
@@ -60,7 +73,20 @@
 		<div class="md:hidden" id="mobile-menu">
 			<div class="space-y-1 px-2 pt-2 pb-3">
 				<a [routerLink]="['/dashboard']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('dashboard')}" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium">Tableau de bord</a>
-<!--				<a [routerLink]="['/edit']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit')}" class="block rounded-md px-3 py-2 text-base font-medium">Edition</a>-->
+				<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-col">
+					<div class="flex flex-row justify-between" (click)="toggleMobileDropdown()">
+						<span>Edition</span>
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 transition" [ngClass]="{'rotate-180' : isMobileDropdownOpen}">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+						</svg>
+					</div>
+					<div class="z-50 top-full left-0 transition w-full" [ngClass]="{'block' : isMobileDropdownOpen, 'hidden' : !isMobileDropdownOpen}">
+						<div class="rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white mt-2 py-1 w-full">
+							<button [routerLink]="['/edit/rosters']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit/rosters')}">Gestion des équipes</button>
+							<button [routerLink]="['/edit/members']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit/members')}">Gestion des membres</button>
+						</div>
+					</div>
+				</div>
 <!--				<a [routerLink]="['/statistics']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('statistics')}" class="block rounded-md px-3 py-2 text-base font-medium">Statistiques</a>-->
 <!--				<a [routerLink]="['/orders']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('orders')}" class="block rounded-md px-3 py-2 text-base font-medium">Commandes</a>-->
 				<a [routerLink]="['/users']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="block rounded-md px-3 py-2 text-base font-medium">Utilisateurs</a>
