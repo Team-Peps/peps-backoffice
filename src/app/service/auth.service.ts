@@ -57,7 +57,7 @@ export class AuthService {
 			Authorization: `Bearer ${refreshToken}`,
 			'Content-Type': 'application/json'
 		});
-		return this.http.post<Authenticate>(`${environment.backendUrl}/auth/refresh`, {}, {headers}).pipe(
+		return this.http.post<Authenticate>(`${environment.backendUrl}/auth/refresh-token`, {}, {headers}).pipe(
 			tap((tokens: Authenticate) => {
 				sessionStorage.setItem('token', tokens.access_token);
 				sessionStorage.setItem('refreshToken', tokens.refresh_token);

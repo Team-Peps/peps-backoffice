@@ -4,7 +4,9 @@ import {Observable, throwError, BehaviorSubject} from "rxjs";
 import {catchError, switchMap, filter, take} from "rxjs/operators";
 import {AuthService} from './auth.service';
 
-@Injectable()
+@Injectable({
+		providedIn: 'root'
+})
 export class TokenInterceptorService implements HttpInterceptor {
 
 	private isRefreshing = false;
