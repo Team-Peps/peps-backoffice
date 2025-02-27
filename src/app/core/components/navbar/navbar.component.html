@@ -25,15 +25,15 @@
 				<div class="hidden md:ml-6 md:block">
 					<div class="flex space-x-4">
 						<a [routerLink]="['/dashboard']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('dashboard')}" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Tableau de bord</a>
-						<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-row items-center gap-1 group" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit')}">
-							<span>Edition</span>
+						<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-row items-center gap-1 group" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management')}">
+							<span>Gestion</span>
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 group-hover:rotate-180 transition">
 								<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
 							</svg>
 							<div class="absolute z-50 top-full left-0 group-hover:block hidden transition">
 								<div class="bg-white dark:bg-gray-900 rounded-lg text-gray-900 dark:text-white border border-gray-300 dark:border-gray-800 mt-2 py-1 flex flex-col w-max">
-									<button [routerLink]="['/edit/rosters']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('edit/rosters'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('edit/rosters')}">Gestion des équipes</button>
-									<button [routerLink]="['/edit/members']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('edit/members'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('edit/members')}">Gestion des membres</button>
+									<button [routerLink]="['/management/rosters']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('management/rosters'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('management/rosters')}">Gestion des équipes</button>
+									<button [routerLink]="['/management/members']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('management/members'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('management/members')}">Gestion des membres</button>
 								</div>
 							</div>
 						</div>
@@ -75,15 +75,15 @@
 				<a [routerLink]="['/dashboard']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('dashboard')}" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium">Tableau de bord</a>
 				<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-col">
 					<div class="flex flex-row justify-between" (click)="toggleMobileDropdown()">
-						<span>Edition</span>
+						<span>Gestion</span>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 transition" [ngClass]="{'rotate-180' : isMobileDropdownOpen}">
 							<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
 						</svg>
 					</div>
 					<div class="z-50 top-full left-0 transition w-full" [ngClass]="{'block' : isMobileDropdownOpen, 'hidden' : !isMobileDropdownOpen}">
 						<div class="rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white mt-2 py-1 w-full">
-							<button [routerLink]="['/edit/rosters']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit/rosters')}">Gestion des équipes</button>
-							<button [routerLink]="['/edit/members']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('edit/members')}">Gestion des membres</button>
+							<button [routerLink]="['/management/rosters']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/rosters')}">Gestion des équipes</button>
+							<button [routerLink]="['/management/members']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/members')}">Gestion des membres</button>
 						</div>
 					</div>
 				</div>

@@ -2,12 +2,13 @@ import {Component} from '@angular/core';
 import {UserService} from '../service/user.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from '../model/user';
-import {AsyncPipe, LowerCasePipe, NgClass, TitleCasePipe} from '@angular/common';
+import {AsyncPipe, NgClass, TitleCasePipe} from '@angular/common';
 import {AuthService} from '../service/auth.service';
 import {ToastService} from '../service/toast.service';
 import {Authority} from '../model/authority';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {TooltipDirective} from '../core/components/tooltip/tooltip.directive';
+import {enumKeysObject} from '../core/utils/enum';
 
 @Component({
   selector: 'app-manage-user',
@@ -31,7 +32,7 @@ export class ManageUserComponent {
 	}
 
 	protected readonly Authority = Authority;
-	protected readonly enumKeysAuthority = enumKeysAuthority;
+	protected readonly enumKeysObject = enumKeysObject;
 	private usersSubject = new BehaviorSubject<User[]>([]);
 	users$: Observable<User[]> = this.usersSubject.asObservable();
 
@@ -81,8 +82,5 @@ export class ManageUserComponent {
 		});
 
 	}
-}
 
-function enumKeysAuthority<O extends object, K extends keyof O = keyof O>(obj: O): K[] {
-	return Object.keys(obj).filter(k => Number.isNaN(+k)) as K[];
 }
