@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Roster} from '../model/roster';
@@ -9,7 +9,6 @@ import {RosterService} from '../service/roster.service';
   selector: 'app-roster-details',
 	imports: [
 		AsyncPipe,
-		RouterLink,
 	],
   templateUrl: './roster-details.component.html',
 })
@@ -23,8 +22,6 @@ export class RosterDetailsComponent implements OnInit{
 
 	private rosterSubject = new BehaviorSubject<Roster|null>(null);
 	roster$: Observable<Roster|null> = this.rosterSubject.asObservable();
-
-
 
 	ngOnInit() {
 		this.route.params.subscribe(params => {

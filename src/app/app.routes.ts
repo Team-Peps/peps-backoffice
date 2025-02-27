@@ -7,6 +7,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {ManageUserComponent} from './manage-user/manage-user.component';
 import {RostersComponent} from './rosters/rosters.component';
 import {RosterDetailsComponent} from './roster-details/roster-details.component';
+import {MemberListComponent} from './member-list/member-list.component';
 
 export const routes: Routes = [
 	{
@@ -18,7 +19,7 @@ export const routes: Routes = [
 		component: HomeComponent,
 		canActivate: [AuthenticatedGuard]},
 	{
-		path: 'edit',
+		path: 'management',
 		canActivate: [AuthenticatedGuard],
 		children: [
 			{
@@ -36,7 +37,7 @@ export const routes: Routes = [
 			},
 			{
 				path: 'members',
-				component: HomeComponent,
+				component: MemberListComponent,
 			}
 		]
 	},

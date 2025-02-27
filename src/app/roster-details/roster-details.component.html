@@ -24,22 +24,7 @@
 					</th>
 					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Age</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Nationalité</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Role</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">DPI</div>
 						</div>
 					</th>
 					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
@@ -61,25 +46,10 @@
 							<td class="p-3">
 								{{ member.lastname }}
 							</td>
-							<td class="p-3 flex flex-col">
-								<span>
-									{{ member.age }} ans
-								</span>
-								<span class="text-xs">
-									{{ member.dateOfBirth }}
-								</span>
-							</td>
-							<td class="p-3">
-								{{ member.nationality}}
-							</td>
 							<td class="p-3">
 								{{ member.role }}
 							</td>
-							<td class="p-3">
-								{{ member.dpi ? member.dpi : 'Non renseigné' }}
-							</td>
 							<td class="p-3 flex flex-row gap-x-2">
-								<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white">Modifier</button>
 								<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white">Retirer</button>
 							</td>
 						</tr>

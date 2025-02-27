@@ -50,7 +50,7 @@
 										<button class="p-2 bg-green-700 cursor-pointer rounded-lg hover:bg-green-800" (click)="enableUser(user.id!)" [tooltip]="'Permettre à l\'utilisateur de se connecter'">Débloquer</button>
 									}
 									<select class="p-2 rounded-lg bg-white text-gray-900 dark:bg-gray-900 dark:text-white" (change)="changeRole($event, user.id!)" [tooltip]="'Changer le role de l\'utilisateur'">
-										@for (authority of enumKeysAuthority(Authority); track authority){
+										@for (authority of enumKeysObject(Authority); track authority){
 											<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="authority" [selected]="user.authorities?.includes(authority)">{{ authority | titlecase }}</option>
 										}
 									</select>
