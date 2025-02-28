@@ -8,12 +8,12 @@ import {
 	Output
 } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {getNationalityName, Nationality} from '../model/nationality';
-import {enumKeysObject} from '../core/utils/enum';
-import {Role} from '../model/role';
-import {Member} from '../model/member';
-import {MemberService} from '../service/member.service';
-import {ToastService} from '../service/toast.service';
+import {getNationalityName, Nationality} from '../../../model/nationality';
+import {enumKeysObject} from '../../../core/utils/enum';
+import {Role} from '../../../model/role';
+import {Member} from '../../../model/member';
+import {MemberService} from '../../../service/member.service';
+import {ToastService} from '../../../service/toast.service';
 
 @Component({
   selector: 'app-update-member',

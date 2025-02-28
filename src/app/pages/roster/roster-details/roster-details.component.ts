@@ -1,9 +1,9 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Roster} from '../model/roster';
+import {Roster} from '../../../model/roster';
 import {AsyncPipe} from '@angular/common';
-import {RosterService} from '../service/roster.service';
+import {RosterService} from '../../../service/roster.service';
 
 @Component({
   selector: 'app-roster-details',

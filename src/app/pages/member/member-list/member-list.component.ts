@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {MemberService} from '../service/member.service';
+import {MemberService} from '../../../service/member.service';
 import {BehaviorSubject} from 'rxjs';
-import {Member} from '../model/member';
+import {Member} from '../../../model/member';
 import {AsyncPipe} from '@angular/common';
 import {UpdateMemberComponent} from '../update-member/update-member.component';
 
