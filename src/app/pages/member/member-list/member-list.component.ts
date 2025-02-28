@@ -23,6 +23,7 @@ export class MemberListComponent implements OnInit {
 	private membersSubjet = new BehaviorSubject<Member[]>([]);
 	members$ = this.membersSubjet.asObservable();
 	selectedMember: Member | null = null;
+	isCreateMember: boolean = false;
 
 	ngOnInit() {
 		this.loadMembers();
@@ -36,7 +37,14 @@ export class MemberListComponent implements OnInit {
 
 	selectMember(member: Member) {
 		this.selectedMember = member;
+		this.isCreateMember = false;
 		this.cdr.detectChanges();
 		document.getElementById('updateMember')?.scrollIntoView({behavior: 'smooth'});
+	}
+
+	toggleCreateMember() {
+		this.isCreateMember = !this.isCreateMember;
+		this.selectedMember = null;
+		this.cdr.detectChanges();
 	}
 }

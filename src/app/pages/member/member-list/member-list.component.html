@@ -1,7 +1,13 @@
 <main class="container mx-auto p-4">
 		<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Membres de la Team Peps</h1>
 
-	<div class="relative overflow-x-auto">
+	<div class="relative overflow-x-auto flex flex-col gap-4 items-end">
+
+		@if (!isCreateMember) {
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
+		} @else {
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleCreateMember()">Annuler</button>
+		}
 
 		<table class="w-full table-auto">
 			<thead>
@@ -93,11 +99,15 @@
 				}
 			</tbody>
 		</table>
-
+		@if (!isCreateMember) {
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
+		} @else {
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleCreateMember()">Annuler</button>
+		}
 	</div>
 
 
-	@if (selectedMember) {
+	@if (selectedMember && !isCreateMember || !selectedMember && isCreateMember) {
 		<app-update-member id="updateMember" (memberSaved)="loadMembers()" [member]="selectedMember"></app-update-member>
 	}
 </main>

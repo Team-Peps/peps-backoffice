@@ -22,4 +22,7 @@ export class MemberService {
 		return this.http.put<{ message: string; user: User }>(`${environment.backendUrl}/member`, member);
 	}
 
+	saveMember(member: Member): Observable<{ message: string; user: User }> {
+		return this.http.post<{ message: string; user: User }>(`${environment.backendUrl}/member`, member);
+	}
 }
