@@ -1,13 +1,13 @@
 import {Routes} from '@angular/router';
-import {HomeComponent} from './home/home.component';
-import {LoginComponent} from './login/login.component';
+import {HomeComponent} from './pages/home/home.component';
+import {LoginComponent} from './pages/login/login.component';
 import {NotAuthenticatedGuard} from './guard/not-authenticated.guard';
 import {AuthenticatedGuard} from './guard/authenticated.guard';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {ManageUserComponent} from './manage-user/manage-user.component';
-import {RostersComponent} from './rosters/rosters.component';
-import {RosterDetailsComponent} from './roster-details/roster-details.component';
-import {MemberListComponent} from './member-list/member-list.component';
+import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
+import {ManageUserComponent} from './pages/manage-user/manage-user.component';
+import {RosterDetailsComponent} from './pages/roster/roster-details/roster-details.component';
+import {MemberListComponent} from './pages/member/member-list/member-list.component';
+import {RosterListComponent} from './pages/roster/roster-list/roster-list.component';
 
 export const routes: Routes = [
 	{
@@ -27,7 +27,7 @@ export const routes: Routes = [
 				children: [
 					{
 						path: '',
-						component: RostersComponent,
+						component: RosterListComponent,
 					},
 					{
 						path: ':id',
