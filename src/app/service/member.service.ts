@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Member} from '../model/member';
+import {Member, PepsMember} from '../model/member/member';
 import {environment} from '../../environment/environment';
 import {Observable} from 'rxjs';
-import {User} from '../model/user';
+import {User} from '../model/auth/user';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,15 +14,15 @@ export class MemberService {
 		private http: HttpClient
 	) {}
 
-	getMembers(): Observable<Member[]> {
-		return this.http.get<Member[]>(`${environment.backendUrl}/member`);
+	getPepsMembers(): Observable<PepsMember[]> {
+		return this.http.get<PepsMember[]>(`${environment.backendUrl}/member/peps`);
 	}
 
-	updateMember(member: Member): Observable<{ message: string; user: User }> {
-		return this.http.put<{ message: string; user: User }>(`${environment.backendUrl}/member`, member);
+	updatePepsMember(member: PepsMember): Observable<{ message: string; user: User }> {
+		return this.http.put<{ message: string; user: User }>(`${environment.backendUrl}/member/peps`, member);
 	}
 
-	saveMember(member: Member): Observable<{ message: string; user: User }> {
-		return this.http.post<{ message: string; user: User }>(`${environment.backendUrl}/member`, member);
+	savePepsMember(member: PepsMember): Observable<{ message: string; user: User }> {
+		return this.http.post<{ message: string; user: User }>(`${environment.backendUrl}/member/peps`, member);
 	}
 }

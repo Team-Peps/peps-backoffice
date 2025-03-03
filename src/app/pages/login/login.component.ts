@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {User} from '../../model/user';
+import {User} from '../../model/auth/user';
 import {AuthService} from '../../service/auth.service';
 
 @Component({

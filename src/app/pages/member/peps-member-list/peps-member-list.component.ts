@@ -1,28 +1,28 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MemberService} from '../../../service/member.service';
 import {BehaviorSubject} from 'rxjs';
-import {Member} from '../../../model/member';
+import {Member, PepsMember} from '../../../model/member/member';
 import {AsyncPipe} from '@angular/common';
-import {UpdateMemberComponent} from '../update-member/update-member.component';
+import {UpdatePepsMemberComponent} from '../update-peps-member/update-peps-member.component';
 
 @Component({
-  selector: 'app-member-list',
+  selector: 'app-peps-member-list',
 	imports: [
 		AsyncPipe,
-		UpdateMemberComponent
+		UpdatePepsMemberComponent
 	],
-  templateUrl: './member-list.component.html',
+  templateUrl: './peps-member-list.component.html',
 })
-export class MemberListComponent implements OnInit {
+export class PepsMemberListComponent implements OnInit {
 
 	constructor(
 	  private readonly memberService: MemberService,
 	  private cdr: ChangeDetectorRef,
 	) {}
 
-	private membersSubjet = new BehaviorSubject<Member[]>([]);
+	private membersSubjet = new BehaviorSubject<PepsMember[]>([]);
 	members$ = this.membersSubjet.asObservable();
-	selectedMember: Member | null = null;
+	selectedMember: PepsMember | null = null;
 	isCreateMember: boolean = false;
 
 	ngOnInit() {
@@ -30,13 +30,13 @@ export class MemberListComponent implements OnInit {
 	}
 
 	loadMembers(): void {
-		this.memberService.getMembers().subscribe(members => {
+		this.memberService.getPepsMembers().subscribe(members => {
 			this.membersSubjet.next(members);
 		});
 	}
 
-	selectMember(member: Member) {
-		this.selectedMember = member;
+	selectMember(pepsMember: PepsMember) {
+		this.selectedMember = pepsMember;
 		this.isCreateMember = false;
 		this.cdr.detectChanges();
 		document.getElementById('updateMember')?.scrollIntoView({behavior: 'smooth'});

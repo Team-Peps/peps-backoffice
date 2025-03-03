@@ -6,8 +6,8 @@ import {AuthenticatedGuard} from './guard/authenticated.guard';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
 import {ManageUserComponent} from './pages/manage-user/manage-user.component';
 import {RosterDetailsComponent} from './pages/roster/roster-details/roster-details.component';
-import {MemberListComponent} from './pages/member/member-list/member-list.component';
 import {RosterListComponent} from './pages/roster/roster-list/roster-list.component';
+import {PepsMemberListComponent} from './pages/member/peps-member-list/peps-member-list.component';
 
 export const routes: Routes = [
 	{
@@ -37,7 +37,7 @@ export const routes: Routes = [
 			},
 			{
 				path: 'members',
-				component: MemberListComponent,
+				component: PepsMemberListComponent,
 			}
 		]
 	},

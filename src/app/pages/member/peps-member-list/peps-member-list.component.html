@@ -108,6 +108,6 @@
 
 
 	@if (selectedMember && !isCreateMember || !selectedMember && isCreateMember) {
-		<app-update-member id="updateMember" (memberSaved)="loadMembers()" [member]="selectedMember"></app-update-member>
+		<app-update-peps-member id="updateMember" (memberSaved)="loadMembers()" [pepsMember]="selectedMember"></app-update-peps-member>
 	}
 </main>

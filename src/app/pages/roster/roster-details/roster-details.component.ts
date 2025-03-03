@@ -32,6 +32,7 @@ export class RosterDetailsComponent implements OnInit{
 	loadRoster(id: string): void {
 		this.rosterService.getRoster(id).subscribe(roster => {
 			this.rosterSubject.next(roster);
+			console.log(roster);
 		});
 	}
 

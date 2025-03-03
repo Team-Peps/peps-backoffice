@@ -9,24 +9,24 @@ import {
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {getNationalityName, Nationality} from '../../../model/nationality';
 import {enumKeysObject} from '../../../core/utils/enum';
-import {Role} from '../../../model/role';
-import {Member} from '../../../model/member';
+import {PepsMember} from '../../../model/member/member';
 import {MemberService} from '../../../service/member.service';
 import {ToastService} from '../../../service/toast.service';
 import {RosterService} from '../../../service/roster.service';
 import {Roster} from '../../../model/roster';
 import {BehaviorSubject} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
+import {MemberRole} from '../../../model/member/memberRole';
 
 @Component({
-  selector: 'app-update-member',
+  selector: 'app-update-peps-member',
 	imports: [
 		ReactiveFormsModule,
 		AsyncPipe,
 	],
-  templateUrl: './update-member.component.html',
+  templateUrl: './update-peps-member.component.html',
 })
-export class UpdateMemberComponent implements OnInit, OnChanges {
+export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 
 	constructor(
 		private readonly cdr: ChangeDetectorRef,
@@ -35,7 +35,7 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 		private readonly rosterService: RosterService
 	) {}
 
-	memberForm: FormGroup = new FormGroup({
+	pepsMemberForm: FormGroup = new FormGroup({
 		pseudo: new FormControl(Validators.required),
 		lastname: new FormControl(Validators.required),
 		firstname: new FormControl(Validators.required),
@@ -51,9 +51,9 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 	protected readonly Nationality = Nationality;
 	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly getNationalityName = getNationalityName;
-	protected readonly Role = Role;
+	protected readonly Role = MemberRole;
 
-	@Input() member: Member | null = null;
+	@Input() pepsMember: PepsMember | null = null;
 	@Output() memberSaved = new EventEmitter();
 
 	ngOnInit() {
@@ -65,28 +65,28 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 	}
 
 	initForm() {
-		if (this.member) {
-			this.memberForm.setValue({
-				pseudo: this.member.pseudo,
-				lastname: this.member.lastname,
-				firstname: this.member.firstname,
-				dateOfBirth: new Date(this.member.dateOfBirth).toISOString().substring(0, 10),
-				nationality: this.member.nationality,
-				role: this.member.role,
-				dpi: this.member.dpi,
+		if (this.pepsMember) {
+			this.pepsMemberForm.setValue({
+				pseudo: this.pepsMember.pseudo,
+				lastname: this.pepsMember.lastname,
+				firstname: this.pepsMember.firstname,
+				dateOfBirth: new Date(this.pepsMember.dateOfBirth).toISOString().substring(0, 10),
+				nationality: this.pepsMember.nationality,
+				role: this.pepsMember.role,
+				dpi: this.pepsMember.dpi,
 				roster: null
 			});
-			this.memberForm.get('roster')!.clearValidators();
-			this.memberForm.get('roster')!.setValidators([Validators.required]);
+			this.pepsMemberForm.get('roster')!.clearValidators();
+			this.pepsMemberForm.get('roster')!.setValidators([Validators.required]);
 		}else{
-			this.memberForm.reset();
+			this.pepsMemberForm.reset();
 		}
-		this.memberForm.get('roster')!.updateValueAndValidity();
+		this.pepsMemberForm.get('roster')!.updateValueAndValidity();
 		this.cdr.detectChanges();
 	}
 
 	saveOrUpdate(){
-		if(this.member) {
+		if(this.pepsMember) {
 			this.update();
 		}else{
 			this.save();
@@ -94,11 +94,11 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 	}
 
 	save(){
-		if (this.memberForm.invalid) {
+		if (this.pepsMemberForm.invalid) {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
 		}
-		this.memberService.saveMember(this.memberForm.value).subscribe({
+		this.memberService.savePepsMember(this.pepsMemberForm.value).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');
@@ -111,12 +111,12 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.memberForm.value, id: this.member!.id };
+		const updateData = { ...this.pepsMemberForm.value, id: this.pepsMember!.id };
 
 		if (!updateData.roster) {
 			delete updateData.roster;
 		}
-		this.memberService.updateMember(updateData).subscribe({
+		this.memberService.updatePepsMember(updateData).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');
@@ -129,7 +129,7 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 	}
 
 	loadRosters() {
-		this.rosterService.getRosters().subscribe(rosters => {
+		this.rosterService.getPepsRosters().subscribe(rosters => {
 			this.rostersSubjet.next(rosters);
 		});
 	}

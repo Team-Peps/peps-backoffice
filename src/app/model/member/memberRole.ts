@@ -1,4 +1,4 @@
-export enum Role {
+export enum MemberRole {
 	PLAYER = 'PLAYER',
 	DPS = 'DPS',
 	TANK = 'TANK',
