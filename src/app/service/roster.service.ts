@@ -13,8 +13,8 @@ export class RosterService {
 		private http: HttpClient
 	) {}
 
-	getRosters(): Observable<Roster[]> {
-		return this.http.get<Roster[]>(`${environment.backendUrl}/roster`);
+	getPepsRosters(): Observable<Roster[]> {
+		return this.http.get<Roster[]>(`${environment.backendUrl}/roster/peps`);
 	}
 
 	getRoster(id: string): Observable<Roster> {

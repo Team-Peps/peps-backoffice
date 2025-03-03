@@ -27,7 +27,7 @@ export class RosterListComponent {
 	rosters$: Observable<Roster[]> = this.rostersSubject.asObservable();
 
 	loadRosters(): void {
-		this.rosterService.getRosters().subscribe(rosters => {
+		this.rosterService.getPepsRosters().subscribe(rosters => {
 			this.rostersSubject.next(rosters);
 		});
 	}
