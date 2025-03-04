@@ -18,11 +18,21 @@ export class MemberService {
 		return this.http.get<PepsMember[]>(`${environment.backendUrl}/member/peps`);
 	}
 
-	updatePepsMember(member: PepsMember): Observable<{ message: string; user: User }> {
-		return this.http.put<{ message: string; user: User }>(`${environment.backendUrl}/member/peps`, member);
+	updatePepsMember(member: PepsMember, imageFile: File): Observable<{ message: string; user: User }> {
+
+		const formData = new FormData();
+		formData.append('member', new Blob([JSON.stringify(member)], { type: 'application/json' }));
+		formData.append('imageFile', imageFile);
+
+		return this.http.put<{ message: string; user: User }>(`${environment.backendUrl}/member/peps`, formData);
 	}
 
-	savePepsMember(member: PepsMember): Observable<{ message: string; user: User }> {
-		return this.http.post<{ message: string; user: User }>(`${environment.backendUrl}/member/peps`, member);
+	savePepsMember(member: PepsMember, imageFile: File): Observable<{ message: string; user: User }> {
+
+		const formData = new FormData();
+		formData.append('member', new Blob([JSON.stringify(member)], { type: 'application/json' }));
+		formData.append('imageFile', imageFile);
+
+		return this.http.post<{ message: string; user: User }>(`${environment.backendUrl}/member/peps`, formData);
 	}
 }

@@ -1,108 +1,111 @@
 <main class="container mx-auto p-4">
 		<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Membres de la Team Peps</h1>
 
-	<div class="relative overflow-x-auto flex flex-col gap-4 items-end">
+	<div class="relative flex flex-col gap-4">
 
 		@if (!isCreateMember) {
 			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
 		} @else {
-			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleCreateMember()">Annuler</button>
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreateMember()">Annuler</button>
 		}
 
-		<table class="w-full table-auto">
-			<thead>
-			<tr>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Roster</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Pseudo</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Prénom</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Nom</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Age</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Nationalité</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Role</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">DPI</div>
-					</div>
-				</th>
-				<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-					<div class="flex items-center px-2 py-1">
-						<div class="flex-1 text-left font-normal">Actions</div>
-					</div>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-				@for (member of members$ | async; track member){
-					<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
-						<td class="p-3">
-							{{ member.roster }}
-						</td>
-						<td class="p-3">
-							{{ member.pseudo }}
-						</td>
-						<td class="p-3">
-							{{ member.firstname }}
-						</td>
-						<td class="p-3">
-							{{ member.lastname }}
-						</td>
-						<td class="p-3 flex flex-col">
-								<span>
-									{{ member.age }} ans
-								</span>
-							<span class="text-xs">
-									{{ member.dateOfBirth }}
-								</span>
-						</td>
-						<td class="p-3">
-							{{ member.nationality}}
-						</td>
-						<td class="p-3">
-							{{ member.role }}
-						</td>
-						<td class="p-3">
-							{{ member.dpi ? member.dpi : 'Non renseigné' }}
-						</td>
-						<td class="p-3 flex flex-row gap-x-2">
-							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
-							<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white">Supprimer</button>
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+		<div class="overflow-x-auto">
+			<table class="w-full table-auto">
+				<thead>
+				<tr>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Roster</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Pseudo</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Prénom</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Nom</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Age</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Nationalité</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Role</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">DPI</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Actions</div>
+						</div>
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+					@for (member of members$ | async; track member){
+						<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+							<td class="p-3">
+								{{ member.roster }}
+							</td>
+							<td class="p-3">
+								{{ member.pseudo }}
+							</td>
+							<td class="p-3">
+								{{ member.firstname }}
+							</td>
+							<td class="p-3">
+								{{ member.lastname }}
+							</td>
+							<td class="p-3 flex flex-col">
+									<span>
+										{{ member.age }} ans
+									</span>
+								<span class="text-xs">
+										{{ member.dateOfBirth }}
+									</span>
+							</td>
+							<td class="p-3">
+								{{ member.nationality}}
+							</td>
+							<td class="p-3">
+								{{ member.role }}
+							</td>
+							<td class="p-3">
+								{{ member.dpi ? member.dpi : 'Non renseigné' }}
+							</td>
+							<td class="p-3 flex flex-row gap-x-2">
+								<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
+								<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white">Supprimer</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
 		@if (!isCreateMember) {
 			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
 		} @else {
-			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleCreateMember()">Annuler</button>
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreateMember()">Annuler</button>
 		}
 	</div>
 
