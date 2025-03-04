@@ -43,11 +43,10 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 		nationality: new FormControl(Validators.required),
 		role: new FormControl(Validators.required),
 		dpi: new FormControl(),
-		roster: new FormControl(null)
+		roster: new FormControl(null),
+		image: new FormControl()
 	})
 
-	private rostersSubjet = new BehaviorSubject<Roster[]>([]);
-	rosters$ = this.rostersSubjet.asObservable();
 	protected readonly Nationality = Nationality;
 	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly getNationalityName = getNationalityName;
@@ -55,6 +54,12 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 
 	@Input() pepsMember: PepsMember | null = null;
 	@Output() memberSaved = new EventEmitter();
+
+	private rostersSubjet = new BehaviorSubject<Roster[]>([]);
+	rosters$ = this.rostersSubjet.asObservable();
+
+	selectedFile: File | null = null;
+	imagePreview: string | null = null;
 
 	ngOnInit() {
 		this.loadRosters();
@@ -74,12 +79,16 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 				nationality: this.pepsMember.nationality,
 				role: this.pepsMember.role,
 				dpi: this.pepsMember.dpi,
-				roster: null
+				roster: null,
+				image: null
 			});
+
 			this.pepsMemberForm.get('roster')!.clearValidators();
 			this.pepsMemberForm.get('roster')!.setValidators([Validators.required]);
+			this.imagePreview = "data:image/webp;base64," + this.pepsMember.image;
 		}else{
 			this.pepsMemberForm.reset();
+			this.imagePreview = "";
 		}
 		this.pepsMemberForm.get('roster')!.updateValueAndValidity();
 		this.cdr.detectChanges();
@@ -98,7 +107,10 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
 		}
-		this.memberService.savePepsMember(this.pepsMemberForm.value).subscribe({
+		const saveData = { ...this.pepsMemberForm.value };
+		delete saveData.image;
+
+		this.memberService.savePepsMember(saveData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');
@@ -116,7 +128,10 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 		if (!updateData.roster) {
 			delete updateData.roster;
 		}
-		this.memberService.updatePepsMember(updateData).subscribe({
+
+		delete updateData.image;
+
+		this.memberService.updatePepsMember(updateData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');
@@ -132,5 +147,64 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 		this.rosterService.getPepsRosters().subscribe(rosters => {
 			this.rostersSubjet.next(rosters);
 		});
+	}
+
+	async onFileSelected(event: Event): Promise<void> {
+		const input = event.target as HTMLInputElement;
+		if (input.files && input.files.length > 0) {
+			const file = input.files[0];
+
+			if(this.checkSize(file) && await this.checkDimension(file)) {
+				this.selectedFile = file;
+				this.toastService.show('Nouvelle image chargée', 'success');
+
+				this.createPreview()
+			}else{
+				input.value = "";
+			}
+		}
+	}
+
+	checkSize(file: File): boolean {
+		if(file.size > 2 * 1024 * 1024) {
+			this.toastService.show('L\'image ne doit pas dépasser 2 Mo', 'error');
+			return false;
+		}
+		return true;
+	}
+
+	checkDimension(file: File): Promise<boolean> {
+		return new Promise((resolve) => {
+			const img = new Image();
+			img.src = URL.createObjectURL(file);
+
+			img.onload = () => {
+				if (img.width > 380 || img.height > 440) {
+					this.toastService.show("L'image ne doit pas dépasser 380x440 pixels", "error");
+					resolve(false);
+				} else {
+					resolve(true);
+				}
+			};
+
+			img.onerror = () => {
+				resolve(false);
+			};
+		});
+	}
+
+
+	createPreview(file: File | null = this.selectedFile): void {
+		const reader = new FileReader();
+		reader.onload = () => {
+			this.imagePreview = reader.result as string;
+		};
+		reader.readAsDataURL(file!);
+	}
+
+
+	handleUploadFile() {
+		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+		fileInput.click();
 	}
 }
