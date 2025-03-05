@@ -3,15 +3,18 @@ import {RosterService} from '../../../service/roster.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Roster} from '../../../model/roster';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
+import {ReplacePipe} from '../../../core/utils/replacePipe';
 
 @Component({
   selector: 'app-roster-list',
 	imports: [
 		ReactiveFormsModule,
 		AsyncPipe,
-		RouterLink
+		RouterLink,
+		TitleCasePipe,
+		ReplacePipe
 	],
   templateUrl: './roster-list.component.html',
 })
@@ -31,5 +34,7 @@ export class RosterListComponent {
 			this.rostersSubject.next(rosters);
 		});
 	}
+
+
 
 }

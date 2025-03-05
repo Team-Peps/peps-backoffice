@@ -22,10 +22,16 @@
 				@for (roster of rosters$ | async; track roster){
 					<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
 						<td class="border-b p-3 dark:border-gray-900">
-							{{ roster.game.name }}
+							<div class="flex flex-row items-center gap-2">
+								<div class="rounded-lg p-2 bg-gray-300 dark:bg-gray-950">
+									<img [src]="'assets/'+ roster.game+'.svg'" alt="Logo {{roster.game}}" class="w-10 h-10 inline-block mr-2">
+									<span>{{ roster.game | replace: '-' : ' ' | titlecase }}</span>
+								</div>
+							</div>
+
 						</td>
 						<td class="border-b p-3 dark:border-gray-900">
-							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600" [routerLink]="['/management/rosters/' + roster.id]">Voir</button>
+							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" [routerLink]="['/management/rosters/' + roster.id]">Voir</button>
 						</td>
 					</tr>
 				}

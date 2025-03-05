@@ -2,14 +2,17 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Roster} from '../../../model/roster';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {RosterService} from '../../../service/roster.service';
+import {ReplacePipe} from "../../../core/utils/replacePipe";
 
 @Component({
   selector: 'app-roster-details',
-	imports: [
-		AsyncPipe,
-	],
+    imports: [
+        AsyncPipe,
+        ReplacePipe,
+        TitleCasePipe,
+    ],
   templateUrl: './roster-details.component.html',
 })
 export class RosterDetailsComponent implements OnInit{
@@ -18,7 +21,6 @@ export class RosterDetailsComponent implements OnInit{
 		private route: ActivatedRoute,
 		private readonly rosterService: RosterService,
 	) {}
-
 
 	private rosterSubject = new BehaviorSubject<Roster|null>(null);
 	roster$: Observable<Roster|null> = this.rosterSubject.asObservable();
@@ -32,7 +34,6 @@ export class RosterDetailsComponent implements OnInit{
 	loadRoster(id: string): void {
 		this.rosterService.getRoster(id).subscribe(roster => {
 			this.rosterSubject.next(roster);
-			console.log(roster);
 		});
 	}
 
