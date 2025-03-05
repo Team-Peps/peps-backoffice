@@ -63,7 +63,7 @@
 					<label for="roster">Roster</label>
 					<select class="p-2.5 rounded-lg border border-gray-300" id="roster" formControlName="roster">
 						@for (roster of rosters$ | async; track roster){
-							<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="roster.id">{{ roster.game.name }}</option>
+							<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="roster.id">{{ roster.game | replace: '-' : ' ' | titlecase }}</option>
 						}
 					</select>
 				</div>

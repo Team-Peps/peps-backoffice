@@ -15,14 +15,17 @@ import {ToastService} from '../../../service/toast.service';
 import {RosterService} from '../../../service/roster.service';
 import {Roster} from '../../../model/roster';
 import {BehaviorSubject} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {MemberRole} from '../../../model/member/memberRole';
+import {ReplacePipe} from '../../../core/utils/replacePipe';
 
 @Component({
   selector: 'app-update-peps-member',
 	imports: [
 		ReactiveFormsModule,
 		AsyncPipe,
+		ReplacePipe,
+		TitleCasePipe,
 	],
   templateUrl: './update-peps-member.component.html',
 })
