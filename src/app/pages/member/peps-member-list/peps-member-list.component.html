@@ -1,5 +1,5 @@
 <main class="container mx-auto p-4">
-		<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Membres de la Team Peps</h1>
+	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Membres de la Team Peps</h1>
 
 	<div class="relative flex flex-col gap-4">
 
@@ -64,7 +64,7 @@
 					@for (member of members$ | async; track member){
 						<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
 							<td class="p-3">
-								{{ member.roster }}
+								{{ member.roster ? (member.roster | replace: '-' : ' ' | titlecase) : 'Non renseigné' }}
 							</td>
 							<td class="p-3">
 								{{ member.pseudo }}

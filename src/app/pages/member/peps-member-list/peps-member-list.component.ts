@@ -1,15 +1,18 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MemberService} from '../../../service/member.service';
 import {BehaviorSubject} from 'rxjs';
-import {Member, PepsMember} from '../../../model/member/member';
-import {AsyncPipe} from '@angular/common';
+import {PepsMember} from '../../../model/member/member';
+import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {UpdatePepsMemberComponent} from '../update-peps-member/update-peps-member.component';
+import {ReplacePipe} from '../../../core/utils/replacePipe';
 
 @Component({
   selector: 'app-peps-member-list',
 	imports: [
 		AsyncPipe,
-		UpdatePepsMemberComponent
+		UpdatePepsMemberComponent,
+		ReplacePipe,
+		TitleCasePipe
 	],
   templateUrl: './peps-member-list.component.html',
 })
