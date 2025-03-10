@@ -2,60 +2,79 @@
 	@if (roster$ | async; as roster) {
 		<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Roster {{ roster.game | replace: '-' : ' ' | titlecase }}</h1>
 
-		<div class="relative overflow-x-auto">
+		<div class="relative flex flex-col gap-4">
 
-			<table class="w-full table-auto ">
-				<thead>
-				<tr>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Pseudo</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Prénom</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Nom</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Role</div>
-						</div>
-					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-						<div class="flex items-center px-2 py-1">
-							<div class="flex-1 text-left font-normal">Actions</div>
-						</div>
-					</th>
-				</tr>
-				</thead>
-				<tbody>
-					@for (member of roster.members; track member){
-						<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
-							<td class="p-3">
-								{{ member.pseudo }}
-							</td>
-							<td class="p-3">
-								{{ member.firstname }}
-							</td>
-							<td class="p-3">
-								{{ member.lastname }}
-							</td>
-							<td class="p-3">
-								{{ member.role }}
-							</td>
-							<td class="p-3 flex flex-row gap-x-2">
-								<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white">Retirer</button>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
+			<div class="flex flex-col md:flex-row gap-2">
+				@if (!isAddMemberToRoster) {
+					<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleAddMemberToRoster()">Ajouter un membre</button>
+				} @else {
+					<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleAddMemberToRoster()">Annuler</button>
+					<select class="w-full wp-2.5 rounded-lg border border-gray-300" id="roster" [formControl]="memberId" (change)="handleSelectValueChange($event)">
+						<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="0" selected>{{ (members$ | async)?.length === 0 ? 'Aucun membre disponible' : 'Selectionner un membre' }}</option>
+						@for (member of members$ | async; track member.id){
+							<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="member.id">{{ member.pseudo }}</option>
+						}
+					</select>
+					<button class="p-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-white w-fit" [ngClass]="{'cursor-not-allowed': isButtonDisabled, 'cursor-pointer': !isButtonDisabled}" (click)="addMemberToRoster()" [disabled]="isButtonDisabled">Ajouter</button>
+				}
+
+			</div>
+
+			<div class="overflow-x-auto">
+
+				<table class="w-full table-auto ">
+					<thead>
+					<tr>
+						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<div class="flex items-center px-2 py-1">
+								<div class="flex-1 text-left font-normal">Pseudo</div>
+							</div>
+						</th>
+						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<div class="flex items-center px-2 py-1">
+								<div class="flex-1 text-left font-normal">Prénom</div>
+							</div>
+						</th>
+						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<div class="flex items-center px-2 py-1">
+								<div class="flex-1 text-left font-normal">Nom</div>
+							</div>
+						</th>
+						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<div class="flex items-center px-2 py-1">
+								<div class="flex-1 text-left font-normal">Role</div>
+							</div>
+						</th>
+						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<div class="flex items-center px-2 py-1">
+								<div class="flex-1 text-left font-normal">Actions</div>
+							</div>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+						@for (member of roster.members; track member){
+							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+								<td class="p-3">
+									{{ member.pseudo }}
+								</td>
+								<td class="p-3">
+									{{ member.firstname }}
+								</td>
+								<td class="p-3">
+									{{ member.lastname }}
+								</td>
+								<td class="p-3">
+									{{ member.role }}
+								</td>
+								<td class="p-3 flex flex-row gap-x-2">
+									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="handleRemoveUserFromRoster(member.id)">Retirer</button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
 
 		</div>
 
