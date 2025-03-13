@@ -8,6 +8,7 @@ import {ManageUserComponent} from './pages/manage-user/manage-user.component';
 import {RosterDetailsComponent} from './pages/roster/roster-details/roster-details.component';
 import {RosterListComponent} from './pages/roster/roster-list/roster-list.component';
 import {PepsMemberListComponent} from './pages/member/peps-member-list/peps-member-list.component';
+import {RosterListOpponentComponent} from './pages/roster/roster-list-opponent/roster-list-opponent.component';
 
 export const routes: Routes = [
 	{
@@ -38,7 +39,20 @@ export const routes: Routes = [
 			{
 				path: 'members',
 				component: PepsMemberListComponent,
-			}
+			},
+			{
+				path: 'opponents',
+				children: [
+					{
+						path: '',
+						component: RosterListOpponentComponent
+					},
+					{
+						path: ':id',
+						component: RosterDetailsComponent
+					}
+				]
+			},
 		]
 	},
 	{

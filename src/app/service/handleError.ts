@@ -1,30 +1,16 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {throwError} from 'rxjs';
 
-/**
- * Gestion centralisée des erreurs HTTP
- */
 export function handleError(error: HttpErrorResponse) {
-	let errorMsg = 'Une erreur inconnue est survenue';
-
-	if (error.error instanceof ErrorEvent) {
-		errorMsg = `Erreur client : ${error.error.message}`;
-	} else {
-		switch (error.status) {
-			case 400:
-				errorMsg = 'Requête invalide';
-				break;
-			case 404:
-				errorMsg = 'Membre introuvable';
-				break;
-			case 500:
-				errorMsg = 'Erreur interne du serveur';
-				break;
-			default:
-				errorMsg = `Erreur ${error.status}: ${error.message}`;
+	let errorMessage = 'Une erreur inconnue est survenue';
+	if (error.error) {
+		if (typeof error.error === 'string') {
+			errorMessage = error.error; // Erreur en texte brut
+		} else if (error.error.message) {
+			errorMessage = error.error.message; // JSON avec message d'erreur
+		} else if (error.error.errors) {
+			errorMessage = Object.values(error.error.errors).join(', '); // Erreurs de validation
 		}
 	}
-
-	console.error('❌', errorMsg);
-	return throwError(() => new Error(errorMsg));
+	return throwError(() => new Error(errorMessage));
 }
