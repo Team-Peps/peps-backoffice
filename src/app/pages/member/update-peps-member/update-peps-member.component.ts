@@ -157,7 +157,7 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file) && await this.checkDimension(file)) {
+			if(this.checkSize(file)) {
 				this.selectedFile = file;
 				this.toastService.show('Nouvelle image chargée', 'success');
 
@@ -169,33 +169,12 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 	}
 
 	checkSize(file: File): boolean {
-		if(file.size > 2 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 2 Mo', 'error');
+		if(file.size > 5 * 1024 * 1024) {
+			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
 			return false;
 		}
 		return true;
 	}
-
-	checkDimension(file: File): Promise<boolean> {
-		return new Promise((resolve) => {
-			const img = new Image();
-			img.src = URL.createObjectURL(file);
-
-			img.onload = () => {
-				if (img.width > 380 || img.height > 440) {
-					this.toastService.show("L'image ne doit pas dépasser 380x440 pixels", "error");
-					resolve(false);
-				} else {
-					resolve(true);
-				}
-			};
-
-			img.onerror = () => {
-				resolve(false);
-			};
-		});
-	}
-
 
 	createPreview(file: File | null = this.selectedFile): void {
 		const reader = new FileReader();
