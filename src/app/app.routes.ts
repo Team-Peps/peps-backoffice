@@ -8,6 +8,8 @@ import {ManageUserComponent} from './pages/manage-user/manage-user.component';
 import {RosterDetailsComponent} from './pages/roster/roster-details/roster-details.component';
 import {PepsMemberListComponent} from './pages/member/peps-member-list/peps-member-list.component';
 import {RosterListComponent} from './pages/roster/roster-list/roster-list.component';
+import {CreateMatchComponent} from './pages/match/create-match/create-match.component';
+import {MatchListComponent} from './pages/match/match-list/match-list.component';
 
 export const routes: Routes = [
 	{
@@ -38,6 +40,19 @@ export const routes: Routes = [
 			{
 				path: 'members',
 				component: PepsMemberListComponent,
+			},
+			{
+				path: 'matches',
+				children: [
+					{
+						path: '',
+						component: MatchListComponent
+					},
+					{
+						path: 'create',
+						component: CreateMatchComponent
+					}
+				]
 			}
 		]
 	},
