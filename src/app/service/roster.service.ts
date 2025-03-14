@@ -20,4 +20,20 @@ export class RosterService {
 	getRoster(id: string): Observable<Roster> {
 		return this.http.get<Roster>(`${environment.backendUrl}/roster/${id}`);
 	}
+
+	getOpponentRosters() {
+		return this.http.get<Roster[]>(`${environment.backendUrl}/roster/opponent`);
+	}
+
+	createOpponentRoster(roster: Roster): Observable<Roster> {
+		return this.http.post<Roster>(`${environment.backendUrl}/roster/opponent`, roster);
+	}
+
+	deleteOpponentRoster(roster: Roster): Observable<void> {
+		return this.http.delete<void>(`${environment.backendUrl}/roster/opponent/${roster.id}`);
+	}
+
+	updateOpponentRoster(roster: Roster): Observable<Roster> {
+		return this.http.put<Roster>(`${environment.backendUrl}/roster/opponent/${roster.id}`, roster);
+	}
 }
