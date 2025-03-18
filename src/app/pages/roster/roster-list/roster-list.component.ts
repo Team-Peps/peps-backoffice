@@ -62,6 +62,8 @@ export class RosterListComponent {
 		})
 	);
 
+	pepsRosterCounter: number = 0;
+
 	loadRosters(): void {
 		this.rosterService.getOpponentRosters().subscribe(rosters => {
 			this.displayedOpponentRosters = rosters;
@@ -71,6 +73,7 @@ export class RosterListComponent {
 		});
 		this.rosterService.getPepsRosters().subscribe(rosters => {
 			this.rostersPepsSubject.next(rosters);
+			this.pepsRosterCounter = rosters.length;
 		})
 	}
 
