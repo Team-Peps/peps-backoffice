@@ -75,7 +75,7 @@
 		<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" accept="image/webp" hidden/>
 		<span class="text-xs">L'image doit être au format webp ne pas faire plus de 5Mo</span>
 		@if (imagePreview) {
-			<img [src]="imagePreview" class="w-24 h-24" alt="Aperçu">
+			<img [src]="imagePreview" class="w-24" alt="Aperçu">
 		}
 
 		<div class="flex flex-row justify-center">

@@ -54,7 +54,7 @@ export class AuthService {
 		}
 
 		const headers = new HttpHeaders({
-			Authorization: `Bearer ${refreshToken}`,
+			'Authorization': `Bearer ${refreshToken}`,
 			'Content-Type': 'application/json'
 		});
 		return this.http.post<Authenticate>(`${environment.backendUrl}/auth/refresh-token`, {}, {headers}).pipe(

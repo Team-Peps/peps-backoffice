@@ -20,6 +20,11 @@
 					</th>
 					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 						<div class="flex items-center px-2 py-1">
+							<div class="flex-1 text-left font-normal">Photo</div>
+						</div>
+					</th>
+					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Pseudo</div>
 						</div>
 					</th>
@@ -65,6 +70,10 @@
 						<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
 							<td class="p-3">
 								{{ member.roster ? (member.roster | replace: '-' : ' ' | titlecase) : 'Non renseigné' }}
+							</td>
+							<td class="p-3">
+								<img [src]="'data:image/webp;base64,' + member.image" alt="Photo de {{member.pseudo}}" class="w-24">
+
 							</td>
 							<td class="p-3">
 								{{ member.pseudo }}
