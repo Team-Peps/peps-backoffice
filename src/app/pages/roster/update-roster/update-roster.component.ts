@@ -59,7 +59,7 @@ export class UpdateRosterComponent implements OnInit, OnChanges {
 			this.imagePreview = "data:image/webp;base64," + this.roster.image;
 		}else{
 			this.rosterForm.reset();
-			this.rosterForm.patchValue({isoOpponent: true, game: 'overwatch'});
+			this.rosterForm.patchValue({isOpponent: true, game: 'overwatch'});
 			this.imagePreview = "";
 		}
 		this.cdr.detectChanges();
@@ -88,6 +88,7 @@ export class UpdateRosterComponent implements OnInit, OnChanges {
 				this.toastService.show('Equipe adverse créé avec succès', 'success');
 				this.rosterForm.get('name')!.setValue('');
 				this.rosterForm.markAsPristine();
+				this.imagePreview = "";
 				this.rosterSaved.emit();
 				this.isButtonDisabled = false;
 			},

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {AuthService} from '../../../service/auth.service';
-import {NgClass} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
 	imports: [
 		RouterLink,
 		NgClass,
+		NgOptimizedImage,
 	],
   templateUrl: './navbar.component.html',
 })

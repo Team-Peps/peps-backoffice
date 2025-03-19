@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {User} from '../../model/auth/user';
 import {AuthService} from '../../service/auth.service';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
 	selector: 'app-login',
 	imports: [
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		NgOptimizedImage
 	],
 	templateUrl: './login.component.html',
 })

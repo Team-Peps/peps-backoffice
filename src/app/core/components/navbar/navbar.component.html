@@ -4,7 +4,7 @@
 			<div class="absolute inset-y-0 left-0 flex items-center md:hidden">
 				<button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 focus:outline-hidden focus:ring-inset cursor-pointer" aria-controls="mobile-menu" aria-expanded="false" (click)="toggleMobileMenu()">
 					<span class="absolute -inset-0.5"></span>
-					<span class="sr-only">Open main menu</span>
+					<span class="sr-only">Ouvrir le menu</span>
 
 					@if (!isMobileMenuOpen) {
 						<svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -19,8 +19,8 @@
 				</button>
 			</div>
 			<div class="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
-				<div class="flex shrink-0 items-center">
-					<img class="h-8 w-auto" src="assets/team-peps-logo-tiny.png" alt="Your Company">
+				<div class="flex shrink-0 items-center relative h-8 w-20">
+					<img ngSrc="assets/team-peps-logo-tiny.webp" alt="Team Peps Logo" fill>
 				</div>
 				<div class="hidden md:ml-6 md:block">
 					<div class="flex space-x-4">
@@ -51,16 +51,18 @@
 					<div>
 						<button (click)="toggleProfilDropdown()" type="button" class="relative flex cursor-pointer rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
 							<span class="absolute -inset-1.5"></span>
-							<span class="sr-only">Open user menu</span>
-							<img class="size-8 rounded-full" src="assets/team-peps-logo-2.png" alt="">
+							<span class="sr-only">Ouvrir le menu utilisateur</span>
+							<div class="relative size-8">
+								<img class="rounded-full" ngSrc="assets/team-peps-logo-2.webp" alt="Profil" fill>
+							</div>
 						</button>
 					</div>
 
 					@if (isProfilDropdownOpen) {
 						<div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-900 py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-							<a href="#" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-							<a href="#" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-							<a (click)="logout()" class="block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+							<!--<a href="#" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>-->
+							<!--<a href="#" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>-->
+							<a (click)="logout()" class="block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabindex="-1" id="user-menu-item-2">Déconnexion</a>
 						</div>
 					}
 

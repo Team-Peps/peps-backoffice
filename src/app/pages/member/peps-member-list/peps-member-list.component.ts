@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MemberService} from '../../../service/member.service';
 import {BehaviorSubject} from 'rxjs';
 import {PepsMember} from '../../../model/member/member';
-import {AsyncPipe, TitleCasePipe} from '@angular/common';
+import {AsyncPipe, DatePipe, NgOptimizedImage, TitleCasePipe} from '@angular/common';
 import {UpdatePepsMemberComponent} from '../update-peps-member/update-peps-member.component';
 import {ReplacePipe} from '../../../core/utils/replacePipe';
 
@@ -12,7 +12,9 @@ import {ReplacePipe} from '../../../core/utils/replacePipe';
 		AsyncPipe,
 		UpdatePepsMemberComponent,
 		ReplacePipe,
-		TitleCasePipe
+		TitleCasePipe,
+		NgOptimizedImage,
+		DatePipe
 	],
   templateUrl: './peps-member-list.component.html',
 })
