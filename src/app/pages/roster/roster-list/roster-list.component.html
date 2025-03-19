@@ -46,7 +46,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							@for (pepsRoster of rostersPeps$ | async; track pepsRoster){
+							@for (pepsRoster of rostersPeps$ | async; track pepsRoster.id){
 								<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
 									<td class="border-b p-3 dark:border-gray-900">
 										<div class="flex flex-row items-center gap-2">

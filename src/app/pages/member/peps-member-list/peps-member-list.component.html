@@ -3,6 +3,10 @@
 
 	<div class="relative flex flex-col gap-4">
 
+		@if (selectedMember && !isCreateMember || !selectedMember && isCreateMember) {
+			<app-update-peps-member id="updateMember" (memberSaved)="loadMembers()" [pepsMember]="selectedMember"></app-update-peps-member>
+		}
+
 		@if (!isCreateMember) {
 			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
 		} @else {
@@ -84,13 +88,11 @@
 							<td class="p-3">
 								{{ member.lastname }}
 							</td>
-							<td class="p-3 flex flex-col">
-									<span>
-										{{ member.age }} ans
-									</span>
-								<span class="text-xs">
-										{{ member.dateOfBirth }}
-									</span>
+							<td class="p-3">
+								<span>
+									{{ member.age }} ans <br>
+									{{ member.dateOfBirth | date: 'dd/MM/yyyy' }}
+								</span>
 							</td>
 							<td class="p-3">
 								{{ member.nationality}}
@@ -103,23 +105,23 @@
 							</td>
 							<td class="p-3 flex flex-row gap-x-2">
 								<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
-								<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white">Supprimer</button>
+								<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white">Expulser</button>
+							</td>
+						</tr>
+					} @empty {
+						<tr>
+							<td colspan="10" class="p-3 text-center h-48">
+								<div class="relative flex justify-center items-center">
+									<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+									<div class="relative h-14 w-14">
+										<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
+									</div>
+								</div>
 							</td>
 						</tr>
 					}
 				</tbody>
 			</table>
 		</div>
-
-		@if (!isCreateMember) {
-			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
-		} @else {
-			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreateMember()">Annuler</button>
-		}
 	</div>
-
-
-	@if (selectedMember && !isCreateMember || !selectedMember && isCreateMember) {
-		<app-update-peps-member id="updateMember" (memberSaved)="loadMembers()" [pepsMember]="selectedMember"></app-update-peps-member>
-	}
 </main>

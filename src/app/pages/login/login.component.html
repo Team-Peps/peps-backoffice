@@ -1,6 +1,9 @@
 <div class="w-screen h-screen items-center flex justify-center">
 	<div class="p-8 rounded-lg shadow-lg bg-gray-400 dark:bg-gray-900 flex flex-col justify-center">
-		<img src="assets/team-peps-logo.png" alt="" class="w-80 h-32">
+
+		<div class="relative w-full h-16 sm:w-80 sm:h-32">
+			<img ngSrc="assets/team-peps-logo.webp" alt="Logo Team Peps" fill priority>
+		</div>
 		<form [formGroup]="form" class="pt-4">
 			<div class="flex flex-col">
 				<label for="username" class="text-lg">Username</label>
