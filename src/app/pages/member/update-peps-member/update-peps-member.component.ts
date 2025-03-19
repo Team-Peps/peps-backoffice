@@ -116,6 +116,8 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 		this.memberService.savePepsMember(saveData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
+				this.pepsMemberForm.reset();
+				this.imagePreview = "";
 				this.toastService.show(response.message, 'success');
 			},
 			error: (error) => {
