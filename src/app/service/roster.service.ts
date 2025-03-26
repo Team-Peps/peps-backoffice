@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Roster} from '../model/roster';
+import {Roster, RosterTiny} from '../model/roster';
 import {environment} from '../../environment/environment';
 
 @Injectable({
@@ -13,16 +13,24 @@ export class RosterService {
 		private http: HttpClient
 	) {}
 
-	getPepsRosters(): Observable<Roster[]> {
-		return this.http.get<Roster[]>(`${environment.backendUrl}/roster/peps`);
-	}
-
 	getRoster(id: string): Observable<Roster> {
 		return this.http.get<Roster>(`${environment.backendUrl}/roster/${id}`);
 	}
 
+	getPepsRosters(): Observable<Roster[]> {
+		return this.http.get<Roster[]>(`${environment.backendUrl}/roster/peps`);
+	}
+
 	getOpponentRosters() {
 		return this.http.get<Roster[]>(`${environment.backendUrl}/roster/opponent`);
+	}
+
+	getPepsRostersTiny(): Observable<RosterTiny[]> {
+		return this.http.get<RosterTiny[]>(`${environment.backendUrl}/roster/peps/tiny`);
+	}
+
+	getOpponentRostersTiny(): Observable<RosterTiny[]> {
+		return this.http.get<RosterTiny[]>(`${environment.backendUrl}/roster/opponent/tiny`);
 	}
 
 	createRoster(roster: Roster, imageFile: File): Observable<Roster> {

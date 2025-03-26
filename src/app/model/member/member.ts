@@ -21,4 +21,9 @@ export interface OpponentMember extends Member {
 
 }
 
+export interface MemberTiny{
+	id: string;
+	pseudo: string;
+}
+
 
