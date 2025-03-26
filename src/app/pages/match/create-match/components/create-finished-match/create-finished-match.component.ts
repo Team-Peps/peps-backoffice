@@ -1,19 +1,15 @@
 import {Component, Input} from '@angular/core';
 import {
-	AbstractControl,
 	FormArray,
 	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
-	ValidationErrors,
-	ValidatorFn,
 	Validators
 } from '@angular/forms';
 import {MatchService} from '../../../../../service/match.service';
 import {StepComponent} from './step/step.component';
 import {AsyncPipe, NgClass, TitleCasePipe} from '@angular/common';
-import {RosterService} from '../../../../../service/roster.service';
-import {Roster, RosterTiny} from '../../../../../model/roster';
+import {RosterTiny} from '../../../../../model/roster';
 import {ReplacePipe} from '../../../../../core/utils/replacePipe';
 import {enumKeysObject} from '../../../../../core/utils/enum';
 import {MatchType} from '../../../../../model/match/matchType';
@@ -26,6 +22,7 @@ import {range} from '../../../../../core/utils/range';
 import {ToastService} from '../../../../../service/toast.service';
 import {MatchFinishedDto} from '../../../../../model/match/match';
 import {Router} from '@angular/router';
+import {dateInPastValidator} from '../../../../../core/utils/validators';
 
 @Component({
   selector: 'app-create-finished-match',
@@ -43,12 +40,10 @@ export class CreateFinishedMatchComponent {
 
 	constructor(
 		private readonly matchService: MatchService,
-		private readonly rosterService: RosterService,
 		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
 		private readonly router: Router
-	) {
-	}
+	) {}
 
 	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly MatchType = MatchType;
@@ -228,18 +223,4 @@ export class CreateFinishedMatchComponent {
 		this.router.navigate(['management/matches']);
 	}
 
-}
-
-export function dateInPastValidator(): ValidatorFn {
-	return (control: AbstractControl): ValidationErrors | null => {
-		const value = control.value;
-		if (!value) return null;
-
-		const inputDate = new Date(value);
-		const now = new Date();
-
-		return inputDate > now
-			? { dateInFuture: true }
-			: null;
-	};
 }
