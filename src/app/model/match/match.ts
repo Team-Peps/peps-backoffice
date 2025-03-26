@@ -34,3 +34,14 @@ export interface MatchFinishedDto {
 	opponentPlayers: string[];
 	rounds: MatchRoundDto[];
 }
+
+export interface MatchListItemResponse {
+	id: string;
+	date: string;
+	roster: string;
+	opponentRoster: string;
+	score: number | null;
+	opponentScore: number | null;
+	game: string;
+	type: string;
+}
