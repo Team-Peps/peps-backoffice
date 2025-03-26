@@ -9,3 +9,9 @@ export interface Roster {
 	matchCount?: number;
 	image?: string;
 }
+
+export interface RosterTiny {
+	id: string;
+	name: string;
+	game: string;
+}

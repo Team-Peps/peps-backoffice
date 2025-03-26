@@ -52,14 +52,14 @@
 										<div class="flex flex-row items-center gap-2">
 											<div class="rounded-lg p-2 bg-gray-300 dark:bg-gray-950">
 												<img [src]="'assets/'+ pepsRoster.game+'.svg'" alt="Logo {{pepsRoster.game}}" class="w-10 h-10 inline-block mr-2">
-												<span>{{ pepsRoster.game | replace: '-' : ' ' | titlecase }}</span>
+												<span class="hidden md:inline-block">{{ pepsRoster.game | replace: '-' : ' ' | titlecase }}</span>
 											</div>
 										</div>
 									</td>
 									<td class="border-b p-3 dark:border-gray-900">
 										<div class="flex flex-row items-center gap-2">
 											<img [src]="'data:image/webp;base64,' + pepsRoster.image" alt="Logo {{pepsRoster.name}}" class="w-16">
-											{{ pepsRoster.name }}
+											<span class="hidden md:inline-block">{{ pepsRoster.name }}</span>
 										</div>
 									</td>
 									<td class="border-b p-3 dark:border-gray-900 text-center">
@@ -122,14 +122,14 @@
 										<div class="flex flex-row items-center gap-2">
 											<div class="rounded-lg p-2 bg-gray-300 dark:bg-gray-950">
 												<img [src]="'assets/'+ opponentRoster.game+'.svg'" alt="Logo {{opponentRoster.game}}" class="w-10 h-10 inline-block mr-2">
-												<span>{{ opponentRoster.game | replace: '-' : ' ' | titlecase }}</span>
+												<span class="hidden md:inline-block">{{ opponentRoster.game | replace: '-' : ' ' | titlecase }}</span>
 											</div>
 										</div>
 									</td>
 									<td class="border-b p-3 dark:border-gray-900">
 										<div class="flex flex-row items-center gap-2">
 											<img [src]="'data:image/webp;base64,' + opponentRoster.image" alt="Logo {{opponentRoster.name}}" class="w-16">
-											{{ opponentRoster.name }}
+											<span class="hidden md:inline-block">{{ opponentRoster.name }}</span>
 										</div>
 									</td>
 									<td class="border-b p-3 dark:border-gray-900 text-center">

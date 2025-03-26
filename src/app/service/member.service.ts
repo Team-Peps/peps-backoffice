@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Member, PepsMember} from '../model/member/member';
+import {Member, MemberTiny, PepsMember} from '../model/member/member';
 import {environment} from '../../environment/environment';
 import {catchError, Observable} from 'rxjs';
 import {User} from '../model/auth/user';
@@ -53,6 +53,10 @@ export class MemberService {
 			.pipe(
 				catchError(handleError)
 			);
+	}
+
+	getMemberByRosterId(rosterId: string): Observable<MemberTiny[]> {
+		return this.http.get<MemberTiny[]>(`${environment.backendUrl}/member/roster/${rosterId}`);
 	}
 
 }

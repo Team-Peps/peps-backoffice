@@ -39,13 +39,15 @@
 							</div>
 						</div>
 
-
 <!--						<a [routerLink]="['/statistics']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('statistics')}" class="rounded-md px-3 py-2 text-sm font-medium">Statistiques</a>-->
 <!--						<a [routerLink]="['/orders']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('orders')}" class="rounded-md px-3 py-2 text-sm font-medium">Commandes</a>-->
 						<a [routerLink]="['/users']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="rounded-md px-3 py-2 text-sm font-medium">Utilisateurs</a>
 					</div>
+
 				</div>
 			</div>
+			<a [routerLink]="['/management/matches/create']" class="hidden md:block rounded-md bg-yellow-500 px-3 py-2 text-sm font-medium text-white">Ajouter un match</a>
+
 			<div class="absolute inset-y-0 right-0 flex items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
 
 				<div class="relative ml-3">
@@ -85,15 +87,16 @@
 					</div>
 					<div class="z-50 top-full left-0 transition w-full" [ngClass]="{'block' : isMobileDropdownOpen, 'hidden' : !isMobileDropdownOpen}">
 						<div class="rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white mt-2 py-1 w-full">
-							<button [routerLink]="['/management/matches']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/matches')}">Gestion des matchs</button>
-							<button [routerLink]="['/management/rosters']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/rosters')}">Gestion des équipes</button>
-							<button [routerLink]="['/management/members']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/members')}">Gestion des membres</button>
+							<button [routerLink]="['/management/matches']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/matches')}">Gestion des matchs</button>
+							<button [routerLink]="['/management/rosters']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/rosters')}">Gestion des équipes</button>
+							<button [routerLink]="['/management/members']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/members')}">Gestion des membres</button>
 						</div>
 					</div>
 				</div>
 <!--				<a [routerLink]="['/statistics']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('statistics')}" class="block rounded-md px-3 py-2 text-base font-medium">Statistiques</a>-->
 <!--				<a [routerLink]="['/orders']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('orders')}" class="block rounded-md px-3 py-2 text-base font-medium">Commandes</a>-->
-				<a [routerLink]="['/users']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="block rounded-md px-3 py-2 text-base font-medium">Utilisateurs</a>
+				<a [routerLink]="['/users']" (click)="toggleMobileMenu()" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="block rounded-md px-3 py-2 text-base font-medium">Utilisateurs</a>
+				<a [routerLink]="['/management/matches/create']" (click)="toggleMobileMenu()" class="block rounded-md bg-yellow-500 px-3 py-2 text-sm font-medium text-white text-center">Ajouter un match</a>
 			</div>
 		</div>
 	}
