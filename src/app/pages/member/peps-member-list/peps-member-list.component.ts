@@ -5,6 +5,7 @@ import {PepsMember} from '../../../model/member/member';
 import {AsyncPipe, DatePipe, NgOptimizedImage, TitleCasePipe} from '@angular/common';
 import {UpdatePepsMemberComponent} from '../update-peps-member/update-peps-member.component';
 import {ReplacePipe} from '../../../core/utils/replacePipe';
+import {environment} from "../../../../environment/environment";
 
 @Component({
   selector: 'app-peps-member-list',
@@ -29,6 +30,7 @@ export class PepsMemberListComponent implements OnInit {
 	members$ = this.membersSubjet.asObservable();
 	selectedMember: PepsMember | null = null;
 	isCreateMember: boolean = false;
+	minioBaseUrl = environment.minioBaseUrl;
 
 	ngOnInit() {
 		this.loadMembers();
@@ -52,4 +54,6 @@ export class PepsMemberListComponent implements OnInit {
 		this.selectedMember = null;
 		this.cdr.detectChanges();
 	}
+
+    protected readonly environment = environment;
 }

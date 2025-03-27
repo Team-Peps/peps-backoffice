@@ -7,7 +7,7 @@ export interface Roster {
 	isOpponent: boolean;
 	members?: Member[];
 	matchCount?: number;
-	image?: string;
+	imageKey?: string;
 }
 
 export interface RosterTiny {

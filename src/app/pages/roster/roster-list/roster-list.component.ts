@@ -10,6 +10,7 @@ import {ModalComponent} from '../../../core/components/modal/modal.component';
 import {RouterLink} from '@angular/router';
 import {UpdateRosterComponent} from '../update-roster/update-roster.component';
 import {PaginationService} from '../../../service/pagination.service';
+import {environment} from '../../../../environment/environment';
 
 @Component({
   selector: 'app-roster-list',
@@ -33,6 +34,7 @@ export class RosterListComponent {
 	) {
 		this.loadRosters();
 	}
+	minioBaseUrl = environment.minioBaseUrl;
 
 	private rostersPepsSubject = new BehaviorSubject<Roster[]>([]);
 	rostersPeps$: Observable<Roster[]> = this.rostersPepsSubject.asObservable();
