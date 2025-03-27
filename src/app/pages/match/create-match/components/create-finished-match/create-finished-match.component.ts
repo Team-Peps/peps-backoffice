@@ -16,13 +16,16 @@ import {MatchType} from '../../../../../model/match/matchType';
 import {MemberService} from '../../../../../service/member.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {MemberTiny} from '../../../../../model/member/member';
-import {maps} from '../../../../../model/map';
-import {heroes} from '../../../../../model/heroe';
 import {range} from '../../../../../core/utils/range';
 import {ToastService} from '../../../../../service/toast.service';
 import {MatchFinishedDto} from '../../../../../model/match/match';
 import {Router} from '@angular/router';
 import {dateInPastValidator} from '../../../../../core/utils/validators';
+import {GameMap} from '../../../../../model/map';
+import {Heroe} from '../../../../../model/heroe';
+import {HeroeService} from '../../../../../service/heroe.service';
+import {MapService} from '../../../../../service/map.service';
+import {Game} from '../../../../../model/game';
 
 @Component({
   selector: 'app-create-finished-match',
@@ -42,14 +45,21 @@ export class CreateFinishedMatchComponent {
 		private readonly matchService: MatchService,
 		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
+		private readonly heroeService: HeroeService,
+		private readonly mapService: MapService,
 		private readonly router: Router
 	) {}
 
 	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly MatchType = MatchType;
-	protected readonly maps = maps;
-	protected readonly heroes = heroes;
 	protected readonly range = range;
+
+	private mapsSubjet = new BehaviorSubject<GameMap[]>([]);
+	maps$ = this.mapsSubjet.asObservable();
+
+	private heroesSubjet = new BehaviorSubject<Heroe[]>([]);
+	heroes$ = this.heroesSubjet.asObservable();
+
 
 	@Input() pepsRoster: RosterTiny[] | null | undefined;
 	@Input() opponentRoster: RosterTiny[] | null | undefined;
@@ -124,6 +134,12 @@ export class CreateFinishedMatchComponent {
 
 		this.pepsRosterSorted = this.pepsRoster.filter(pep => pep.game === selectedGame);
 		this.opponentRosterSorted = this.opponentRoster.filter(opp => opp.game === selectedGame);
+		this.mapService.getAllMapsOfGame(selectedGame).subscribe(maps => {
+			this.mapsSubjet.next(maps);
+		})
+		this.heroeService.getAllHeroesOfGame(selectedGame).subscribe(heroes => {
+			this.heroesSubjet.next(heroes);
+		});
 	}
 
 	changeTeam($event: Event, roster: string) {

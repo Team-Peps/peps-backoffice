@@ -142,7 +142,7 @@
 					<div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-center" [formGroupName]="i">
 						<select class="p-2.5 rounded-lg border border-gray-300 w-full" formControlName="bannedHeroPeps">
 							<option disabled selected value="nohero">Choisir le héro ban de Peps</option>
-							@for (heroe of heroes; track heroe.id) {
+							@for (heroe of heroes$ | async; track heroe.id) {
 								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="heroe.id">
 									{{ heroe.name }}
 								</option>
@@ -161,7 +161,7 @@
 
 						<select class="p-2.5 rounded-lg border border-gray-300 w-full" formControlName="mapId">
 							<option disabled selected value="nomap">Choisir la carte</option>
-							@for (map of maps; track map.id) {
+							@for (map of maps$ | async; track map.id) {
 								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="map.id">
 									{{ map.name }}
 								</option>
@@ -180,7 +180,7 @@
 
 						<select class="p-2.5 rounded-lg border border-gray-300 w-full" formControlName="bannedHeroOpponent">
 							<option disabled selected value="nohero">Choisir le héro ban adverse</option>
-							@for (heroe of heroes; track heroe.id) {
+							@for (heroe of heroes$ | async; track heroe.id) {
 								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="heroe.id">
 									{{ heroe.name }}
 								</option>

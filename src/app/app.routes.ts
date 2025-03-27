@@ -11,6 +11,8 @@ import {RosterListComponent} from './pages/roster/roster-list/roster-list.compon
 import {CreateFinishedMatchComponent} from './pages/match/create-match/components/create-finished-match/create-finished-match.component';
 import {MatchListComponent} from './pages/match/match-list/match-list.component';
 import {CreateMatchComponent} from './pages/match/create-match/create-match.component';
+import {DataOverwatchComponent} from './pages/data/overwatch/data-overwatch.component';
+import {DataMarvelRivalsComponent} from './pages/data/marvel-rivals/data-marvel-rivals.component';
 
 export const routes: Routes = [
 	{
@@ -54,6 +56,20 @@ export const routes: Routes = [
 						component: CreateMatchComponent
 					}
 				]
+			}
+		]
+	},
+	{
+		path: 'data',
+		canActivate: [AuthenticatedGuard],
+		children: [
+			{
+				path: 'overwatch',
+				component: DataOverwatchComponent
+			},
+			{
+				path: 'marvel-rivals',
+				component: DataMarvelRivalsComponent
 			}
 		]
 	},
