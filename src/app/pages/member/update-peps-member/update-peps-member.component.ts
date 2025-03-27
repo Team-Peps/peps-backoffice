@@ -18,6 +18,7 @@ import {BehaviorSubject} from 'rxjs';
 import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {MemberRole} from '../../../model/member/memberRole';
 import {ReplacePipe} from '../../../core/utils/replacePipe';
+import {environment} from '../../../../environment/environment';
 
 @Component({
   selector: 'app-update-peps-member',
@@ -37,6 +38,8 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 		private readonly toastService: ToastService,
 		private readonly rosterService: RosterService
 	) {}
+
+	minioBaseUrl = environment.minioBaseUrl;
 
 	pepsMemberForm: FormGroup = new FormGroup({
 		pseudo: new FormControl(Validators.required),
@@ -88,7 +91,7 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 
 			this.pepsMemberForm.get('roster')!.clearValidators();
 			this.pepsMemberForm.get('roster')!.setValidators([Validators.required]);
-			this.imagePreview = "data:image/webp;base64," + this.pepsMember.image;
+			this.imagePreview = this.minioBaseUrl + this.pepsMember.imageKey;
 		}else{
 			this.pepsMemberForm.reset();
 			this.imagePreview = "";

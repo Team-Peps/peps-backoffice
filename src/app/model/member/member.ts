@@ -14,7 +14,7 @@ export interface Member {
 export interface PepsMember extends Member {
 	dpi?: number;
 	dateOfBirth: string;
-	image: string;
+	imageKey: string;
 }
 
 export interface OpponentMember extends Member {

@@ -76,7 +76,7 @@
 								{{ member.roster ? (member.roster | replace: '-' : ' ' | titlecase) : 'Non renseigné' }}
 							</td>
 							<td class="p-3">
-								<img [src]="'data:image/webp;base64,' + member.image" alt="Photo de {{member.pseudo}}" class="w-24">
+								<img [src]="minioBaseUrl + member.imageKey" alt="Photo de {{member.pseudo}}" class="w-24">
 							</td>
 							<td class="p-3">
 								{{ member.pseudo }}

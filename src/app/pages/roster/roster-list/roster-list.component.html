@@ -58,7 +58,7 @@
 									</td>
 									<td class="border-b p-3 dark:border-gray-900">
 										<div class="flex flex-row items-center gap-2">
-											<img [src]="'data:image/webp;base64,' + pepsRoster.image" alt="Logo {{pepsRoster.name}}" class="w-16">
+											<img [src]="minioBaseUrl + pepsRoster.imageKey" alt="Logo {{pepsRoster.name}}" class="w-16">
 											<span class="hidden md:inline-block">{{ pepsRoster.name }}</span>
 										</div>
 									</td>
@@ -128,7 +128,7 @@
 									</td>
 									<td class="border-b p-3 dark:border-gray-900">
 										<div class="flex flex-row items-center gap-2">
-											<img [src]="'data:image/webp;base64,' + opponentRoster.image" alt="Logo {{opponentRoster.name}}" class="w-16">
+											<img [src]="minioBaseUrl + opponentRoster.imageKey" alt="Logo {{opponentRoster.name}}" class="w-16">
 											<span class="hidden md:inline-block">{{ opponentRoster.name }}</span>
 										</div>
 									</td>

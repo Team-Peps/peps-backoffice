@@ -4,6 +4,7 @@ import {Roster} from '../../../model/roster';
 import {ToastService} from '../../../service/toast.service';
 import {RosterService} from '../../../service/roster.service';
 import {NgClass} from '@angular/common';
+import {environment} from '../../../../environment/environment';
 
 @Component({
   selector: 'app-update-roster',
@@ -20,8 +21,9 @@ export class UpdateRosterComponent implements OnInit, OnChanges {
 		private toastService: ToastService,
 		private rosterService: RosterService,
 		private cdr: ChangeDetectorRef,
-	) {
-	}
+	) {}
+
+	minioBaseUrl = environment.minioBaseUrl;
 
 	rosterForm: FormGroup = new FormGroup({
 		name: new FormControl('', Validators.required),
@@ -56,7 +58,7 @@ export class UpdateRosterComponent implements OnInit, OnChanges {
 				image: null
 			});
 
-			this.imagePreview = "data:image/webp;base64," + this.roster.image;
+			this.imagePreview = this.minioBaseUrl + this.roster.imageKey;
 		}else{
 			this.rosterForm.reset();
 			this.rosterForm.patchValue({isOpponent: true, game: 'overwatch'});
