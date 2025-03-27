@@ -38,9 +38,18 @@
 								</div>
 							</div>
 						</div>
-
-<!--						<a [routerLink]="['/statistics']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('statistics')}" class="rounded-md px-3 py-2 text-sm font-medium">Statistiques</a>-->
-<!--						<a [routerLink]="['/orders']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('orders')}" class="rounded-md px-3 py-2 text-sm font-medium">Commandes</a>-->
+						<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-row items-center gap-1 group" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('data')}">
+							<span>Données des jeux</span>
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 group-hover:rotate-180 transition">
+								<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+							</svg>
+							<div class="absolute z-50 top-full left-0 group-hover:block hidden transition">
+								<div class="bg-white dark:bg-gray-900 rounded-lg text-gray-900 dark:text-white border border-gray-300 dark:border-gray-800 mt-2 py-1 flex flex-col w-max">
+									<button [routerLink]="['/data/overwatch']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('data/overwatch'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('data/overwatch')}">Overwatch</button>
+									<button [routerLink]="['/data/marvel-rivals']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('data/marvel-rivals'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('data/marvel-rivals')}">Marvel Rivals</button>
+								</div>
+							</div>
+						</div>
 						<a [routerLink]="['/users']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="rounded-md px-3 py-2 text-sm font-medium">Utilisateurs</a>
 					</div>
 
@@ -63,8 +72,6 @@
 
 					@if (isProfilDropdownOpen) {
 						<div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-900 py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-							<!--<a href="#" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>-->
-							<!--<a href="#" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>-->
 							<a (click)="logout()" class="block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabindex="-1" id="user-menu-item-2">Déconnexion</a>
 						</div>
 					}
@@ -93,8 +100,20 @@
 						</div>
 					</div>
 				</div>
-<!--				<a [routerLink]="['/statistics']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('statistics')}" class="block rounded-md px-3 py-2 text-base font-medium">Statistiques</a>-->
-<!--				<a [routerLink]="['/orders']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('orders')}" class="block rounded-md px-3 py-2 text-base font-medium">Commandes</a>-->
+				<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-col">
+					<div class="flex flex-row justify-between" (click)="toggleMobileDropdown()">
+						<span>Donées des jeux</span>
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 transition" [ngClass]="{'rotate-180' : isMobileDropdownOpen}">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+						</svg>
+					</div>
+					<div class="z-50 top-full left-0 transition w-full" [ngClass]="{'block' : isMobileDropdownOpen, 'hidden' : !isMobileDropdownOpen}">
+						<div class="rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white mt-2 py-1 w-full">
+							<button [routerLink]="['/data/overwatch']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('/data/overwatch')}">Overwatch</button>
+							<button [routerLink]="['/data/marvel-rivals']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('/data/marvel-rivals')}">Marvel Rivals</button>
+						</div>
+					</div>
+				</div>
 				<a [routerLink]="['/users']" (click)="toggleMobileMenu()" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="block rounded-md px-3 py-2 text-base font-medium">Utilisateurs</a>
 				<a [routerLink]="['/management/matches/create']" (click)="toggleMobileMenu()" class="block rounded-md bg-yellow-500 px-3 py-2 text-sm font-medium text-white text-center">Ajouter un match</a>
 			</div>
