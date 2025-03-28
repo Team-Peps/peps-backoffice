@@ -1,41 +1,56 @@
 import {Component, OnInit} from '@angular/core';
 import {MatchService} from '../../../service/match.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {MatchListItemResponse} from '../../../model/match/match';
-import {AsyncPipe, DatePipe} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
+import {Match} from '../../../model/match/match';
 
 @Component({
   selector: 'app-match-list',
 	imports: [
-		AsyncPipe,
-		DatePipe
+		DatePipe,
+		NgClass
 	],
   templateUrl: './match-list.component.html',
 })
 export class MatchListComponent implements OnInit {
 
 	constructor(
-		private readonly matchService: MatchService,
+		private readonly matchService: MatchService
 	) {}
 
-	private matchsSubject = new BehaviorSubject<MatchListItemResponse[]>([]);
-	matchs$: Observable<MatchListItemResponse[]> = this.matchsSubject.asObservable();
-
 	ngOnInit(): void {
-		this.loadMatchs()
-    }
+		this.loadMatches();
+	}
 
-	loadMatchs() {
-		this.matchService.getAllMatches().subscribe(matchs => {
-			this.matchsSubject.next(matchs);
+	groupedMatches: Record<string, Match[]> = {};
+	filteredMatches: Match[] = [];
+
+	selectedGame: string = 'all';
+
+	loadMatches(): void {
+		this.matchService.getAllMatches().subscribe((data: Record<string, Match[]>) => {
+			this.groupedMatches = data;
+			this.updateFilteredMatches();
 		});
 	}
 
-	wantDeleteMatch(match: MatchListItemResponse) {
-
+	updateFilteredMatches(): void {
+		if (this.selectedGame === 'all') {
+			this.filteredMatches = Object.values(this.groupedMatches).flat();
+		} else {
+			this.filteredMatches = this.groupedMatches[this.selectedGame] ?? [];
+		}
 	}
 
-	wantEditMatch(match: MatchListItemResponse) {
+	setSelectedGame(game: string): void {
+		this.selectedGame = game;
+		this.updateFilteredMatches();
+	}
+
+	getGameKeys(): string[] {
+		return Object.keys(this.groupedMatches);
+	}
+
+	wantEditMatch(matchId: string) {
 
 	}
 }

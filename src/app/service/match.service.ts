@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environment/environment';
-import {MatchFinishedDto, MatchFormUpcoming, MatchListItemResponse} from '../model/match/match';
-import {catchError, Observable} from 'rxjs';
-import {handleError} from './handleError';
+import {Observable} from 'rxjs';
+import {Match} from '../model/match/match';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,21 +13,7 @@ export class MatchService {
 		private http: HttpClient
 	) {}
 
-	createUpcomingMatch(match: MatchFormUpcoming): Observable<{ message: string }> {
-		return this.http.post<{ message: string }>(`${environment.backendUrl}/match/upcoming`, match)
-			.pipe(
-				catchError(handleError)
-			);
-	}
-
-    createFinishedMatch(matchDto: MatchFinishedDto): Observable<{ message: string }> {
-		return this.http.post<{ message: string }>(`${environment.backendUrl}/match/finished`, matchDto)
-			.pipe(
-				catchError(handleError)
-			);
-    }
-
-	getAllMatches(): Observable<MatchListItemResponse[]> {
-		return this.http.get<MatchListItemResponse[]>(`${environment.backendUrl}/match`);
+	getAllMatches(): Observable<Record<string, Match[]>> {
+		return this.http.get<Record<string, Match[]>>(`${environment.backendUrl}/match`);
 	}
 }
