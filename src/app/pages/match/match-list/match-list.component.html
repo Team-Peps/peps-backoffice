@@ -1,16 +1,24 @@
 <main class="container mx-auto p-4">
 	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Matchs</h1>
+	<div class="flex gap-2 mb-4">
+		<button class="p-2 border border-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" [ngClass]="{'bg-blue-700': 'all' === selectedGame}" (click)="setSelectedGame('all')">Tous</button>
+		@for (game of getGameKeys(); track game) {
+			<button class="p-2 border border-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" [ngClass]="{'bg-blue-700': game === selectedGame}" (click)="setSelectedGame(game)">
+				{{ game }}
+			</button>
+		}
+	</div>
 	<table class="w-full table-auto ">
 		<thead>
 		<tr>
 			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 				<div class="flex items-center px-2 py-1">
-					<div class="flex-1 text-left font-normal">Date</div>
+					<div class="flex-1 text-left font-normal">Jeu</div>
 				</div>
 			</th>
 			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 				<div class="flex items-center px-2 py-1">
-					<div class="flex-1 text-left font-normal">Jeu</div>
+					<div class="flex-1 text-left font-normal">Date et heure</div>
 				</div>
 			</th>
 			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
@@ -20,7 +28,7 @@
 			</th>
 			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 				<div class="flex items-center px-2 py-1">
-					<div class="flex-1 text-left font-normal">Type</div>
+					<div class="flex-1 text-left font-normal">Nom de la compétition</div>
 				</div>
 			</th>
 			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
@@ -35,25 +43,35 @@
 			</th>
 			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 				<div class="flex items-center px-2 py-1">
+					<div class="flex-1 text-left font-normal">Vod URL</div>
+				</div>
+			</th>
+			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+				<div class="flex items-center px-2 py-1">
+					<div class="flex-1 text-left font-normal">Stream URL</div>
+				</div>
+			</th>
+			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Actions</div>
 				</div>
 			</th>
 		</tr>
 		</thead>
 		<tbody>
-			@for (match of matchs$ | async; track match.id){
+			@for (match of filteredMatches; track match.id){
 				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-					<td class="border-b p-3 dark:border-gray-900 text-center">
-						{{ match.date | date }}
-					</td>
 					<td class="border-b p-3 dark:border-gray-900 text-center">
 						{{ match.game }}
 					</td>
 					<td class="border-b p-3 dark:border-gray-900 text-center">
-						{{ match.opponentRoster }}
+						{{ match.datetime | date }}
 					</td>
 					<td class="border-b p-3 dark:border-gray-900 text-center">
-						{{ match.type }}
+						{{ match.opponent }}
+					</td>
+					<td class="border-b p-3 dark:border-gray-900 text-center">
+						{{ match.competitionName }}
 					</td>
 					<td class="border-b p-3 dark:border-gray-900 text-center">
 						{{ match.score }}
@@ -61,10 +79,15 @@
 					<td class="border-b p-3 dark:border-gray-900 text-center">
 						{{ match.opponentScore }}
 					</td>
+					<td class="border-b p-3 dark:border-gray-900 text-center">
+						{{ match.vodUrl }}
+					</td>
+					<td class="border-b p-3 dark:border-gray-900 text-center">
+						{{ match.streamUrl }}
+					</td>
 					<td class="border-b p-3 dark:border-gray-900">
 						<div class="flex flex-row gap-2">
-							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="wantEditMatch(match)">Modifier</button>
-							<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="wantDeleteMatch(match)">Supprimer</button>
+							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="wantEditMatch(match.id)">Modifier</button>
 						</div>
 					</td>
 				</tr>
