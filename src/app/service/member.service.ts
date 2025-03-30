@@ -3,8 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Member} from '../model/member/member';
 import {environment} from '../../environment/environment';
 import {Observable} from 'rxjs';
-import {User} from '../model/auth/user';
-import {Game} from '../model/game';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,22 +17,22 @@ export class MemberService {
 		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/` + game);
 	}
 
-	updateMember(member: Member, imageFile: File): Observable<{ message: string; user: User }> {
+	updateMember(member: Member, imageFile: File): Observable<{ message: string; member: Member }> {
 
 		const formData = new FormData();
 		formData.append('member', new Blob([JSON.stringify(member)], { type: 'application/json' }));
 		formData.append('imageFile', imageFile);
 
-		return this.http.put<{ message: string; user: User }>(`${environment.backendUrl}/member`, formData);
+		return this.http.put<{ message: string; member: Member }>(`${environment.backendUrl}/member`, formData);
 	}
 
-	saveMember(member: Member, imageFile: File): Observable<{ message: string; user: User }> {
+	saveMember(member: Member, imageFile: File): Observable<{ message: string; member: Member }> {
 
 		const formData = new FormData();
 		formData.append('member', new Blob([JSON.stringify(member)], { type: 'application/json' }));
 		formData.append('imageFile', imageFile);
 
-		return this.http.post<{ message: string; user: User }>(`${environment.backendUrl}/member`, formData);
+		return this.http.post<{ message: string; member: Member }>(`${environment.backendUrl}/member`, formData);
 	}
 
 	deleteMember(id: string): Observable<any> {

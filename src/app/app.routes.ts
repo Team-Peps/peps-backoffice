@@ -9,6 +9,7 @@ import {MemberListComponent} from './pages/member/member-list/member-list.compon
 import {MatchListComponent} from './pages/match/match-list/match-list.component';
 import {DataOverwatchComponent} from './pages/data/overwatch/data-overwatch.component';
 import {DataMarvelRivalsComponent} from './pages/data/marvel-rivals/data-marvel-rivals.component';
+import {PartnerListComponent} from './pages/partner/partner-list/partner-list.component';
 
 export const routes: Routes = [
 	{
@@ -30,6 +31,10 @@ export const routes: Routes = [
 			{
 				path: 'matches',
 				component: MatchListComponent
+			},
+			{
+				path: 'partners',
+				component: PartnerListComponent
 			}
 		]
 	},
