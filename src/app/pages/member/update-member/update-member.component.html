@@ -29,7 +29,7 @@
 						<label for="dateOfBirth">Date de naissance</label>
 						<input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="p-2 border border-gray-300 rounded-lg" />
 					</div>
-					<div class="flex flex-col ">
+					<div class="flex flex-col flex-1">
 						<label for="nationality">Nationalité</label>
 						<select class="p-2.5 rounded-lg border border-gray-300" id="nationality" formControlName="nationality">
 							@for (nationality of enumKeysObject(Nationality); track nationality){
@@ -51,7 +51,7 @@
 					<div class="flex flex-col md:flex-row gap-4">
 						<div class="flex flex-col flex-1">
 							<label for="isSubstitute">Status</label>
-							<select class="p-2.5 border rounded-lg border-gray-300" id="isSubstitute" formControlName="isSubstitute" (change)="tttt()">
+							<select class="p-2.5 border rounded-lg border-gray-300" id="isSubstitute" formControlName="isSubstitute">
 								@if (countMembers < 6) {
 									<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="false">Titulaire</option>
 								}
@@ -84,6 +84,14 @@
 					<div class="flex flex-col flex-1">
 						<label for="youtubeUsername">Youtube</label>
 						<input type="text" id="youtubeUsername" formControlName="youtubeUsername" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="game">Jeu</label>
+						<select class="p-2.5 border rounded-lg border-gray-300" id="game" formControlName="game">
+							@for (game of enumKeysObject(Game); track game){
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="game">{{ game }}</option>
+							}
+						</select>
 					</div>
 				</div>
 				<div class="flex flex-col gap-4">

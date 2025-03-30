@@ -1,4 +1,4 @@
 export enum Game {
-	Overwatch = 'overwatch',
-	MarvelRivals = 'marvel-rivals',
+	OVERWATCH = 'OVERWATCH',
+	MARVEL_RIVALS = 'MARVEL_RIVALS',
 }

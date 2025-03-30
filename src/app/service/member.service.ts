@@ -4,6 +4,7 @@ import {Member} from '../model/member/member';
 import {environment} from '../../environment/environment';
 import {Observable} from 'rxjs';
 import {User} from '../model/auth/user';
+import {Game} from '../model/game';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,8 +15,8 @@ export class MemberService {
 		private http: HttpClient
 	) {}
 
-	getMembers(): Observable<Record<string, Member[]>> {
-		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member`);
+	getMembers(game: String): Observable<Record<string, Member[]>> {
+		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/` + game);
 	}
 
 	updateMember(member: Member, imageFile: File): Observable<{ message: string; user: User }> {

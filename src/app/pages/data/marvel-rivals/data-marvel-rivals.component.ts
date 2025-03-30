@@ -37,13 +37,13 @@ export class DataMarvelRivalsComponent implements OnInit {
 	minioBaseUrl = environment.minioBaseUrl;
 
 	loadMaps() {
-		this.mapService.getAllMapsOfGame(Game.MarvelRivals).subscribe(maps => {
+		this.mapService.getAllMapsOfGame(Game.MARVEL_RIVALS).subscribe(maps => {
 			this.mapsMarverlRivalsSubjet.next(maps);
 		})
 	}
 
 	loadHeroes() {
-		this.heroService.getAllHeroesOfGame(Game.MarvelRivals).subscribe(heroes => {
+		this.heroService.getAllHeroesOfGame(Game.MARVEL_RIVALS).subscribe(heroes => {
 			this.heroesMarvelRivalsSubjet.next(heroes);
 		})
 	}

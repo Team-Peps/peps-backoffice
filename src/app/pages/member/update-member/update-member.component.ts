@@ -13,6 +13,7 @@ import {ToastService} from '../../../service/toast.service';
 import {MemberRole} from '../../../model/member/memberRole';
 import {environment} from '../../../../environment/environment';
 import {Member} from '../../../model/member/member';
+import {Game} from '../../../model/game';
 
 @Component({
   selector: 'app-update-member',
@@ -53,6 +54,7 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 		youtubeUsername: new FormControl(Validators.required),
 
 		isSubstitute: new FormControl(),
+		game: new FormControl(),
 
 	})
 
@@ -93,6 +95,7 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 				youtubeUsername: this.member.youtubeUsername,
 
 				isSubstitute: this.member.isSubstitute,
+				game: this.member.game,
 			});
 
 			this.imagePreview = this.minioBaseUrl + this.member.imageKey;
@@ -190,7 +193,5 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 		fileInput.click();
 	}
 
-	tttt() {
-		console.log(this.memberForm)
-	}
+	protected readonly Game = Game;
 }
