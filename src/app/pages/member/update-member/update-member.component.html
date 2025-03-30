@@ -1,0 +1,111 @@
+<main class="container mx-auto p-4">
+	<div class="relative flex flex-col gap-4">
+		<form [formGroup]="memberForm" class="my-12 text-gray-900 dark:text-gray-100">
+			@if(member){
+				<h2 class="text-center text-2xl mb-4">Modification de {{ member?.pseudo }}</h2>
+			} @else {
+				<h2 class="text-center text-2xl mb-4">Ajout d'un membre</h2>
+			}
+
+			<div class="flex flex-col gap-4">
+
+				<div class="flex flex-col md:flex-row gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="pseudo">Pseudo</label>
+						<input type="text" id="pseudo" formControlName="pseudo" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="firstname">Prénom</label>
+						<input type="text" id="firstname" formControlName="firstname" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="lastname">Nom</label>
+						<input type="text" id="lastname" formControlName="lastname" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="dateOfBirth">Date de naissance</label>
+						<input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col ">
+						<label for="nationality">Nationalité</label>
+						<select class="p-2.5 rounded-lg border border-gray-300" id="nationality" formControlName="nationality">
+							@for (nationality of enumKeysObject(Nationality); track nationality){
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="getNationalityName(nationality)">{{ nationality }}</option>
+							}
+						</select>
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="role">Role</label>
+						<select class="p-2.5 border rounded-lg border-gray-300" id="role" formControlName="role">
+							@for (role of enumKeysObject(Role); track role){
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="role">{{ role }}</option>
+							}
+						</select>
+					</div>
+				</div>
+
+				@if(memberForm.get('role')?.value !== null && memberForm.get('role')?.value != Role.COACH){
+					<div class="flex flex-col md:flex-row gap-4">
+						<div class="flex flex-col flex-1">
+							<label for="isSubstitute">Status</label>
+							<select class="p-2.5 border rounded-lg border-gray-300" id="isSubstitute" formControlName="isSubstitute" (change)="tttt()">
+								@if (countMembers < 6) {
+									<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="false">Titulaire</option>
+								}
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="true">Remplacant</option>
+							</select>
+						</div>
+					</div>
+				}
+
+				<div class="flex flex-col md:flex-row gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="xUsername">X</label>
+						<input type="text" id="xUsername" formControlName="xUsername" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="instagramUsername">Instagram</label>
+						<input type="text" id="instagramUsername" formControlName="instagramUsername" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="tiktokUsername">Tiktok</label>
+						<input type="text" id="tiktokUsername" formControlName="tiktokUsername" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="twitchUsername">Twitch</label>
+						<input type="text" id="twitchUsername" formControlName="twitchUsername" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="youtubeUsername">Youtube</label>
+						<input type="text" id="youtubeUsername" formControlName="youtubeUsername" class="p-2 border border-gray-300 rounded-lg" />
+					</div>
+				</div>
+				<div class="flex flex-col gap-4">
+					<div class="flex flex-col">
+						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500"></textarea>
+					</div>
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
+				</div>
+
+				<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" accept="image/webp" hidden/>
+				<span class="text-xs">L'image doit être au format webp ne pas faire plus de 5Mo</span>
+				@if (imagePreview) {
+					<img [src]="imagePreview" class="w-24" alt="Aperçu">
+				}
+
+				<div class="flex flex-row justify-center">
+					<button class="p-2 bg-green-700 w-full md:w-fit rounded-lg cursor-pointer hover:bg-green-600 text-white" (click)="saveOrUpdate()">Sauvegarder</button>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+</main>
