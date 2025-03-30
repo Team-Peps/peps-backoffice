@@ -1,4 +1,5 @@
 import {MemberRole} from './memberRole';
+import {Game} from '../game';
 
 export interface Member {
 	id: string;
@@ -17,6 +18,7 @@ export interface Member {
 	tiktokUsername: string;
 	youtubeUsername: string;
 	twitchUsername: string;
+	game: Game;
 }
 
 

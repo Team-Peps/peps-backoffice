@@ -5,12 +5,18 @@ import {environment} from "../../../../environment/environment";
 import {MemberTableComponent} from './memberTable/memberTable.component';
 import {UpdateMemberComponent} from '../update-member/update-member.component';
 import {ToastService} from '../../../service/toast.service';
+import {Router} from '@angular/router';
+import {Game} from '../../../model/game';
+import {ReactiveFormsModule} from '@angular/forms';
+import {enumKeysObject} from '../../../core/utils/enum';
+import {MemberRole} from '../../../model/member/memberRole';
 
 @Component({
   selector: 'app-member-list',
 	imports: [
 		MemberTableComponent,
 		UpdateMemberComponent,
+		ReactiveFormsModule,
 	],
   templateUrl: './member-list.component.html',
 })
@@ -20,6 +26,7 @@ export class MemberListComponent implements OnInit {
 	  private readonly memberService: MemberService,
 	  private cdr: ChangeDetectorRef,
 	  private readonly toastService: ToastService,
+	  private readonly router: Router
 	) {}
 	protected readonly environment = environment;
 
@@ -29,18 +36,27 @@ export class MemberListComponent implements OnInit {
 	selectedMember: Member | null = null;
 	isCreateMember: boolean = false;
 	countMembers: number = 0;
+	selectedGame: Game = Game.OVERWATCH;
 
 	ngOnInit() {
 		this.loadMembers();
 	}
 
 	loadMembers(): void {
-		this.memberService.getMembers().subscribe(response => {
+		this.memberService.getMembers(this.selectedGame).subscribe(response => {
 			this.members = response['members'];
 			this.substitutes = response['substitutes'];
 			this.coaches = response['coaches'];
 			this.countMembers = this.members.length;
+			this.cdr.detectChanges();
 		});
+	}
+
+	changeGame($event: Event) {
+		const target = $event.target as HTMLSelectElement;
+		const value = target.value;
+		this.selectedGame = value as Game;
+		this.loadMembers();
 	}
 
 	selectMember(member: Member) {
@@ -48,7 +64,6 @@ export class MemberListComponent implements OnInit {
 		this.isCreateMember = false;
 		this.cdr.detectChanges();
 		document.getElementById('updateMember')?.scrollIntoView({behavior: 'smooth'});
-		console.log('Selected member:', member);
 	}
 
 	toggleCreateMember() {
@@ -96,4 +111,8 @@ export class MemberListComponent implements OnInit {
 			}
 		})
 	}
+
+	protected readonly enumKeysObject = enumKeysObject;
+	protected readonly Role = MemberRole;
+	protected readonly Game = Game;
 }

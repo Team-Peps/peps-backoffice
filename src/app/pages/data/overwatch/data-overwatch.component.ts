@@ -37,13 +37,13 @@ export class DataOverwatchComponent implements OnInit {
 	minioBaseUrl = environment.minioBaseUrl;
 
 	loadMaps() {
-		this.mapService.getAllMapsOfGame(Game.Overwatch).subscribe(maps => {
+		this.mapService.getAllMapsOfGame(Game.OVERWATCH).subscribe(maps => {
 			this.mapsOverwatchSubjet.next(maps);
 		})
 	}
 
 	loadHeroes() {
-		this.heroService.getAllHeroesOfGame(Game.Overwatch).subscribe(heroes => {
+		this.heroService.getAllHeroesOfGame(Game.OVERWATCH).subscribe(heroes => {
 			this.heroesOverwatchSubjet.next(heroes);
 		})
 	}
