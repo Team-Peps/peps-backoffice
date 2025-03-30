@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {catchError, Observable, tap} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Authority} from '../model/auth/authority';
+import {ToastService} from './toast.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,18 +15,23 @@ export class AuthService {
 
 	constructor(
 		private http: HttpClient,
-		private readonly router: Router
+		private readonly router: Router,
+		private readonly toastService: ToastService
 	) {}
 
-
 	login(user: User) {
-		this.http.post<Authenticate>(`${environment.backendUrl}/auth/authenticate`, user).subscribe(
-			(authenticate: Authenticate) => {
+		this.http.post<Authenticate>(`${environment.backendUrl}/auth/authenticate/backoffice`, user).subscribe({
+			next: (authenticate: Authenticate) => {
 				sessionStorage.setItem('token', authenticate.access_token);
 				sessionStorage.setItem('refreshToken', authenticate.refresh_token);
 				this.router.navigate(['/dashboard']);
+				this.toastService.show('Connexion réussie', 'success');
+			},
+			error: (error) => {
+				this.toastService.show('Identifiants incorrects ou permission insuffisante', 'error');
+				console.error('Error logging in:', error);
 			}
-		);
+		});
 	}
 
 	logout() {

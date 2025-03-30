@@ -31,8 +31,12 @@
 			<tbody>
 				@for (user of users$ | async; track user){
 					<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-						<td class="border-b p-3 dark:border-gray-900">
-							<span class="text-sm p-1.5 rounded-lg" [ngClass]="{'bg-red-500' : user.authorities?.includes('ADMIN'), 'bg-yellow-500' : user.authorities?.includes('STAFF'), 'bg-blue-500' : user.authorities?.includes('TECH'), 'bg-gray-500' : user.authorities?.includes('LOCKED')}">{{ user.authorities }}</span>
+						<td class="border-b p-1.5 dark:border-gray-900">
+							<div class="flex flex-row gap-2">
+								@for (role of user.authorities; track role) {
+									<span class="text-xs p-1 rounded-lg" [ngClass]="{'bg-red-500' : role === Authority.ADMIN, 'bg-yellow-500' : role === Authority.STAFF, 'bg-blue-500' : role === Authority.USER, 'bg-gray-500' : role === Authority.LOCKED}">{{ role }}</span>
+								}
+							</div>
 						</td>
 						<td class="border-b p-3 dark:border-gray-900">
 							<span>{{user.username}}</span>
