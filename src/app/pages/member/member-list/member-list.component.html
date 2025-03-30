@@ -1,0 +1,47 @@
+<main class="container mx-auto p-4">
+	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Membres de la Team Peps</h1>
+
+	<div class="relative flex flex-col gap-4">
+
+		@if (selectedMember && !isCreateMember || !selectedMember && isCreateMember) {
+			<app-update-member
+				id="updateMember"
+				(memberSaved)="loadMembers()"
+				[countMembers]="countMembers"
+				[member]="selectedMember">
+			</app-update-member>
+		}
+
+		@if (!isCreateMember) {
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateMember()">Ajouter un membre</button>
+		} @else {
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreateMember()">Annuler</button>
+		}
+
+		<div class="overflow-x-auto flex flex-col gap-10">
+			<h2 class="text-center text-2xl">Titulaires ({{countMembers}}/6 max)</h2>
+			<member-table
+				[members]="members"
+				(memberToUpdate)="selectMember($event)"
+				(memberToSubstitute)="setSubstitute($event)"
+				(memberToRemove)="removeMember($event)"
+			></member-table>
+
+			<h2 class="text-center text-2xl">Remplacants</h2>
+			<member-table
+				[members]="substitutes"
+				[countMembers]="countMembers"
+				(memberToUpdate)="selectMember($event)"
+				(memberToActive)="setActive($event)"
+				(memberToRemove)="removeMember($event)"
+			></member-table>
+
+			<h2 class="text-center text-2xl">Coachs</h2>
+			<member-table
+				[members]="coaches"
+				(memberToUpdate)="selectMember($event)"
+				(memberToRemove)="removeMember($event)"
+			></member-table>
+		</div>
+	</div>
+</main>

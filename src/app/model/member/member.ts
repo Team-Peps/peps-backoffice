@@ -5,25 +5,18 @@ export interface Member {
 	pseudo: string;
 	lastname: string;
 	firstname: string;
-	age: number;
+	description: string;
 	nationality: string;
-	role: MemberRole,
-	roster?: string;
-}
-
-export interface PepsMember extends Member {
-	dpi?: number;
+	age: number;
 	dateOfBirth: string;
+	role: MemberRole,
+	isSubstitute: boolean;
 	imageKey: string;
-}
-
-export interface OpponentMember extends Member {
-
-}
-
-export interface MemberTiny{
-	id: string;
-	pseudo: string;
+	xusername: string;
+	instagramUsername: string;
+	tiktokUsername: string;
+	youtubeUsername: string;
+	twitchUsername: string;
 }
 
 

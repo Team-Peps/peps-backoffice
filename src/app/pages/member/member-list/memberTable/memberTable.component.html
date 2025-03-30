@@ -1,0 +1,95 @@
+<table class="w-full table-auto">
+	<thead>
+	<tr>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Photo</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Pseudo</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Prénom</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Nom</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Age</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Nationalité</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Role</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Actions</div>
+			</div>
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+		@for (member of members; track member){
+			<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+				<td class="p-3">
+					<img [src]="minioBaseUrl + member.imageKey" alt="Photo de {{member.pseudo}}" class="w-24">
+				</td>
+				<td class="p-3">
+					{{ member.pseudo }}
+				</td>
+				<td class="p-3">
+					{{ member.firstname }}
+				</td>
+				<td class="p-3">
+					{{ member.lastname }}
+				</td>
+				<td class="p-3">
+					{{ member.age }} ans
+				</td>
+				<td class="p-3">
+					{{ member.nationality}}
+				</td>
+				<td class="p-3">
+					{{ member.role }}
+				</td>
+				<td class="p-3 flex flex-col gap-2">
+					<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
+					@if(member.isSubstitute){
+					}
+					@if(member.isSubstitute && countMembers < 6) {
+						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="setActive(member)">Titutaliser</button>
+					} @else if(!member.isSubstitute && member.role != MemberRole.COACH) {
+						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="setSubstitute(member)">Définir remplacant</button>
+					}
+					<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="removeFromTeam(member)">Supprimer de l'équipe</button>
+				</td>
+			</tr>
+		} @empty {
+			<tr>
+				<td colspan="10" class="p-3 text-center h-48">
+					<div class="relative flex justify-center items-center">
+						<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+						<div class="relative h-14 w-14">
+							<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

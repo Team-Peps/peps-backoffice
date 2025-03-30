@@ -3,54 +3,57 @@ import {
 	Component,
 	EventEmitter,
 	Input,
-	OnChanges, OnInit,
-	Output
+	OnChanges, OnInit, Output
 } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {getNationalityName, Nationality} from '../../../model/nationality';
 import {enumKeysObject} from '../../../core/utils/enum';
-import {PepsMember} from '../../../model/member/member';
 import {MemberService} from '../../../service/member.service';
 import {ToastService} from '../../../service/toast.service';
-import {RosterService} from '../../../service/roster.service';
-import {Roster} from '../../../model/roster';
-import {BehaviorSubject} from 'rxjs';
-import {AsyncPipe, TitleCasePipe} from '@angular/common';
 import {MemberRole} from '../../../model/member/memberRole';
-import {ReplacePipe} from '../../../core/utils/replacePipe';
 import {environment} from '../../../../environment/environment';
+import {Member} from '../../../model/member/member';
 
 @Component({
-  selector: 'app-update-peps-member',
+  selector: 'app-update-member',
 	imports: [
 		ReactiveFormsModule,
-		AsyncPipe,
-		ReplacePipe,
-		TitleCasePipe,
+
 	],
-  templateUrl: './update-peps-member.component.html',
+  templateUrl: './update-member.component.html',
 })
-export class UpdatePepsMemberComponent implements OnInit, OnChanges {
+export class UpdateMemberComponent implements OnInit, OnChanges {
 
 	constructor(
 		private readonly cdr: ChangeDetectorRef,
 		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
-		private readonly rosterService: RosterService
 	) {}
+
+	ngOnInit(): void {
+
+    }
 
 	minioBaseUrl = environment.minioBaseUrl;
 
-	pepsMemberForm: FormGroup = new FormGroup({
+	memberForm: FormGroup = new FormGroup({
 		pseudo: new FormControl(Validators.required),
 		lastname: new FormControl(Validators.required),
 		firstname: new FormControl(Validators.required),
-		dateOfBirth: new FormControl(Validators.required),
 		nationality: new FormControl(Validators.required),
+		dateOfBirth: new FormControl(Validators.required),
 		role: new FormControl(Validators.required),
-		dpi: new FormControl(),
-		roster: new FormControl(null),
-		image: new FormControl()
+		image: new FormControl(),
+		description: new FormControl(),
+
+		xUsername: new FormControl(Validators.required),
+		instagramUsername: new FormControl(Validators.required),
+		tiktokUsername: new FormControl(Validators.required),
+		twitchUsername: new FormControl(Validators.required),
+		youtubeUsername: new FormControl(Validators.required),
+
+		isSubstitute: new FormControl(),
+
 	})
 
 	protected readonly Nationality = Nationality;
@@ -58,50 +61,50 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 	protected readonly getNationalityName = getNationalityName;
 	protected readonly Role = MemberRole;
 
-	@Input() pepsMember: PepsMember | null = null;
-	@Output() memberSaved = new EventEmitter();
+	@Input() member: Member | null = null;
+	@Input() countMembers!: number;
 
-	private rostersSubjet = new BehaviorSubject<Roster[]>([]);
-	rosters$ = this.rostersSubjet.asObservable();
+	@Output() memberSaved = new EventEmitter();
 
 	selectedFile: File | null = null;
 	imagePreview: string | null = null;
-
-	ngOnInit() {
-		this.loadRosters();
-	}
 
 	ngOnChanges() {
 		this.initForm();
 	}
 
 	initForm() {
-		if (this.pepsMember) {
-			this.pepsMemberForm.setValue({
-				pseudo: this.pepsMember.pseudo,
-				lastname: this.pepsMember.lastname,
-				firstname: this.pepsMember.firstname,
-				dateOfBirth: new Date(this.pepsMember.dateOfBirth).toISOString().substring(0, 10),
-				nationality: this.pepsMember.nationality,
-				role: this.pepsMember.role,
-				dpi: this.pepsMember.dpi,
-				roster: null,
-				image: null
+		if (this.member) {
+			console.log(this.member.xusername)
+			this.memberForm.setValue({
+				pseudo: this.member.pseudo,
+				lastname: this.member.lastname,
+				firstname: this.member.firstname,
+				nationality: this.member.nationality,
+				dateOfBirth: new Date(this.member.dateOfBirth).toISOString().substring(0, 10),
+				role: this.member.role,
+				image: null,
+				description: this.member.description,
+
+				xUsername: this.member.xusername,
+				instagramUsername: this.member.instagramUsername,
+				tiktokUsername: this.member.tiktokUsername,
+				twitchUsername: this.member.twitchUsername,
+				youtubeUsername: this.member.youtubeUsername,
+
+				isSubstitute: this.member.isSubstitute,
 			});
 
-			this.pepsMemberForm.get('roster')!.clearValidators();
-			this.pepsMemberForm.get('roster')!.setValidators([Validators.required]);
-			this.imagePreview = this.minioBaseUrl + this.pepsMember.imageKey;
+			this.imagePreview = this.minioBaseUrl + this.member.imageKey;
 		}else{
-			this.pepsMemberForm.reset();
+			this.memberForm.reset();
 			this.imagePreview = "";
 		}
-		this.pepsMemberForm.get('roster')!.updateValueAndValidity();
 		this.cdr.detectChanges();
 	}
 
 	saveOrUpdate(){
-		if(this.pepsMember) {
+		if(this.member) {
 			this.update();
 		}else{
 			this.save();
@@ -109,17 +112,18 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 	}
 
 	save(){
-		if (this.pepsMemberForm.invalid) {
+		if (this.memberForm.invalid) {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
 		}
-		const saveData = { ...this.pepsMemberForm.value };
+		const saveData = { ...this.memberForm.value };
 		delete saveData.image;
 
-		this.memberService.savePepsMember(saveData, this.selectedFile!).subscribe({
+		console.log(saveData);
+		this.memberService.saveMember(saveData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
-				this.pepsMemberForm.reset();
+				this.memberForm.reset();
 				this.imagePreview = "";
 				this.toastService.show(response.message, 'success');
 			},
@@ -131,15 +135,12 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.pepsMemberForm.value, id: this.pepsMember!.id };
-
-		if (!updateData.roster) {
-			delete updateData.roster;
-		}
+		const updateData = { ...this.memberForm.value, id: this.member!.id };
 
 		delete updateData.image;
+		updateData.imageKey = this.member!.imageKey;
 
-		this.memberService.updatePepsMember(updateData, this.selectedFile!).subscribe({
+		this.memberService.updateMember(updateData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');
@@ -148,12 +149,6 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 				console.error("❌ Erreur lors de la sauvegarde :", error);
 				this.toastService.show('Une erreur est survenue', 'error');
 			}
-		});
-	}
-
-	loadRosters() {
-		this.rosterService.getPepsRosters().subscribe(rosters => {
-			this.rostersSubjet.next(rosters);
 		});
 	}
 
@@ -193,5 +188,9 @@ export class UpdatePepsMemberComponent implements OnInit, OnChanges {
 	handleUploadFile() {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
 		fileInput.click();
+	}
+
+	tttt() {
+		console.log(this.memberForm)
 	}
 }
