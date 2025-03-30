@@ -77,7 +77,6 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 
 	initForm() {
 		if (this.member) {
-			console.log(this.member.xusername)
 			this.memberForm.setValue({
 				pseudo: this.member.pseudo,
 				lastname: this.member.lastname,
@@ -122,7 +121,6 @@ export class UpdateMemberComponent implements OnInit, OnChanges {
 		const saveData = { ...this.memberForm.value };
 		delete saveData.image;
 
-		console.log(saveData);
 		this.memberService.saveMember(saveData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();

@@ -113,6 +113,5 @@ export class MemberListComponent implements OnInit {
 	}
 
 	protected readonly enumKeysObject = enumKeysObject;
-	protected readonly Role = MemberRole;
 	protected readonly Game = Game;
 }

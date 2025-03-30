@@ -1,0 +1,39 @@
+<main class="container mx-auto p-4">
+	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Partenaires de la Team Peps</h1>
+
+	<div class="relative flex flex-col gap-4">
+
+		@if (selectedPartner && !isCreatePartner || !selectedPartner && isCreatePartner) {
+			<app-update-partner
+				id="updatePartner"
+				(partnerUpdated)="loadPartners()"
+				[partner]="selectedPartner">
+			</app-update-partner>
+		}
+
+		@if (!isCreatePartner) {
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreatePartner()">Ajouter un partenaire</button>
+		} @else {
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreatePartner()">Annuler</button>
+		}
+
+		<div class="overflow-x-auto flex flex-col gap-10">
+			<h2 class="text-center text-2xl">Partenariat actifs</h2>
+			<partner-table
+				[partners]="partnersActive"
+				(partnerToActive)="toggleActive($event)"
+				(partnerToDelete)="deletePartner($event)"
+				(partnerToUpdate)="selectPartner($event)"
+			></partner-table>
+
+			<h2 class="text-center text-2xl">Partenariat inactifs</h2>
+			<partner-table
+				[partners]="partnersInactive"
+				(partnerToActive)="toggleActive($event)"
+				(partnerToDelete)="deletePartner($event)"
+				(partnerToUpdate)="selectPartner($event)"
+			></partner-table>
+		</div>
+
+	</div>
+</main>
