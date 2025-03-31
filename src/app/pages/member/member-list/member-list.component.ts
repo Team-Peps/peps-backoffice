@@ -5,11 +5,9 @@ import {environment} from "../../../../environment/environment";
 import {MemberTableComponent} from './memberTable/memberTable.component';
 import {UpdateMemberComponent} from '../update-member/update-member.component';
 import {ToastService} from '../../../service/toast.service';
-import {Router} from '@angular/router';
 import {Game} from '../../../model/game';
 import {ReactiveFormsModule} from '@angular/forms';
 import {enumKeysObject} from '../../../core/utils/enum';
-import {MemberRole} from '../../../model/member/memberRole';
 
 @Component({
   selector: 'app-member-list',
@@ -26,9 +24,11 @@ export class MemberListComponent implements OnInit {
 	  private readonly memberService: MemberService,
 	  private cdr: ChangeDetectorRef,
 	  private readonly toastService: ToastService,
-	  private readonly router: Router
 	) {}
+
 	protected readonly environment = environment;
+	protected readonly enumKeysObject = enumKeysObject;
+	protected readonly Game = Game;
 
 	members: Member[] = [];
 	substitutes: Member[] = [];
@@ -112,6 +112,4 @@ export class MemberListComponent implements OnInit {
 		})
 	}
 
-	protected readonly enumKeysObject = enumKeysObject;
-	protected readonly Game = Game;
 }

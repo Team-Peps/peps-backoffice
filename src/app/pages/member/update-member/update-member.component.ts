@@ -23,17 +23,13 @@ import {Game} from '../../../model/game';
 	],
   templateUrl: './update-member.component.html',
 })
-export class UpdateMemberComponent implements OnInit, OnChanges {
+export class UpdateMemberComponent implements OnChanges {
 
 	constructor(
 		private readonly cdr: ChangeDetectorRef,
 		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
 	) {}
-
-	ngOnInit(): void {
-
-    }
 
 	minioBaseUrl = environment.minioBaseUrl;
 

@@ -7,9 +7,8 @@ import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.compo
 import {ManageUserComponent} from './pages/manage-user/manage-user.component';
 import {MemberListComponent} from './pages/member/member-list/member-list.component';
 import {MatchListComponent} from './pages/match/match-list/match-list.component';
-import {DataOverwatchComponent} from './pages/data/overwatch/data-overwatch.component';
-import {DataMarvelRivalsComponent} from './pages/data/marvel-rivals/data-marvel-rivals.component';
 import {PartnerListComponent} from './pages/partner/partner-list/partner-list.component';
+import {HeroeListComponent} from './pages/heroe/heroe-list/heroe-list.component';
 
 export const routes: Routes = [
 	{
@@ -39,18 +38,9 @@ export const routes: Routes = [
 		]
 	},
 	{
-		path: 'data',
+		path: 'heroes',
 		canActivate: [AuthenticatedGuard],
-		children: [
-			{
-				path: 'overwatch',
-				component: DataOverwatchComponent
-			},
-			{
-				path: 'marvel-rivals',
-				component: DataMarvelRivalsComponent
-			}
-		]
+		component: HeroeListComponent
 	},
 	{
 		path: 'statistics',
