@@ -1,0 +1,128 @@
+<main class="container mx-auto p-4">
+	<div class="flex flex-col gap-6">
+
+		<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Ambassadeurs de la Team Peps</h1>
+
+		<div class="relative flex flex-col gap-4">
+
+			@if (selectedAmbassador && !isCreateAmbassador || !selectedAmbassador && isCreateAmbassador) {
+				<app-update-ambassador
+					id="updateAmbassador"
+					(ambassadorUpdated)="loadAmbassadors()"
+					[ambassador]="selectedAmbassador">
+				</app-update-ambassador>
+			}
+
+			@if (!isCreateAmbassador) {
+				<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateAmbassador()">Ajouter un ambassadeur</button>
+			} @else {
+				<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreateAmbassador()">Annuler</button>
+			}
+
+			<div class="overflow-x-auto">
+
+				<table class="w-full table-auto">
+					<thead>
+						<tr>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">Image</div>
+								</div>
+							</th>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">Nom</div>
+								</div>
+							</th>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">Instagram</div>
+								</div>
+							</th>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">X</div>
+								</div>
+							</th>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">TikTok</div>
+								</div>
+							</th>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">Twitch</div>
+								</div>
+							</th>
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">Youtube</div>
+								</div>
+							</th>
+
+							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+								<div class="flex items-center px-2 py-1">
+									<div class="flex-1 text-left font-normal">Actions</div>
+								</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					@defer {
+
+						@for (ambassador of ambassadors$ | async; track ambassador.id){
+							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
+								<td class="border-b p-3 dark:border-gray-900">
+									<div class="flex flex-row items-center gap-2">
+										<img [src]="minioBaseUrl + ambassador.imageKey" alt="Photo de {{ambassador.name}}" class="w-16">
+									</div>
+								</td>
+								<td class="border-b p-3 dark:border-gray-900">
+									{{ ambassador.name }}
+								</td>
+								<td class="border-b p-3 dark:border-gray-900">
+									{{ ambassador.instagramUsername }}
+								</td>
+								<td class="border-b p-3 dark:border-gray-900">
+									{{ ambassador.twitterXUsername }}
+								</td>
+								<td class="border-b p-3 dark:border-gray-900">
+									{{ ambassador.tiktokUsername }}
+								</td>
+								<td class="border-b p-3 dark:border-gray-900">
+									{{ ambassador.twitchUsername }}
+								</td>
+								<td class="border-b p-3 dark:border-gray-900">
+									{{ ambassador.youtubeUsername }}
+								</td>
+								<td class="p-3 flex flex-col gap-2">
+									<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectAmbassador(ambassador)">Modifier</button>
+									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deleteAmbassador(ambassador)">Supprimer</button>
+								</td>
+							</tr>
+						} @empty {
+							<tr>
+								<td colspan="8" class="p-3 text-center">
+									Aucune donnée
+								</td>
+							</tr>
+						}
+					} @loading (minimum 500ms) {
+						<tr>
+							<td colspan="10" class="p-3 text-center h-48">
+								<div class="relative flex justify-center items-center">
+									<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+									<div class="relative h-14 w-14">
+										<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
+									</div>
+								</div>
+							</td>
+						</tr>
+					}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</main>
