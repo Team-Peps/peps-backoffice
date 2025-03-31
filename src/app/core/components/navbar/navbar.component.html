@@ -38,18 +38,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-row items-center gap-1 group" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('data')}">
-							<span>Données des jeux</span>
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 group-hover:rotate-180 transition">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-							</svg>
-							<div class="absolute z-50 top-full left-0 group-hover:block hidden transition">
-								<div class="bg-white dark:bg-gray-900 rounded-lg text-gray-900 dark:text-white border border-gray-300 dark:border-gray-800 mt-2 py-1 flex flex-col w-max">
-									<button [routerLink]="['/data/overwatch']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('data/overwatch'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('data/overwatch')}">Overwatch</button>
-									<button [routerLink]="['/data/marvel-rivals']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('data/marvel-rivals'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('data/marvel-rivals')}">Marvel Rivals</button>
-								</div>
-							</div>
-						</div>
+						<a [routerLink]="['/heroes']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('heroes')}" class="rounded-md px-3 py-2 text-sm font-medium">Héros</a>
+
 						<a [routerLink]="['/users']" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="rounded-md px-3 py-2 text-sm font-medium">Utilisateurs</a>
 					</div>
 
@@ -99,20 +89,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="relative cursor-pointer rounded-md px-3 py-2 text-sm font-medium flex flex-col">
-					<div class="flex flex-row justify-between" (click)="toggleMobileDropdown()">
-						<span>Donées des jeux</span>
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4 transition" [ngClass]="{'rotate-180' : isMobileDropdownOpen}">
-							<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-						</svg>
-					</div>
-					<div class="z-50 top-full left-0 transition w-full" [ngClass]="{'block' : isMobileDropdownOpen, 'hidden' : !isMobileDropdownOpen}">
-						<div class="rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white mt-2 py-1 w-full">
-							<button [routerLink]="['/data/overwatch']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('/data/overwatch')}">Overwatch</button>
-							<button [routerLink]="['/data/marvel-rivals']" (click)="toggleMobileMenu()" class="text-left cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('/data/marvel-rivals')}">Marvel Rivals</button>
-						</div>
-					</div>
-				</div>
+				<a [routerLink]="['/heroes']" (click)="toggleMobileMenu()" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('heroes')}" class="block rounded-md px-3 py-2 text-base font-medium">Héros</a>
+
 				<a [routerLink]="['/users']" (click)="toggleMobileMenu()" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('users')}" class="block rounded-md px-3 py-2 text-base font-medium">Utilisateurs</a>
 			</div>
 		</div>

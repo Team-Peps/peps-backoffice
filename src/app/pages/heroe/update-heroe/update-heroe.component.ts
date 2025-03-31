@@ -1,67 +1,69 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PartnerService} from '../../../service/partner.service';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {HeroeService} from '../../../service/heroe.service';
 import {ToastService} from '../../../service/toast.service';
 import {environment} from '../../../../environment/environment';
-import {Partner} from '../../../model/partner';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Heroe, MarvelRivalsHeroRole, OverwatchHeroRole} from '../../../model/heroe';
+import {MemberRole} from '../../../model/member/memberRole';
+import {enumKeysObject} from '../../../core/utils/enum';
+import {Game} from '../../../model/game';
 
 @Component({
-	selector: 'app-update-partner',
+  selector: 'app-update-heroe',
 	imports: [
+		FormsModule,
 		ReactiveFormsModule
 	],
-	templateUrl: './update-partner.component.html',
+  templateUrl: './update-heroe.component.html',
 })
-export class UpdatePartnerComponent implements OnChanges {
+export class UpdateHeroeComponent implements OnChanges {
 
 	constructor(
-		private readonly cdr: ChangeDetectorRef,
-		private readonly partnerService: PartnerService,
+		private readonly heroeService: HeroeService,
 		private readonly toastService: ToastService,
+		private readonly cdr: ChangeDetectorRef,
 	) {}
 
-	ngOnChanges(): void {
+    ngOnChanges(): void {
 		this.initForm();
     }
 
 	minioBaseUrl = environment.minioBaseUrl;
 
-	partnerForm: FormGroup = new FormGroup({
+	heroeForm: FormGroup = new FormGroup({
 		name: new FormControl(Validators.required),
-		description: new FormControl(Validators.required),
+		role: new FormControl(Validators.required),
 		image: new FormControl(),
-		link: new FormControl(Validators.required),
-		codes: new FormControl(Validators.required),
-		isActive: new FormControl(),
+		game: new FormControl(Validators.required),
 	});
 
-	@Input() partner: Partner | null = null;
+	@Input() heroe: Heroe | null = null;
 
-	@Output() partnerUpdated: EventEmitter<Partner | null> = new EventEmitter();
+	@Output() heroeUpdated: EventEmitter<Heroe | null> = new EventEmitter();
 
 	selectedFile: File | null = null;
 	imagePreview: string | null = null;
 
 	initForm(): void {
-		if (this.partner) {
-			this.partnerForm.patchValue({
-				name: this.partner.name,
-				description: this.partner.description,
-				link: this.partner.link,
-				codes: this.partner.codes.join(","),
-				isActive: this.partner.isActive,
+		if (this.heroe) {
+			this.heroeForm.patchValue({
+				name: this.heroe.name,
+				game: this.heroe.game,
+				role: this.heroe.role,
 			});
 
-			this.imagePreview = this.minioBaseUrl + this.partner.imageKey;
+			this.imagePreview = this.minioBaseUrl + this.heroe.imageKey;
 		}else{
-			this.partnerForm.reset();
+			this.heroeForm.reset();
 			this.imagePreview = null;
 		}
 		this.cdr.detectChanges();
 	}
 
-	saveOrUpdatePartner(): void {
-		if(this.partner){
+	saveOrUpdateHeroe(): void {
+		console.log(this.heroeForm.value);
+		console.log(this.heroe)
+		if(this.heroe){
 			this.update();
 		}else{
 			this.save();
@@ -69,17 +71,17 @@ export class UpdatePartnerComponent implements OnChanges {
 	}
 
 	save() {
-		if(this.partnerForm.invalid) {
+		if(this.heroeForm.invalid) {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
 		}
-		const saveData = { ...this.partnerForm.value };
+		const saveData = { ...this.heroeForm.value };
 		delete saveData.image;
 
-		this.partnerService.savePartner(saveData, this.selectedFile!).subscribe({
+		this.heroeService.saveHeroe(saveData, this.selectedFile!).subscribe({
 			next: (response) => {
-				this.partnerUpdated.emit();
-				this.partnerForm.reset();
+				this.heroeUpdated.emit();
+				this.heroeForm.reset();
 				this.imagePreview = "";
 				this.toastService.show(response.message, 'success');
 			},
@@ -91,14 +93,14 @@ export class UpdatePartnerComponent implements OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.partnerForm.value, id: this.partner!.id };
+		const updateData = { ...this.heroeForm.value, id: this.heroe!.id };
 
 		delete updateData.image;
-		updateData.imageKey = this.partner!.imageKey;
+		updateData.imageKey = this.heroe!.imageKey;
 
-		this.partnerService.updatePartner(updateData, this.selectedFile!).subscribe({
+		this.heroeService.updateHeroe(updateData, this.selectedFile!).subscribe({
 			next: (response) => {
-				this.partnerUpdated.emit();
+				this.heroeUpdated.emit();
 				this.toastService.show(response.message, 'success');
 			},
 			error: (error) => {
@@ -146,16 +148,9 @@ export class UpdatePartnerComponent implements OnChanges {
 		fileInput.click();
 	}
 
-	checkPartnerLink($event: Event) {
-		const target = $event.target as HTMLInputElement;
-		const link = target.value;
-		const linkRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
-
-		if(!linkRegex.test(link)) {
-			target.setCustomValidity('Le lien doit être une URL valide');
-		}else{
-			target.setCustomValidity('');
-		}
-		target.reportValidity();
-	}
+	protected readonly Role = MemberRole;
+	protected readonly enumKeysObject = enumKeysObject;
+	protected readonly Game = Game;
+	protected readonly OverwatchHeroRole = OverwatchHeroRole;
+	protected readonly MarvelRivalsHeroRole = MarvelRivalsHeroRole;
 }
