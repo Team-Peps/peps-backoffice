@@ -4,7 +4,6 @@ import {ToastService} from '../../../service/toast.service';
 import {environment} from '../../../../environment/environment';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Heroe, MarvelRivalsHeroRole, OverwatchHeroRole} from '../../../model/heroe';
-import {MemberRole} from '../../../model/member/memberRole';
 import {enumKeysObject} from '../../../core/utils/enum';
 import {Game} from '../../../model/game';
 
@@ -27,6 +26,11 @@ export class UpdateHeroeComponent implements OnChanges {
     ngOnChanges(): void {
 		this.initForm();
     }
+
+	protected readonly enumKeysObject = enumKeysObject;
+	protected readonly Game = Game;
+	protected readonly OverwatchHeroRole = OverwatchHeroRole;
+	protected readonly MarvelRivalsHeroRole = MarvelRivalsHeroRole;
 
 	minioBaseUrl = environment.minioBaseUrl;
 
@@ -61,8 +65,6 @@ export class UpdateHeroeComponent implements OnChanges {
 	}
 
 	saveOrUpdateHeroe(): void {
-		console.log(this.heroeForm.value);
-		console.log(this.heroe)
 		if(this.heroe){
 			this.update();
 		}else{
@@ -148,9 +150,4 @@ export class UpdateHeroeComponent implements OnChanges {
 		fileInput.click();
 	}
 
-	protected readonly Role = MemberRole;
-	protected readonly enumKeysObject = enumKeysObject;
-	protected readonly Game = Game;
-	protected readonly OverwatchHeroRole = OverwatchHeroRole;
-	protected readonly MarvelRivalsHeroRole = MarvelRivalsHeroRole;
 }
