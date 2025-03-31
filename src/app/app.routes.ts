@@ -9,6 +9,7 @@ import {MemberListComponent} from './pages/member/member-list/member-list.compon
 import {MatchListComponent} from './pages/match/match-list/match-list.component';
 import {PartnerListComponent} from './pages/partner/partner-list/partner-list.component';
 import {HeroeListComponent} from './pages/heroe/heroe-list/heroe-list.component';
+import {ArticleListComponent} from './pages/article/article-list/article-list.component';
 
 export const routes: Routes = [
 	{
@@ -34,6 +35,10 @@ export const routes: Routes = [
 			{
 				path: 'partners',
 				component: PartnerListComponent
+			},
+			{
+				path: 'articles',
+				component: ArticleListComponent
 			}
 		]
 	},
