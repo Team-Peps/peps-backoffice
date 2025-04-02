@@ -61,28 +61,33 @@
 		<tbody>
 			@for (match of filteredMatches; track match.id){
 				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-					<td class="border-b p-3 dark:border-gray-900 text-center">
+					<td class="border-b p-3 dark:border-gray-900">
 						{{ match.game }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
-						{{ match.datetime | date }}
+					<td class="border-b p-3 dark:border-gray-900">
+						{{ match.datetime | date:'dd MMM yyyy HH:mm' }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
-						{{ match.opponent }}
+					<td class="border-b p-3 dark:border-gray-900">
+						<div class="flex gap-2 items-center">
+							<img [src]="minioBaseUrl + match.opponentImageKey" alt="Logo de {{match.opponentImageKey}}" class="w-8">
+							{{ match.opponent }}
+						</div>
 					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
-						{{ match.competitionName }}
-					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
+					<td class="border-b p-3 dark:border-gray-900">
+						<div class="flex gap-2 items-center">
+							<img [src]="minioBaseUrl + match.competitionImageKey" alt="Logo de {{match.competitionName}}" class="w-8">
+							{{ match.competitionName }}
+						</div>					</td>
+					<td class="border-b p-3 dark:border-gray-900">
 						{{ match.score }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
+					<td class="border-b p-3 dark:border-gray-900">
 						{{ match.opponentScore }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
+					<td class="border-b p-3 dark:border-gray-900">
 						{{ match.vodUrl }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900 text-center">
+					<td class="border-b p-3 dark:border-gray-900">
 						{{ match.streamUrl }}
 					</td>
 					<td class="border-b p-3 dark:border-gray-900">

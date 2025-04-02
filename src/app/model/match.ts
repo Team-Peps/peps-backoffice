@@ -4,8 +4,10 @@ export interface Match {
 	game: string;
 	opponent: string;
 	competitionName: string;
+	competitionImageKey: string;
 	score: number;
 	opponentScore: number;
+	opponentImageKey: string;
 	vodUrl: string;
 	streamUrl: string;
 }

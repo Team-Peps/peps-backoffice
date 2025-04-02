@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MatchService} from '../../../service/match.service';
 import {DatePipe, NgClass} from '@angular/common';
-import {Match} from '../../../model/match/match';
+import {Match} from '../../../model/match';
+import {environment} from '../../../../environment/environment';
 
 @Component({
   selector: 'app-match-list',
@@ -20,6 +21,8 @@ export class MatchListComponent implements OnInit {
 	ngOnInit(): void {
 		this.loadMatches();
 	}
+
+	minioBaseUrl = environment.minioBaseUrl;
 
 	groupedMatches: Record<string, Match[]> = {};
 	filteredMatches: Match[] = [];
