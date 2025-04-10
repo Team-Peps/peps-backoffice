@@ -5,6 +5,7 @@ export interface Article {
 	title: string;
 	content: string;
 	createdAt: Date;
+	thumbnailImageKey: string;
 	imageKey: string;
 	articleType: ArticleType;
 }

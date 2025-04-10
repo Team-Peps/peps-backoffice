@@ -29,12 +29,20 @@
 					<editor [init]="init" [apiKey]="tinyMCEApiKey" formControlName="content"></editor>
 				</div>
 
-				<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
+				<div class="flex flex-col md:flex-row gap-4">
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputThumbnail')">Ajouter la miniature</button>
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputBackground')">Ajouter l'image</button>
+				</div>
 
-				<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" accept="image/webp" hidden/>
-				<span class="text-xs">L'image doit être au format webp ne pas faire plus de 5Mo</span>
-				@if (imagePreview) {
-					<img [src]="imagePreview" class="w-24" alt="Aperçu">
+				<input type="file" id="fileInputThumbnail" formControlName="imageThumbnail" (change)="onFileSelected($event, 'thumbnail')" accept="image/*" hidden/>
+				<input type="file" id="fileInputBackground" formControlName="imageBackground" (change)="onFileSelected($event, 'background')" accept="image/*" hidden/>
+				<span class="text-xs">L'image doit ne pas faire plus de 5Mo</span>
+				@if (imagePreviewThumbnail) {
+					<img [src]="imagePreviewThumbnail" class="w-24" alt="Aperçu">
+				}
+
+				@if (imagePreviewBackground) {
+					<img [src]="imagePreviewBackground" class="w-24" alt="Aperçu">
 				}
 
 				<div class="flex flex-row justify-center">
