@@ -51,15 +51,19 @@ export class UpdateArticleComponent implements OnChanges {
 	articleForm: FormGroup = new FormGroup({
 		title: new FormControl(Validators.required),
 		content: new FormControl(null, [Validators.required]),
-		image: new FormControl(),
+		imageThumbnail: new FormControl(),
+		imageBackground: new FormControl(),
 		articleType: new FormControl(Validators.required),
 	});
 
 	@Input() article: Article | null = null;
 	@Output() articleUpdated: EventEmitter<Article | null> = new EventEmitter();
 
-	selectedFile: File | null = null;
-	imagePreview: string | null = null;
+	selectedFileThumbnail: File | null = null;
+	selectedFileBackground: File | null = null;
+
+	imagePreviewThumbnail: string | null = null;
+	imagePreviewBackground: string | null = null;
 
 	initForm(): void {
 		if (this.article) {
@@ -69,10 +73,12 @@ export class UpdateArticleComponent implements OnChanges {
 				articleType: this.article.articleType,
 			});
 
-			this.imagePreview = this.minioBaseUrl + this.article.imageKey;
+			this.imagePreviewThumbnail = this.minioBaseUrl + this.article.thumbnailImageKey;
+			this.imagePreviewBackground = this.minioBaseUrl + this.article.imageKey;
 		}else{
 			this.articleForm.reset();
-			this.imagePreview = null;
+			this.imagePreviewThumbnail = null;
+			this.imagePreviewBackground = null;
 		}
 		this.cdr.detectChanges();
 	}
@@ -91,13 +97,15 @@ export class UpdateArticleComponent implements OnChanges {
 			return;
 		}
 		const saveData = { ...this.articleForm.value };
-		delete saveData.image;
+		delete saveData.imageThumbnail;
+		delete saveData.imageBackground;
 
-		this.articleService.saveArticle(saveData, this.selectedFile!).subscribe({
+		this.articleService.saveArticle(saveData, this.selectedFileThumbnail!, this.selectedFileBackground!).subscribe({
 			next: (response) => {
 				this.articleUpdated.emit();
 				this.articleForm.reset();
-				this.imagePreview = "";
+				this.imagePreviewBackground = "";
+				this.imagePreviewThumbnail = "";
 				this.toastService.show(response.message, 'success');
 			},
 			error: (error) => {
@@ -110,12 +118,13 @@ export class UpdateArticleComponent implements OnChanges {
 	update(){
 		const updateData = { ...this.articleForm.value, id: this.article!.id };
 
-		delete updateData.image;
-		updateData.imageKey = this.article!.imageKey;
+		delete updateData.imageThumbnail;
+		delete updateData.imageBackground;
+		updateData.imageThumbnail = this.article!.thumbnailImageKey;
+		updateData.imageBackground = this.article!.imageKey;
 		updateData.createdAt = this.article?.createdAt
 
-		console.log(updateData);
-		this.articleService.updateArticle(updateData, this.selectedFile!).subscribe({
+		this.articleService.updateArticle(updateData, this.selectedFileThumbnail!, this.selectedFileBackground!).subscribe({
 			next: (response) => {
 				this.articleUpdated.emit();
 				this.toastService.show(response.message, 'success');
@@ -127,16 +136,30 @@ export class UpdateArticleComponent implements OnChanges {
 		});
 	}
 
-	async onFileSelected(event: Event): Promise<void> {
+	async onFileSelected(event: Event, typeImg: string): Promise<void> {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
 			if(this.checkSize(file)) {
-				this.selectedFile = file;
+				if(typeImg === 'thumbnail') {
+
+					this.selectedFileThumbnail = file;
+					const reader = new FileReader();
+					reader.onload = () => {
+						this.imagePreviewThumbnail = reader.result as string;
+					};
+					reader.readAsDataURL(file!);
+				} else {
+					this.selectedFileBackground = file;
+					const reader = new FileReader();
+					reader.onload = () => {
+						this.imagePreviewBackground = reader.result as string;
+					};
+					reader.readAsDataURL(file!);
+				}
 				this.toastService.show('Nouvelle image chargée', 'success');
 
-				this.createPreview()
 			}else{
 				input.value = "";
 			}
@@ -151,16 +174,8 @@ export class UpdateArticleComponent implements OnChanges {
 		return true;
 	}
 
-	createPreview(file: File | null = this.selectedFile): void {
-		const reader = new FileReader();
-		reader.onload = () => {
-			this.imagePreview = reader.result as string;
-		};
-		reader.readAsDataURL(file!);
-	}
-
-	handleUploadFile() {
-		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+	handleUploadFile(imageType: string) {
+		const fileInput = document.getElementById(imageType) as HTMLInputElement;
 		fileInput.click();
 	}
 
