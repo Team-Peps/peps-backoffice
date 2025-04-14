@@ -101,7 +101,12 @@
 					</div>
 					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
 				</div>
-
+				<div class="flex flex-col gap-4">
+					<hero-selector
+						[heroes]="heroes"
+						formControlName="favoriteHeroes"
+					></hero-selector>
+				</div>
 				<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" accept="image/webp" hidden/>
 				<span class="text-xs">L'image doit être au format webp ne pas faire plus de 5Mo</span>
 				@if (imagePreview) {

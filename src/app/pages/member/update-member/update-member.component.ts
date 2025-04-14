@@ -14,43 +14,49 @@ import {MemberRole} from '../../../model/member/memberRole';
 import {environment} from '../../../../environment/environment';
 import {Member} from '../../../model/member/member';
 import {Game} from '../../../model/game';
+import {HeroSelectorComponent} from './hero-selector/hero-selector.component';
+import {Heroe} from '../../../model/heroe';
+import {HeroeService} from '../../../service/heroe.service';
 
 @Component({
   selector: 'app-update-member',
 	imports: [
 		ReactiveFormsModule,
+		HeroSelectorComponent,
 
 	],
   templateUrl: './update-member.component.html',
 })
-export class UpdateMemberComponent implements OnChanges {
+export class UpdateMemberComponent implements OnChanges, OnInit {
 
 	constructor(
 		private readonly cdr: ChangeDetectorRef,
 		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
+		private readonly heroeService: HeroeService
 	) {}
 
 	minioBaseUrl = environment.minioBaseUrl;
 
 	memberForm: FormGroup = new FormGroup({
-		pseudo: new FormControl(Validators.required),
-		lastname: new FormControl(Validators.required),
-		firstname: new FormControl(Validators.required),
-		nationality: new FormControl(Validators.required),
-		dateOfBirth: new FormControl(Validators.required),
-		role: new FormControl(Validators.required),
+		pseudo: new FormControl('', Validators.required),
+		lastname: new FormControl('', Validators.required),
+		firstname: new FormControl('', Validators.required),
+		nationality: new FormControl('', Validators.required),
+		dateOfBirth: new FormControl('', Validators.required),
+		role: new FormControl('', Validators.required),
 		image: new FormControl(),
 		description: new FormControl(),
 
-		xUsername: new FormControl(Validators.required),
-		instagramUsername: new FormControl(Validators.required),
-		tiktokUsername: new FormControl(Validators.required),
-		twitchUsername: new FormControl(Validators.required),
-		youtubeUsername: new FormControl(Validators.required),
+		xUsername: new FormControl('', Validators.required),
+		instagramUsername: new FormControl('', Validators.required),
+		tiktokUsername: new FormControl('', Validators.required),
+		twitchUsername: new FormControl('', Validators.required),
+		youtubeUsername: new FormControl('', Validators.required),
 
 		isSubstitute: new FormControl(),
 		game: new FormControl(),
+		favoriteHeroes: new FormControl([], [Validators.maxLength(3)])
 
 	})
 
@@ -58,6 +64,7 @@ export class UpdateMemberComponent implements OnChanges {
 	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly getNationalityName = getNationalityName;
 	protected readonly Role = MemberRole;
+	protected readonly Game = Game;
 
 	@Input() member: Member | null = null;
 	@Input() countMembers!: number;
@@ -66,6 +73,12 @@ export class UpdateMemberComponent implements OnChanges {
 
 	selectedFile: File | null = null;
 	imagePreview: string | null = null;
+
+	heroes: Heroe[] = [];
+
+	ngOnInit() {
+		this.loadHeroes();
+	}
 
 	ngOnChanges() {
 		this.initForm();
@@ -91,6 +104,7 @@ export class UpdateMemberComponent implements OnChanges {
 
 				isSubstitute: this.member.isSubstitute,
 				game: this.member.game,
+				favoriteHeroes: this.member.favoriteHeroes || []
 			});
 
 			this.imagePreview = this.minioBaseUrl + this.member.imageKey;
@@ -99,6 +113,16 @@ export class UpdateMemberComponent implements OnChanges {
 			this.imagePreview = "";
 		}
 		this.cdr.detectChanges();
+	}
+
+	loadHeroes() {
+		this.heroeService.getAllHeroes().subscribe(heroes => {
+			this.heroes = heroes['overwatch'];
+			this.heroes = this.heroes.concat(heroes['marvel-rivals']);
+			if (this.member) {
+				this.memberForm.get('favoriteHeroes')?.setValue(this.member.favoriteHeroes);
+			}
+		})
 	}
 
 	saveOrUpdate(){
@@ -186,6 +210,4 @@ export class UpdateMemberComponent implements OnChanges {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
 		fileInput.click();
 	}
-
-	protected readonly Game = Game;
 }
