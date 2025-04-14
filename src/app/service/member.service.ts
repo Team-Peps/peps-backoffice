@@ -14,7 +14,7 @@ export class MemberService {
 	) {}
 
 	getMembers(game: String): Observable<Record<string, Member[]>> {
-		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/` + game);
+		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/game/` + game + '/active');
 	}
 
 	updateMember(member: Member, imageFile: File): Observable<{ message: string; member: Member }> {

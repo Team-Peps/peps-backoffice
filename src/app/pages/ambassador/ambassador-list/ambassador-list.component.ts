@@ -58,7 +58,6 @@ export class AmbassadorListComponent implements OnInit {
 		this.cdr.detectChanges();
 	}
 
-
 	deleteAmbassador(ambassador: Ambassador) {
 		this.ambassadorService.deleteAmbassador(ambassador.id).subscribe({
 			next: (res) => {

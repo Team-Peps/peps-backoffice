@@ -11,6 +11,7 @@ import {PartnerListComponent} from './pages/partner/partner-list/partner-list.co
 import {HeroeListComponent} from './pages/heroe/heroe-list/heroe-list.component';
 import {ArticleListComponent} from './pages/article/article-list/article-list.component';
 import {AmbassadorListComponent} from './pages/ambassador/ambassador-list/ambassador-list.component';
+import {AchievementListComponent} from './pages/achievement/achievement-list/achievement-list.component';
 
 export const routes: Routes = [
 	{
@@ -44,6 +45,10 @@ export const routes: Routes = [
 			{
 				path: 'ambassadors',
 				component: AmbassadorListComponent
+			},
+			{
+				path: 'achievements',
+				component: AchievementListComponent,
 			}
 		]
 	},
@@ -55,21 +60,25 @@ export const routes: Routes = [
 	{
 		path: 'statistics',
 		component: HomeComponent,
-		canActivate: [AuthenticatedGuard]},
+		canActivate: [AuthenticatedGuard]
+	},
 	{
 		path: 'orders',
 		component: HomeComponent,
-		canActivate: [AuthenticatedGuard]},
+		canActivate: [AuthenticatedGuard]
+	},
 	{
 		path: 'users',
 		component: ManageUserComponent,
-		canActivate: [AuthenticatedGuard]},
+		canActivate: [AuthenticatedGuard]
+	},
 	{
 		path: 'login',
 		component: LoginComponent,
-		canActivate: [NotAuthenticatedGuard]},
+		canActivate: [NotAuthenticatedGuard]
+	},
 	{
 		path: '**',
-		component: PageNotFoundComponent}
-
+		component: PageNotFoundComponent
+	}
 ];

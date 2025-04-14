@@ -1,5 +1,6 @@
 import {MemberRole} from './memberRole';
 import {Game} from '../game';
+import {Achievement} from '../achievement';
 
 export interface Member {
 	id: string;
@@ -19,6 +20,7 @@ export interface Member {
 	youtubeUsername: string;
 	twitchUsername: string;
 	game: Game;
+	achievements: Achievement[];
 }
 
 
