@@ -1,0 +1,80 @@
+<table class="w-full table-auto">
+	<thead>
+	<tr>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Image</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Image mobile</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">CTA label</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Lien CTA</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Actions</div>
+			</div>
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+		@defer {
+			@for (slider of sliders; track slider.id){
+				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+					<td class="p-3">
+						<img [src]="minioBaseUrl + slider.imageKey" alt="Image du slider {{slider.id}}" class="w-24">
+					</td>
+					<td class="p-3">
+						<img [src]="minioBaseUrl + slider.mobileImageKey" alt="Image mobile du slider {{slider.id}}" class="w-24">
+					</td>
+					<td class="p-3">
+						{{ slider.ctaLabel }}
+					</td>
+					<td class="p-3">
+						{{ slider.ctaLink }}
+					</td>
+					<td class="p-3 flex flex-col gap-2">
+						<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectSlider(slider)">Modifier</button>
+						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleActive(slider)">
+							@if (slider.isActive) {
+								Désactiver le slider
+							} @else {
+								Activer le slider
+							}
+						</button>
+						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deleteSlider(slider)">Supprimer le slider</button>
+					</td>
+				</tr>
+			} @empty {
+				<tr>
+					<td colspan="5" class="p-3 text-center">
+						Aucune donnée
+					</td>
+				</tr>
+			}
+		} @loading (minimum 500ms) {
+			<tr>
+				<td colspan="5" class="p-3 text-center h-48">
+					<div class="relative flex justify-center items-center">
+						<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+						<div class="relative h-14 w-14">
+							<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
