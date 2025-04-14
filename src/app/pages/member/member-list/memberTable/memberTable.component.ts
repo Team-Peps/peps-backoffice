@@ -3,6 +3,7 @@ import {AsyncPipe, NgOptimizedImage} from '@angular/common';
 import {Member} from '../../../../model/member/member';
 import {environment} from '../../../../../environment/environment';
 import {MemberRole} from '../../../../model/member/memberRole';
+import {determineRoleIcon} from '../../../../core/utils/range';
 
 @Component({
 	selector: 'member-table',
@@ -41,4 +42,6 @@ export class MemberTableComponent {
 	removeFromTeam(member: Member) {
 		this.memberToRemove.emit(member);
 	}
+
+	protected readonly determineRoleIcon = determineRoleIcon;
 }

@@ -67,7 +67,10 @@
 						{{ member.nationality}}
 					</td>
 					<td class="p-3">
-						{{ member.role }}
+						<img [src]="determineRoleIcon(member.role)" alt="">
+						@if(member.role == MemberRole.COACH) {
+							{{ member.role }}
+						}
 					</td>
 					<td class="p-3 flex flex-col gap-2">
 						<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
