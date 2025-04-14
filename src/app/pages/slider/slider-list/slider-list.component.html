@@ -1,0 +1,39 @@
+<main class="container mx-auto p-4">
+	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Slider de la homepage</h1>
+
+	<div class="relative flex flex-col gap-4">
+
+		@if (selectedSlider && !isCreateSlider ||!selectedSlider && isCreateSlider) {
+			<app-update-slider
+				id="updateSlider"
+				(sliderUpdated)="loadSliders()"
+				[slider]="selectedSlider">
+			</app-update-slider>
+		}
+
+		@if (!isCreateSlider) {
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateSlider()">Ajouter un slider</button>
+		} @else {
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="toggleCreateSlider()">Annuler</button>
+		}
+
+		<div class="overflow-x-auto flex flex-col gap-10">
+			<h2 class="text-center text-2xl">Sliders actifs</h2>
+			<slider-table
+				[sliders]="activeSliders"
+				(sliderToActive)="toggleActive($event)"
+				(sliderToDelete)="deleteSlider($event)"
+				(sliderToUpdate)="selectSlider($event)"
+			></slider-table>
+
+			<h2 class="text-center text-2xl">Sliders inactifs</h2>
+			<slider-table
+				[sliders]="inactiveSliders"
+				(sliderToActive)="toggleActive($event)"
+				(sliderToDelete)="deleteSlider($event)"
+				(sliderToUpdate)="selectSlider($event)"
+			></slider-table>
+		</div>
+
+	</div>
+</main>

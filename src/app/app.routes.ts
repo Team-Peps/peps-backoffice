@@ -12,6 +12,7 @@ import {HeroeListComponent} from './pages/heroe/heroe-list/heroe-list.component'
 import {ArticleListComponent} from './pages/article/article-list/article-list.component';
 import {AmbassadorListComponent} from './pages/ambassador/ambassador-list/ambassador-list.component';
 import {AchievementListComponent} from './pages/achievement/achievement-list/achievement-list.component';
+import {SliderListComponent} from './pages/slider/slider-list/slider-list.component';
 
 export const routes: Routes = [
 	{
@@ -49,6 +50,10 @@ export const routes: Routes = [
 			{
 				path: 'achievements',
 				component: AchievementListComponent,
+			},
+			{
+				path: 'sliders',
+				component: SliderListComponent,
 			}
 		]
 	},
