@@ -5,6 +5,7 @@ export interface Slider {
 	mobileImageKey: string;
 	ctaLink: string;
 	ctaLabel: string;
+	order: number;
 }
 
 export interface SliderTiny {
