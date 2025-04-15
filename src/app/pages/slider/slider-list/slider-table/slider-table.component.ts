@@ -2,11 +2,14 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {environment} from '../../../../../environment/environment';
 import {Slider} from '../../../../model/slider';
 import {NgOptimizedImage} from '@angular/common';
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'slider-table',
 	imports: [
-		NgOptimizedImage
+		NgOptimizedImage,
+		CdkDrag,
+		CdkDropList
 	],
   templateUrl: './slider-table.component.html',
 })
@@ -17,6 +20,7 @@ export class SliderTableComponent {
 	@Output() sliderToUpdate: EventEmitter<Slider> = new EventEmitter();
 	@Output() sliderToActive: EventEmitter<Slider> = new EventEmitter();
 	@Output() sliderToDelete: EventEmitter<Slider> = new EventEmitter();
+	@Output() orderChanged: EventEmitter<string[]> = new EventEmitter();
 
 	minioBaseUrl = environment.minioBaseUrl;
 
@@ -30,5 +34,11 @@ export class SliderTableComponent {
 
 	deleteSlider(slider: Slider) {
 		this.sliderToDelete.emit(slider);
+	}
+
+	drop($event: CdkDragDrop<Slider[]>) {
+		moveItemInArray(this.sliders, $event.previousIndex, $event.currentIndex);
+		const newOrder = this.sliders.map(slider => slider.id);
+		this.orderChanged.emit(newOrder);
 	}
 }

@@ -78,4 +78,16 @@ export class SliderListComponent implements OnInit {
 		this.cdr.detectChanges();
 		document.getElementById('updateSlider')?.scrollIntoView({behavior: 'smooth'});
 	}
+
+	onOrderChanged(newOrder: string[]) {
+		this.sliderService.updateOrder(newOrder).subscribe({
+			next: (res) => {
+				this.toastService.show(res.message, 'success');
+				this.loadSliders();
+			},
+			error: (error) => {
+				this.toastService.show(error.error.message, 'error');
+			}
+		})
+	}
 }

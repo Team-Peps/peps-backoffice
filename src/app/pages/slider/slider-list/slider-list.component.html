@@ -19,11 +19,13 @@
 
 		<div class="overflow-x-auto flex flex-col gap-10">
 			<h2 class="text-center text-2xl">Sliders actifs</h2>
+			<span class="text-sm">Utiliser le drag & drop pour changer l'ordre d'apparition des slides</span>
 			<slider-table
 				[sliders]="activeSliders"
 				(sliderToActive)="toggleActive($event)"
 				(sliderToDelete)="deleteSlider($event)"
 				(sliderToUpdate)="selectSlider($event)"
+				(orderChanged)="onOrderChanged($event)"
 			></slider-table>
 
 			<h2 class="text-center text-2xl">Sliders inactifs</h2>

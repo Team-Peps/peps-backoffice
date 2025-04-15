@@ -46,4 +46,9 @@ export class SliderService {
 	toggleActive(id: string): Observable<any> {
 		return this.http.post(`${environment.backendUrl}/slider/${id}/active`, {});
 	}
+
+	updateOrder(orderedIds: string[]): Observable<any> {
+		return this.http.put(`${environment.backendUrl}/slider/reorder`, orderedIds);
+	}
+
 }
