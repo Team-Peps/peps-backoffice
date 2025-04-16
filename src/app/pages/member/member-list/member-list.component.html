@@ -29,8 +29,9 @@
 			<member-table
 				[members]="members"
 				(memberToUpdate)="selectMember($event)"
-				(memberToSubstitute)="setSubstitute($event)"
+				(memberToSubstitute)="toggleSubstitute($event)"
 				(memberToRemove)="removeMember($event)"
+				(memberToActive)="toggleActive($event)"
 			></member-table>
 
 			<h2 class="text-center text-2xl">Remplacants</h2>
@@ -38,8 +39,9 @@
 				[members]="substitutes"
 				[countMembers]="countMembers"
 				(memberToUpdate)="selectMember($event)"
-				(memberToActive)="setActive($event)"
+				(memberToSubstitute)="toggleSubstitute($event)"
 				(memberToRemove)="removeMember($event)"
+				(memberToActive)="toggleActive($event)"
 			></member-table>
 
 			<h2 class="text-center text-2xl">Coachs</h2>
@@ -47,7 +49,17 @@
 				[members]="coaches"
 				(memberToUpdate)="selectMember($event)"
 				(memberToRemove)="removeMember($event)"
+				(memberToActive)="toggleActive($event)"
 			></member-table>
+
+			@if(inactives) {
+				<h2 class="text-center text-2xl">Inactifs</h2>
+				<member-table
+					[members]="inactives"
+					(memberToActive)="toggleActive($event)"
+					(memberToRemove)="removeMember($event)"
+				></member-table>
+			}
 		</div>
 	</div>
 </main>
