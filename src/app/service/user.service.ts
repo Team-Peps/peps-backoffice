@@ -31,12 +31,4 @@ export class UserService {
 		);
 	}
 
-	changeUserRole(id: string, role: string): Observable<{ message: string; user: User }> {
-		return this.http.put<{ message: string; user: User }>(
-			`${environment.backendUrl}/user/change-role`,
-			{ id, role}
-		);
-	}
-
-
 }

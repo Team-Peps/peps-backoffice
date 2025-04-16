@@ -69,18 +69,4 @@ export class ManageUserComponent {
 		});
 	}
 
-	changeRole(value: any, id: string): void {
-		this.userService.changeUserRole(id, value.target.value).subscribe({
-			next: (response) => {
-				this.loadUsers();
-				this.toastService.show(response.message, 'success');
-			},
-			error: (error) => {
-				console.error("❌ Erreur lors de la modification du rôle :", error);
-				this.toastService.show('Une erreur est survenue', 'success');
-			}
-		});
-
-	}
-
 }
