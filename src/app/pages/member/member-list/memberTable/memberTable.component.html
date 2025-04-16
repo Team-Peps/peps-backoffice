@@ -85,13 +85,20 @@
 						}
 					</td>
 					<td class="p-3 flex flex-col gap-2">
-						<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
-						@if(member.isSubstitute && countMembers < 6) {
-							<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="setActive(member)">Titutaliser</button>
-						} @else if(!member.isSubstitute && member.role != MemberRole.COACH) {
-							<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="setSubstitute(member)">Définir remplacant</button>
+						@if(member.isActive) {
+							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMember(member)">Modifier</button>
 						}
-						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="removeFromTeam(member)">Supprimer de l'équipe</button>
+						@if(member.isSubstitute && countMembers < 6 && member.isActive) {
+							<button class="p-2 bg-orange-700 rounded-lg cursor-pointer hover:bg-orange-600 text-white" (click)="toggleSubstitute(member)">Titutaliser</button>
+						} @else if(!member.isSubstitute && member.role != MemberRole.COACH && member.isActive) {
+							<button class="p-2 bg-orange-700 rounded-lg cursor-pointer hover:bg-orange-600 text-white" (click)="toggleSubstitute(member)">Définir remplacant</button>
+						}
+						@if(member.isActive) {
+							<button class="p-2 bg-orange-700 rounded-lg cursor-pointer hover:bg-orange-600 text-white" (click)="toggleActive(member)">Archiver</button>
+						} @else if(!member.isActive) {
+							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="toggleActive(member)">Désarchiver</button>
+						}
+						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="removeFromTeam(member)">⚠️Supprimer définitivement⚠️</button>
 					</td>
 				</tr>
 			} @empty {

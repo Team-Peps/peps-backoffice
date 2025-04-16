@@ -14,6 +14,7 @@ export interface Member {
 	dateOfBirth: string;
 	role: MemberRole,
 	isSubstitute: boolean;
+	isActive: boolean;
 	imageKey: string;
 	xusername: string;
 	instagramUsername: string;

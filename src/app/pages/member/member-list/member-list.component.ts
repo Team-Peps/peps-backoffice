@@ -33,6 +33,7 @@ export class MemberListComponent implements OnInit {
 	members: Member[] = [];
 	substitutes: Member[] = [];
 	coaches: Member[] = [];
+	inactives: Member[] = [];
 	selectedMember: Member | null = null;
 	isCreateMember: boolean = false;
 	countMembers: number = 0;
@@ -47,6 +48,7 @@ export class MemberListComponent implements OnInit {
 			this.members = response['members'];
 			this.substitutes = response['substitutes'];
 			this.coaches = response['coaches'];
+			this.inactives = response['inactives'];
 			this.countMembers = this.members.length;
 			this.cdr.detectChanges();
 		});
@@ -72,8 +74,8 @@ export class MemberListComponent implements OnInit {
 		this.cdr.detectChanges();
 	}
 
-	setSubstitute($event: Member) {
-		this.memberService.setSubstitute($event.id).subscribe({
+	toggleSubstitute($event: Member) {
+		this.memberService.toggleSubstitute($event.id).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadMembers();
@@ -85,8 +87,8 @@ export class MemberListComponent implements OnInit {
 		})
 	}
 
-	setActive($event: Member) {
-		this.memberService.setActive($event.id).subscribe({
+	toggleActive($event: Member) {
+		this.memberService.toggleActive($event.id).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadMembers();
@@ -111,5 +113,4 @@ export class MemberListComponent implements OnInit {
 			}
 		})
 	}
-
 }

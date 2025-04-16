@@ -14,7 +14,7 @@ export class MemberService {
 	) {}
 
 	getMembers(game: String): Observable<Record<string, Member[]>> {
-		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/game/` + game + '/active');
+		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/game/` + game);
 	}
 
 	updateMember(member: Member, imageFile: File): Observable<{ message: string; member: Member }> {
@@ -39,11 +39,11 @@ export class MemberService {
 		return this.http.delete(`${environment.backendUrl}/member/${id}`);
 	}
 
-	setActive(id: string): Observable<any> {
+	toggleActive(id: string): Observable<any> {
 		return this.http.post(`${environment.backendUrl}/member/${id}/active`, {});
 	}
 
-	setSubstitute(id: string): Observable<any> {
+	toggleSubstitute(id: string): Observable<any> {
 		return this.http.post(`${environment.backendUrl}/member/${id}/substitute`, {});
 	}
 

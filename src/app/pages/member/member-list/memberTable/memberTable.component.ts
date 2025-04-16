@@ -24,24 +24,23 @@ export class MemberTableComponent {
 
 	minioBaseUrl = environment.minioBaseUrl;
 
+	protected readonly determineRoleIcon = determineRoleIcon;
+	protected readonly MemberRole = MemberRole;
+
 	selectMember(member: Member) {
 		this.memberToUpdate.emit(member);
 	}
 
-	protected readonly MemberRole = MemberRole;
 
-	setSubstitute(member: Member) {
+	toggleSubstitute(member: Member) {
 		this.memberToSubstitute.emit(member);
 	}
 
-	setActive(member: Member) {
+	toggleActive(member: Member) {
 		this.memberToActive.emit(member);
-
 	}
 
 	removeFromTeam(member: Member) {
 		this.memberToRemove.emit(member);
 	}
-
-	protected readonly determineRoleIcon = determineRoleIcon;
 }
