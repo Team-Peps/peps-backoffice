@@ -29,12 +29,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				@for (user of users$ | async; track user){
+				@for (user of users$ | async; track user.id){
 					<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
 						<td class="border-b p-1.5 dark:border-gray-900">
 							<div class="flex flex-row gap-2">
 								@for (role of user.authorities; track role) {
-									<span class="text-xs p-1 rounded-lg" [ngClass]="{'bg-red-500' : role === Authority.ADMIN, 'bg-yellow-500' : role === Authority.STAFF, 'bg-blue-500' : role === Authority.USER, 'bg-gray-500' : role === Authority.LOCKED}">{{ role }}</span>
+									<span class="text-xs p-1 rounded-lg" [ngClass]="{'bg-red-500' : role === Authority.ADMIN, 'bg-blue-500' : role === Authority.USER}">{{ role }}</span>
 								}
 							</div>
 						</td>
@@ -53,11 +53,6 @@
 									} @else {
 										<button class="p-2 bg-green-700 cursor-pointer rounded-lg hover:bg-green-800" (click)="enableUser(user.id!)" [tooltip]="'Permettre à l\'utilisateur de se connecter'">Débloquer</button>
 									}
-									<select class="p-2 rounded-lg bg-white text-gray-900 dark:bg-gray-900 dark:text-white" (change)="changeRole($event, user.id!)" [tooltip]="'Changer le role de l\'utilisateur'">
-										@for (authority of enumKeysObject(Authority); track authority){
-											<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="authority" [selected]="user.authorities?.includes(authority)">{{ authority | titlecase }}</option>
-										}
-									</select>
 								</div>
 							} @else {
 								<p>Actions non disponible</p>
