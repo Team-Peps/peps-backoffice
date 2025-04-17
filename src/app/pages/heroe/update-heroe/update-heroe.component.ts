@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {HeroeService} from '../../../service/heroe.service';
 import {ToastService} from '../../../service/toast.service';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Heroe, MarvelRivalsHeroRole, OverwatchHeroRole} from '../../../model/heroe';
 import {enumKeysObject} from '../../../core/utils/enum';

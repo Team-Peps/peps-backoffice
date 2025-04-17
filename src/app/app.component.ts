@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {NavbarComponent} from './core/components/navbar/navbar.component';
 import {AuthService} from './service/auth.service';
+import {environment} from '@/environments/environment';
 
 @Component({
 	selector: 'app-root',

@@ -6,12 +6,13 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build -- --configuration=production
+RUN npm run build -- --configuration=development
 
 # Étape 2 : Nginx pour servir l'app
 FROM nginx:alpine
 
-COPY --from=build /app/dist/peps-backoffice /usr/share/nginx/html
+# Correction du chemin basée sur votre angular.json pour Angular 19
+COPY --from=build /app/dist/peps-backoffice/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

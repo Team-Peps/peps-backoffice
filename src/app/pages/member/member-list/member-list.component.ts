@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MemberService} from '../../../service/member.service';
 import {Member} from '../../../model/member/member';
-import {environment} from "../../../../environment/environment";
+import {environment} from '@/environments/environment';
 import {MemberTableComponent} from './memberTable/memberTable.component';
 import {UpdateMemberComponent} from '../update-member/update-member.component';
 import {ToastService} from '../../../service/toast.service';

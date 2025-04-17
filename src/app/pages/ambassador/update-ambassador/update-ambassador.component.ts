@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {AmbassadorService} from '../../../service/ambassador.service';
 import {ToastService} from '../../../service/toast.service';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Ambassador} from '../../../model/ambassador';
 

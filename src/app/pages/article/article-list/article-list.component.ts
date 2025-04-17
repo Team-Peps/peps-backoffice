@@ -5,7 +5,7 @@ import {Article} from '../../../model/article/article';
 import {ReactiveFormsModule} from '@angular/forms';
 import {UpdateArticleComponent} from '../update-article/update-article.component';
 import {NgOptimizedImage} from '@angular/common';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 
 @Component({
   selector: 'app-article-list',

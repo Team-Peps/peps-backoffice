@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-    repository: serkox/peps-backoffice
+    repository: serkox/peps-backoffice-1
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
 service:
     type: ClusterIP

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatchService} from '../../../service/match.service';
 import {DatePipe, NgClass} from '@angular/common';
 import {Match} from '../../../model/match';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 
 @Component({
   selector: 'app-match-list',

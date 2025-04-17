@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environment/environment';
 import {Partner} from '../model/partner';
 import {Observable} from 'rxjs';
+import {environment} from '@/environments/environment';
 
 @Injectable({
 	providedIn: 'root'

@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Heroe} from '../../../model/heroe';
 import {HeroeService} from '../../../service/heroe.service';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {UpdateHeroeComponent} from '../update-heroe/update-heroe.component';
 
 @Component({

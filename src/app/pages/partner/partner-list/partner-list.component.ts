@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {PartnerService} from '../../../service/partner.service';
 import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {Partner} from '../../../model/partner';
 import {ToastService} from '../../../service/toast.service';
 import {UpdatePartnerComponent} from '../update-partner/update-partner.component';

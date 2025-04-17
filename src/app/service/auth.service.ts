@@ -1,12 +1,12 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Authenticate} from '../model/auth/authenticate';
 import {User} from '../model/auth/user';
-import {environment} from '../../environment/environment';
 import {Router} from '@angular/router';
 import {catchError, Observable, tap} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {Authority} from '../model/auth/authority';
 import {ToastService} from './toast.service';
+import {environment} from '@/environments/environment';
 
 @Injectable({
 	providedIn: 'root'

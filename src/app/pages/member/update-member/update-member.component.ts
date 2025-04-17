@@ -11,7 +11,7 @@ import {enumKeysObject} from '../../../core/utils/enum';
 import {MemberService} from '../../../service/member.service';
 import {ToastService} from '../../../service/toast.service';
 import {MemberRole} from '../../../model/member/memberRole';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {Member} from '../../../model/member/member';
 import {Game} from '../../../model/game';
 import {HeroSelectorComponent} from './hero-selector/hero-selector.component';

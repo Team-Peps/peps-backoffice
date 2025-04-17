@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {SliderService} from '../../../service/slider.service';
 import {ToastService} from '../../../service/toast.service';
-import {environment} from '../../../../environment/environment';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Slider} from '../../../model/slider';
 import {NgClass} from '@angular/common';
+import {environment} from '@/environments/environment';
 
 @Component({
 	selector: 'app-update-slider',

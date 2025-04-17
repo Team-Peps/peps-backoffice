@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {ArticleService} from '../../../service/article.service';
 import {ToastService} from '../../../service/toast.service';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Article} from '../../../model/article/article';
 import {enumKeysObject} from '../../../core/utils/enum';

@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AmbassadorService} from '../../../service/ambassador.service';
-import {environment} from '../../../../environment/environment';
+import {environment} from '@/environments/environment';
 import {Ambassador} from '../../../model/ambassador';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {UpdateAmbassadorComponent} from '../update-ambassador/update-ambassador.component';

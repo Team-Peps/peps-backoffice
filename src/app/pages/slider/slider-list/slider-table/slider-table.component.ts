@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {environment} from '../../../../../environment/environment';
 import {Slider} from '../../../../model/slider';
 import {NgOptimizedImage} from '@angular/common';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {environment} from '@/environments/environment';
 
 @Component({
   selector: 'slider-table',
