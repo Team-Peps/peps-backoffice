@@ -1,55 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{ .Release.Name }}
-    labels:
-        app: {{ .Release.Name }}
+	name: {{ .Chart.Name }}
+	labels:
+		app: {{ .Chart.Name }}
 spec:
-    replicas: {{ .Values.replicaCount }}
-    selector:
-        matchLabels:
-            app: {{ .Release.Name }}
-    template:
-        metadata:
-            labels:
-                app: {{ .Release.Name }}
-        spec:
-            containers:
-                - name: peps-backoffice
-                  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-                  imagePullPolicy: {{ .Values.image.pullPolicy }}
-                  ports:
-                      - containerPort: 80
-                  resources:
-                      limits:
-                          memory: "512Mi"
-                          cpu: "500m"
-                  securityContext:
-                      runAsUser: 1000
-                      runAsGroup: 1000
-                      readOnlyRootFilesystem: true
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-	name: gofly-front-end-deployment
-spec:
-	replicas: 1
+	replicas: {{ .Values.replicaCount }}
 	selector:
 		matchLabels:
-			app: gofly-front-end
+			app: {{ .Chart.Name }}
 	template:
 		metadata:
 			labels:
-				app: gofly-front-end
+				app: {{ .Chart.Name }}
 		spec:
 			containers:
-				- name: gofly-front-end
-				  image: europe-west9-docker.pkg.dev/avian-foundry-384513/docker/gofly-front-end:latest
-				  ports:
-					  - containerPort: 80
+				- name: {{ .Chart.Name }}
+				  image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
 				  imagePullPolicy: {{ .Values.image.pullPolicy }}
-				  securityContext:
-					  runAsUser: 1000
-					  runAsGroup: 1000
-					  readOnlyRootFilesystem: true
+				  ports:
+					  - containerPort: {{ .Values.service.targetPort }}

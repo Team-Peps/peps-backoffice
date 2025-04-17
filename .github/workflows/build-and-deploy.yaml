@@ -1,0 +1,75 @@
+name: Build, Push & Deploy Angular Backoffice
+
+on:
+    workflow_dispatch:
+
+env:
+    IMAGE_NAME: serkox/peps-backoffice
+
+jobs:
+    build-push:
+        runs-on: ubuntu-latest
+        outputs:
+            image_tag: ${{ steps.generate-tag.outputs.tag }}
+
+        steps:
+            - name: 🧾 Checkout code
+              uses: actions/checkout@v3
+
+            - name: 🧰 Set up Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - name: 📦 Install dependencies
+              run: npm install
+
+            - name: 🛠️ Build Angular App
+              run: npm run build
+
+            - name: 🏷️ Generate tag from commit
+              id: generate-tag
+              run: |
+                  echo "tag=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+            - name: 🔐 Docker login
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: 🐳 Build Docker image
+              run: |
+                  docker build -t $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }} .
+                  docker tag $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }} $IMAGE_NAME:latest
+
+            - name: 📤 Push Docker image
+              run: |
+                  docker push $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }}
+                  docker push $IMAGE_NAME:latest
+
+    deploy:
+        needs: build-push
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 🧾 Checkout code
+              uses: actions/checkout@v3
+
+            - name: ⚙️ Set up kubectl
+              uses: azure/setup-kubectl@v3
+
+            - name: ⚙️ Set up Helm
+              uses: azure/setup-helm@v3
+
+            - name: 📄 Configure kubeconfig
+              run: |
+                  mkdir -p ~/.kube
+                  echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
+            - name: 🚀 Deploy with Helm
+              run: |
+                  helm upgrade --install peps-backoffice ./deploy \
+                    --namespace peps-dev \
+                    --set image.repository=${{ env.IMAGE_NAME }} \
+                    --set image.tag=${{ needs.build-push.outputs.image_tag }}

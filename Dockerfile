@@ -1,39 +1,18 @@
-# Étape 1 : Build de l'application Angular
-FROM node:18-alpine AS builder
+# Étape 1 : Build Angular
+FROM node:20-alpine AS build
 
-# Définition du répertoire de travail
 WORKDIR /app
+COPY package*.json ./
+RUN npm ci
 
-# Copie des fichiers package.json et package-lock.json
-COPY package.json package-lock.json ./
-
-# Installation des dépendances en mode production
-RUN npm ci --no-audit --no-fund
-
-# Copie du code source
 COPY . .
+RUN npm run build -- --configuration=production
 
-# Build de l'application Angular
-RUN npm run build --prod
-
-# Étape 2 : Image minimale avec Nginx pour servir l'application
+# Étape 2 : Nginx pour servir l'app
 FROM nginx:alpine
 
-# Suppression des fichiers par défaut de Nginx
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copie des fichiers Angular compilés depuis l’étape précédente
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copie de la configuration sécurisée de Nginx
+COPY --from=build /app/dist/peps-backoffice /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Sécurisation : Exécution sous un utilisateur non-root
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-
-# Exposition du port 80
 EXPOSE 80
-
-# Lancement de Nginx
 CMD ["nginx", "-g", "daemon off;"]
