@@ -21,8 +21,7 @@ export class UpdateSliderComponent implements OnChanges {
 		private readonly cdr: ChangeDetectorRef,
 		private readonly sliderService: SliderService,
 		private readonly toastService: ToastService,
-	) {
-	}
+	) {}
 
 	ngOnChanges(): void {
 		this.initForm();
