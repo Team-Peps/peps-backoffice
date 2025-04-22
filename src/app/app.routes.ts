@@ -13,6 +13,7 @@ import {ArticleListComponent} from './pages/article/article-list/article-list.co
 import {AmbassadorListComponent} from './pages/ambassador/ambassador-list/ambassador-list.component';
 import {AchievementListComponent} from './pages/achievement/achievement-list/achievement-list.component';
 import {SliderListComponent} from './pages/slider/slider-list/slider-list.component';
+import {LastVideoListComponent} from '@/app/pages/last-video/last-video-list/last-video-list.component';
 
 export const routes: Routes = [
 	{
@@ -54,6 +55,10 @@ export const routes: Routes = [
 			{
 				path: 'sliders',
 				component: SliderListComponent,
+			},
+			{
+				path: 'last-videos',
+				component: LastVideoListComponent
 			}
 		]
 	},

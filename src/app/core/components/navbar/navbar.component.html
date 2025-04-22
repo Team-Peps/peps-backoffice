@@ -39,6 +39,7 @@
 									<button [routerLink]="['/management/ambassadors']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('management/ambassadors'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('management/ambassadors')}">Gestion des ambassadeurs</button>
 									<button [routerLink]="['/management/achievements']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('management/achievements'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('management/achievements')}">Gestion des palmarès</button>
 									<button [routerLink]="['/management/sliders']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('management/sliders'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('management/sliders')}">Gestion des sliders</button>
+									<button [routerLink]="['/management/last-videos']" class="w-full cursor-pointer border-b border-b-gray-300 dark:border-b-gray-800 py-3 text-left px-2" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-200' : isActive('management/last-videos'), 'hover:dark:bg-gray-700 hover:bg-gray-200' : !isActive('management/last-videos')}">Gestion des dernières vidéos</button>
 								</div>
 							</div>
 						</div>
@@ -94,6 +95,7 @@
 							<button [routerLink]="['/management/ambassadors']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/ambassadors')}">Gestion des ambassadeurs</button>
 							<button [routerLink]="['/management/achievements']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/achievements')}">Gestion des palmarès</button>
 							<button [routerLink]="['/management/sliders']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/sliders')}">Gestion des sliders</button>
+							<button [routerLink]="['/management/last-videos']" (click)="toggleMobileMenu()" class="text-left cursor-pointer py-3 px-4 w-full rounded-md" [ngClass]="{'bg-gray-900 text-white dark:bg-white dark:text-gray-900' : isActive('management/last-videos')}">Gestion des dernières vidéos</button>
 						</div>
 					</div>
 				</div>
