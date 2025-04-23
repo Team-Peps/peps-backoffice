@@ -81,7 +81,9 @@ export class UpdateLastVideoComponent implements OnChanges {
 	}
 
 	update(): void {
-		this.videoService.updateVideo(this.videoForm.value).subscribe({
+		const updateData = { ...this.videoForm.value, id: this.video!.id };
+
+		this.videoService.updateVideo(updateData).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.videoUpdated.emit(res.video);
