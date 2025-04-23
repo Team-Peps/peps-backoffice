@@ -11,12 +11,12 @@
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="title">Titre de la vidéo</label>
-						<input type="text" id="title" formControlName="title" class="p-2 border border-gray-300 rounded-lg" />
+						<label for="title">Titre de la vidéo (30 caractères max)</label>
+						<input type="text" id="title" formControlName="title" class="p-2 border border-gray-300 rounded-lg" maxlength="30" placeholder="Match de légende en OWCS"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="link">Lien de la vidéo</label>
-						<input type="text" id="link" formControlName="link" [ngClass]="{'border-red-500': !linkIsValid && videoForm.get('link')!.value !== ''}" class="p-2 border border-gray-300 rounded-lg" (change)="checkVideoLink($event)"/>
+						<input type="text" id="link" formControlName="link" [ngClass]="{'border-red-500': !linkIsValid && videoForm.get('link')!.value !== ''}" class="p-2 border border-gray-300 rounded-lg" (change)="checkVideoLink($event)" placeholder="https://www.youtube.com/watch?v=7XfRo1Lu7vg"/>
 					</div>
 
 				</div>
