@@ -2,9 +2,22 @@ name: Build, Push & Deploy Angular Backoffice
 
 on:
     workflow_dispatch:
+        inputs:
+            environment:
+                description: "Environment to deploy to"
+                required: true
+                default: "dev"
+                type: choice
+                options:
+                    - dev
+                    - prod
+    push:
+        branches:
+            - dev
+
 
 env:
-    IMAGE_NAME: serkox/peps-backoffice-1
+    IMAGE_NAME: serkox/peps-backoffice
 
 jobs:
     build-push:
@@ -51,10 +64,24 @@ jobs:
     deploy:
         needs: build-push
         runs-on: ubuntu-latest
+        environment: ${{ github.event_name == 'push' && 'dev' || github.event.inputs.environment }}
 
         steps:
             - name: 🧾 Checkout code
               uses: actions/checkout@v3
+
+            -   name: 📦 Définir les variables selon l’environnement
+                id: set-vars
+                run: |
+                    if [ "${{ job.environment }}" = "prod" ]; then
+                        echo "release_name=peps-backoffice-prod" >> $GITHUB_OUTPUT
+                        echo "namespace=peps-prod" >> $GITHUB_OUTPUT
+                        echo "values_file=values-prod.yaml" >> $GITHUB_OUTPUT
+                    else
+                        echo "release_name=peps-backoffice-dev" >> $GITHUB_OUTPUT
+                        echo "namespace=peps-dev" >> $GITHUB_OUTPUT
+                        echo "values_file=values-dev.yaml" >> $GITHUB_OUTPUT
+                    fi
 
             - name: ⚙️ Set up kubectl
               uses: azure/setup-kubectl@v3
@@ -69,7 +96,8 @@ jobs:
 
             - name: 🚀 Deploy with Helm
               run: |
-                  helm upgrade --install peps-backoffice ./deploy \
-                    --namespace peps-dev \
+                  helm upgrade --install ${{ steps.set-vars.outputs.release_name }} ./deploy \
+                    --namespace ${{ steps.set-vars.outputs.namespace }} \
                     --set image.repository=${{ env.IMAGE_NAME }} \
-                    --set image.tag=${{ needs.build-push.outputs.image_tag }}
+                    --set image.tag=${{ needs.build-push.outputs.image_tag }} \
+                    -f deploy/${{ steps.set-vars.outputs.values_file }}
