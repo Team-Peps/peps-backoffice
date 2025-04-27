@@ -40,4 +40,8 @@ export class PartnerService {
 	toggleActive(id: string): Observable<any> {
 		return this.http.post(`${environment.backendUrl}/partner/${id}/active`, {});
 	}
+
+	updateOrder(orderedIds: string[]): Observable<any> {
+		return this.http.put(`${environment.backendUrl}/partner/reorder`, orderedIds);
+	}
 }

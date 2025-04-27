@@ -1,12 +1,17 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {environment} from '@/environments/environment';
-import {Partner} from '../../../../model/partner';
+import {Partner} from '@/app/model/partner';
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
+import {Slider} from '@/app/model/slider';
 
 @Component({
 	selector: 'partner-table',
 	imports: [
-		NgOptimizedImage
+		NgOptimizedImage,
+		CdkDrag,
+		CdkDropList,
+		NgClass
 	],
 	templateUrl: './partner-table.component.html',
 })
@@ -17,6 +22,7 @@ export class PartnerTableComponent {
 	@Output() partnerToUpdate: EventEmitter<Partner> = new EventEmitter();
 	@Output() partnerToActive: EventEmitter<Partner> = new EventEmitter();
 	@Output() partnerToDelete: EventEmitter<Partner> = new EventEmitter();
+	@Output() orderChanged: EventEmitter<string[]> = new EventEmitter();
 
 	minioBaseUrl = environment.minioBaseUrl;
 
@@ -30,5 +36,11 @@ export class PartnerTableComponent {
 
 	deletePartner(partner: Partner) {
 		this.partnerToDelete.emit(partner);
+	}
+
+	drop($event: CdkDragDrop<Slider[]>) {
+		moveItemInArray(this.partners, $event.previousIndex, $event.currentIndex);
+		const newOrder = this.partners.map(partner => partner.id);
+		this.orderChanged.emit(newOrder);
 	}
 }

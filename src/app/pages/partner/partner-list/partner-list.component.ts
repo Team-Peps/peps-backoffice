@@ -5,12 +5,14 @@ import {Partner} from '@/app/model/partner';
 import {ToastService} from '@/app/service/toast.service';
 import {UpdatePartnerComponent} from '../update-partner/update-partner.component';
 import {PartnerTableComponent} from './partnerTable/partner-table.component';
+import {SliderTableComponent} from '@/app/pages/slider/slider-list/slider-table/slider-table.component';
 
 @Component({
   selector: 'app-partner-list',
 	imports: [
 		UpdatePartnerComponent,
-		PartnerTableComponent
+		PartnerTableComponent,
+		SliderTableComponent
 	],
   templateUrl: './partner-list.component.html',
 })
@@ -38,6 +40,7 @@ export class PartnerListComponent implements OnInit {
 		this.partnerService.getPartners().subscribe(response => {
 			this.partnersActive = response["activePartners"];
 			this.partnersInactive = response["inactivePartners"];
+			console.log(response);
 			this.cdr.detectChanges();
 		});
 	}
@@ -77,5 +80,17 @@ export class PartnerListComponent implements OnInit {
 		this.isCreatePartner = !this.isCreatePartner;
 		this.selectedPartner = null;
 		this.cdr.detectChanges();
+	}
+
+	onOrderChanged(newOrder: string[]) {
+		this.partnerService.updateOrder(newOrder).subscribe({
+			next: (res) => {
+				this.toastService.show(res.message, 'success');
+				this.loadPartners();
+			},
+			error: (error) => {
+				this.toastService.show(error.error.message, 'error');
+			}
+		})
 	}
 }

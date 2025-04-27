@@ -6,4 +6,5 @@ export interface Partner {
 	link: string;
 	codes: string[];
 	isActive: boolean;
+	order: number;
 }
