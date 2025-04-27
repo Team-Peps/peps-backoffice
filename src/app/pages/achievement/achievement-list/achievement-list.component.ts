@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {AchievementService} from '../../../service/achievement.service';
-import {Achievement} from '../../../model/achievement';
-import {Game} from '../../../model/game';
-import {MemberService} from '../../../service/member.service';
-import {Member} from '../../../model/member/member';
+import {AchievementService} from '@/app/service/achievement.service';
+import {Achievement} from '@/app/model/achievement';
+import {Game} from '@/app/model/game';
+import {MemberService} from '@/app/service/member.service';
+import {Member} from '@/app/model/member/member';
 import {FormsModule} from '@angular/forms';
-import {enumKeysObject} from '../../../core/utils/enum';
+import {enumKeysObject} from '@/app/core/utils/enum';
 import {NgClass, NgOptimizedImage} from '@angular/common';
-import {ToastService} from '../../../service/toast.service';
+import {ToastService} from '@/app/service/toast.service';
 import {CreateAchievementComponent} from '../create-achievement/create-achievement.component';
 
 @Component({

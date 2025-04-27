@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Heroe} from '../../../model/heroe';
-import {HeroeService} from '../../../service/heroe.service';
+import {Heroe} from '@/app/model/heroe';
+import {HeroeService} from '@/app/service/heroe.service';
 import {environment} from '@/environments/environment';
 import {UpdateHeroeComponent} from '../update-heroe/update-heroe.component';
 

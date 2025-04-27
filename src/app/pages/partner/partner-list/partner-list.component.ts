@@ -1,17 +1,14 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {PartnerService} from '../../../service/partner.service';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
+import {PartnerService} from '@/app/service/partner.service';
 import {environment} from '@/environments/environment';
-import {Partner} from '../../../model/partner';
-import {ToastService} from '../../../service/toast.service';
+import {Partner} from '@/app/model/partner';
+import {ToastService} from '@/app/service/toast.service';
 import {UpdatePartnerComponent} from '../update-partner/update-partner.component';
 import {PartnerTableComponent} from './partnerTable/partner-table.component';
 
 @Component({
   selector: 'app-partner-list',
 	imports: [
-		NgOptimizedImage,
-		AsyncPipe,
 		UpdatePartnerComponent,
 		PartnerTableComponent
 	],

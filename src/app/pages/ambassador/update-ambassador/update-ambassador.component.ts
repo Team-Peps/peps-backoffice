@@ -1,9 +1,10 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
-import {AmbassadorService} from '../../../service/ambassador.service';
-import {ToastService} from '../../../service/toast.service';
+import {AmbassadorService} from '@/app/service/ambassador.service';
+import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Ambassador} from '../../../model/ambassador';
+import {Ambassador} from '@/app/model/ambassador';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
 	selector: 'app-update-ambassador',
@@ -18,6 +19,7 @@ export class UpdateAmbassadorComponent implements OnChanges {
 		private readonly ambassadorService: AmbassadorService,
 		private readonly toastService: ToastService,
 		private readonly cdr: ChangeDetectorRef,
+		protected readonly imageService: ImageService,
 	) {}
 
 	ngOnChanges(): void {
@@ -117,7 +119,7 @@ export class UpdateAmbassadorComponent implements OnChanges {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file)) {
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				this.selectedFile = file;
 				this.toastService.show('Nouvelle image chargée', 'success');
 
@@ -128,14 +130,6 @@ export class UpdateAmbassadorComponent implements OnChanges {
 		}
 	}
 
-	checkSize(file: File): boolean {
-		if(file.size > 5 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
-			return false;
-		}
-		return true;
-	}
-
 	createPreview(file: File | null = this.selectedFile): void {
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -143,7 +137,6 @@ export class UpdateAmbassadorComponent implements OnChanges {
 		};
 		reader.readAsDataURL(file!);
 	}
-
 
 	handleUploadFile() {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;

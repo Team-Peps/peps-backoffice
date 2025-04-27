@@ -6,14 +6,15 @@ import {
 	OnChanges,
 	Output
 } from '@angular/core';
-import {ArticleService} from '../../../service/article.service';
-import {ToastService} from '../../../service/toast.service';
+import {ArticleService} from '@/app/service/article.service';
+import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Article} from '../../../model/article/article';
-import {enumKeysObject} from '../../../core/utils/enum';
-import {ArticleType} from '../../../model/article/articleType';
+import {Article} from '@/app/model/article/article';
+import {enumKeysObject} from '@/app/core/utils/enum';
+import {ArticleType} from '@/app/model/article/articleType';
 import {EditorComponent} from '@tinymce/tinymce-angular';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
 	selector: 'app-update-article',
@@ -29,6 +30,7 @@ export class UpdateArticleComponent implements OnChanges {
 		private readonly articleService: ArticleService,
 		private readonly toastService: ToastService,
 		private readonly cdr: ChangeDetectorRef,
+		protected readonly imageService: ImageService,
 	) {}
 
 	ngOnChanges(): void {
@@ -141,7 +143,7 @@ export class UpdateArticleComponent implements OnChanges {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file)) {
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				if(typeImg === 'thumbnail') {
 
 					this.selectedFileThumbnail = file;
@@ -164,14 +166,6 @@ export class UpdateArticleComponent implements OnChanges {
 				input.value = "";
 			}
 		}
-	}
-
-	checkSize(file: File): boolean {
-		if(file.size > 5 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
-			return false;
-		}
-		return true;
 	}
 
 	handleUploadFile(imageType: string) {

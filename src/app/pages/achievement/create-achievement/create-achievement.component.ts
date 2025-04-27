@@ -1,10 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {ToastService} from '../../../service/toast.service';
-import {AchievementService} from '../../../service/achievement.service';
+import {ToastService} from '@/app/service/toast.service';
+import {AchievementService} from '@/app/service/achievement.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {enumKeysObject} from '../../../core/utils/enum';
-import {Game} from '../../../model/game';
-import {Member} from '../../../model/member/member';
+import {enumKeysObject} from '@/app/core/utils/enum';
+import {Game} from '@/app/model/game';
+import {Member} from '@/app/model/member/member';
 
 @Component({
 	selector: 'app-create-achievement',

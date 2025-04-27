@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {AmbassadorService} from '../../../service/ambassador.service';
+import {AmbassadorService} from '@/app/service/ambassador.service';
 import {environment} from '@/environments/environment';
-import {Ambassador} from '../../../model/ambassador';
+import {Ambassador} from '@/app/model/ambassador';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {UpdateAmbassadorComponent} from '../update-ambassador/update-ambassador.component';
 import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {ToastService} from '../../../service/toast.service';
+import {ToastService} from '@/app/service/toast.service';
 
 @Component({
   selector: 'app-ambassador-list',

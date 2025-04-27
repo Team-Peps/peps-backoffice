@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Slider} from '../../../../model/slider';
+import {Slider} from '@/app/model/slider';
 import {NgOptimizedImage} from '@angular/common';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {environment} from '@/environments/environment';

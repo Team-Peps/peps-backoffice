@@ -17,6 +17,7 @@ import {Game} from '../../../model/game';
 import {HeroSelectorComponent} from './hero-selector/hero-selector.component';
 import {Heroe} from '../../../model/heroe';
 import {HeroeService} from '../../../service/heroe.service';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
   selector: 'app-update-member',
@@ -33,7 +34,8 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		private readonly cdr: ChangeDetectorRef,
 		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
-		private readonly heroeService: HeroeService
+		private readonly heroeService: HeroeService,
+		protected readonly imageService: ImageService,
 	) {}
 
 	minioBaseUrl = environment.minioBaseUrl;
@@ -178,7 +180,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file)) {
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				this.selectedFile = file;
 				this.toastService.show('Nouvelle image chargée', 'success');
 
@@ -189,14 +191,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		}
 	}
 
-	checkSize(file: File): boolean {
-		if(file.size > 5 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
-			return false;
-		}
-		return true;
-	}
-
 	createPreview(file: File | null = this.selectedFile): void {
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -204,7 +198,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		};
 		reader.readAsDataURL(file!);
 	}
-
 
 	handleUploadFile() {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;

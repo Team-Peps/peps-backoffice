@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {Member} from '../../../../model/member/member';
+import {NgOptimizedImage} from '@angular/common';
 import {environment} from '@/environments/environment';
-import {MemberRole} from '../../../../model/member/memberRole';
 import {Partner} from '../../../../model/partner';
 
 @Component({

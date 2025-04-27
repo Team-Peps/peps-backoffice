@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
-import {Heroe} from '../../../../model/heroe';
+import {ChangeDetectionStrategy, Component, forwardRef, Input} from '@angular/core';
+import {Heroe} from '@/app/model/heroe';
 import {NgClass} from '@angular/common';
 import {environment} from '@/environments/environment';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';

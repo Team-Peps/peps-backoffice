@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ArticleService} from '../../../service/article.service';
-import {ToastService} from '../../../service/toast.service';
-import {Article} from '../../../model/article/article';
+import {ArticleService} from '@/app/service/article.service';
+import {ToastService} from '@/app/service/toast.service';
+import {Article} from '@/app/model/article/article';
 import {ReactiveFormsModule} from '@angular/forms';
 import {UpdateArticleComponent} from '../update-article/update-article.component';
 import {NgOptimizedImage} from '@angular/common';

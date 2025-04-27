@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {SliderService} from '../../../service/slider.service';
-import {ToastService} from '../../../service/toast.service';
+import {SliderService} from '@/app/service/slider.service';
+import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
-import {Slider} from '../../../model/slider';
+import {Slider} from '@/app/model/slider';
 import {SliderTableComponent} from './slider-table/slider-table.component';
 import {UpdateSliderComponent} from '../update-slider/update-slider.component';
 
