@@ -17,10 +17,6 @@ export class SliderService {
 		return this.http.get<Record<string, Slider[]>>(`${environment.backendUrl}/slider`);
 	}
 
-	getAllActiveSlider(): Observable<SliderTiny[]> {
-		return this.http.get<SliderTiny[]>(`${environment.backendUrl}/slider/active`);
-	}
-
 	createSlider(slider: Slider, imageFile: File, mobileImageFile: File): Observable<{ message: string; slider: Slider }> {
 		const formData = new FormData();
 		formData.append('slider', new Blob([JSON.stringify(slider)], { type: 'application/json' }));

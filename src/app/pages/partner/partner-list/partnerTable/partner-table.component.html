@@ -1,80 +1,58 @@
-<table class="w-full table-auto">
-	<thead>
-	<tr>
-		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-			<div class="flex items-center px-2 py-1">
-				<div class="flex-1 text-left font-normal">Logo</div>
-			</div>
-		</th>
-		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-			<div class="flex items-center px-2 py-1">
-				<div class="flex-1 text-left font-normal">Nom du partenaire</div>
-			</div>
-		</th>
-		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-			<div class="flex items-center px-2 py-1">
-				<div class="flex-1 text-left font-normal">Lien partenaire</div>
-			</div>
-		</th>
-		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-			<div class="flex items-center px-2 py-1">
-				<div class="flex-1 text-left font-normal">Codes</div>
-			</div>
-		</th>
-		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-			<div class="flex items-center px-2 py-1">
-				<div class="flex-1 text-left font-normal">Actions</div>
-			</div>
-		</th>
-	</tr>
-	</thead>
-	<tbody>
-		@defer {
-			@for (partner of partners; track partner.id){
-				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
-					<td class="p-3">
-						<img [src]="minioBaseUrl + partner.imageKey" alt="Image de {{partner.name}}" class="w-24">
-					</td>
-					<td class="p-3">
-						{{ partner.name }}
-					</td>
-					<td class="p-3">
-						{{ partner.link }}
-					</td>
-					<td class="p-3">
-						{{ partner.codes.join(" ") }}
-					</td>
-					<td class="p-3 flex flex-col gap-2">
-						<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectPartner(partner)">Modifier</button>
-						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleActive(partner)">
-							@if (partner.isActive) {
-								Désactiver l'offre
-							} @else {
-								Activer l'offre
-							}
-						</button>
-						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deletePartner(partner)">Supprimer le partenaire</button>
-					</td>
-				</tr>
-			} @empty {
-				<tr>
-					<td colspan="5" class="p-3 text-center">
-						Aucune donnée
-					</td>
-				</tr>
-			}
-		} @loading (minimum 500ms) {
-			<tr>
-				<td colspan="5" class="p-3 text-center h-48">
-					<div class="relative flex justify-center items-center">
-						<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
-						<div class="relative h-14 w-14">
-							<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
-						</div>
-					</div>
-				</td>
-			</tr>
+<ul
+	class="w-full flex flex-col gap-4"
+	cdkDropList
+	(cdkDropListDropped)="drop($event)"
+>
+	@defer {
+		@for (partner of partners; track partner.id) {
+			<li
+				class="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0 px-4 py-4 border border-gray-500 transition-colors cursor-grab bg-gray-900 rounded-2xl"
+				cdkDrag
+			>
+
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mi-outline mi-drag-indicator" viewBox="0 0 24 24">
+					<path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2m-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"/>
+				</svg>
+				<div class="flex items-center gap-4">
+					<img [src]="minioBaseUrl + partner.imageKey" alt="Image du partenaire {{partner.id}}" class="w-24 rounded shadow-sm" />
+					<div class="text-gray-600 dark:text-gray-300 break-all font-bold">{{ partner.order }}</div>
+				</div>
+
+				<div class="flex flex-col sm:flex-row gap-2 sm:gap-6 w-full sm:w-auto items-center">
+					<div class="font-semibold text-gray-800 dark:text-gray-100">{{ partner.name }}</div>
+					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">{{ partner.link }}</div>
+					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">{{ partner.codes }}</div>
+					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">Partenariat <span [ngClass]="{'text-red-500' : !partner.isActive, 'text-green-500': partner.isActive}">{{ partner.isActive ? 'ACTIF' : 'INACTIF' }}</span></div>
+				</div>
+
+				<div class="flex flex-col gap-2 min-w-[180px] mt-2 sm:mt-0">
+					<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectPartner(partner)">Modifier</button>
+					<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="toggleActive(partner)">
+						@if (partner.isActive) {
+							Désactiver l'offre
+						} @else {
+							Activer l'offre
+						}
+					</button>
+					<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deletePartner(partner)">Supprimer le partenaire</button>
+				</div>
+			</li>
 		}
 
-	</tbody>
-</table>
+		@empty {
+			<li class="p-6 text-center text-gray-500 dark:text-gray-400">Aucune donnée</li>
+		}
+	}
+	@loading (minimum 500ms) {
+		<div class="flex justify-center items-center h-48">
+			<div class="relative flex justify-center items-center">
+				<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+				<div class="relative h-14 w-14">
+					<img ngSrc="/assets/pepite.webp" class="rounded-full" fill />
+				</div>
+			</div>
+		</div>
+	}
+
+</ul>
+
