@@ -1,11 +1,12 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
-import {HeroeService} from '../../../service/heroe.service';
-import {ToastService} from '../../../service/toast.service';
+import {HeroeService} from '@/app/service/heroe.service';
+import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Heroe, MarvelRivalsHeroRole, OverwatchHeroRole} from '../../../model/heroe';
-import {enumKeysObject} from '../../../core/utils/enum';
-import {Game} from '../../../model/game';
+import {Heroe, MarvelRivalsHeroRole, OverwatchHeroRole} from '@/app/model/heroe';
+import {enumKeysObject} from '@/app/core/utils/enum';
+import {Game} from '@/app/model/game';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
   selector: 'app-update-heroe',
@@ -21,6 +22,7 @@ export class UpdateHeroeComponent implements OnChanges {
 		private readonly heroeService: HeroeService,
 		private readonly toastService: ToastService,
 		private readonly cdr: ChangeDetectorRef,
+		protected readonly imageService: ImageService,
 	) {}
 
     ngOnChanges(): void {
@@ -117,7 +119,7 @@ export class UpdateHeroeComponent implements OnChanges {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file)) {
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)){
 				this.selectedFile = file;
 				this.toastService.show('Nouvelle image chargée', 'success');
 
@@ -128,14 +130,6 @@ export class UpdateHeroeComponent implements OnChanges {
 		}
 	}
 
-	checkSize(file: File): boolean {
-		if(file.size > 5 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
-			return false;
-		}
-		return true;
-	}
-
 	createPreview(file: File | null = this.selectedFile): void {
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -143,7 +137,6 @@ export class UpdateHeroeComponent implements OnChanges {
 		};
 		reader.readAsDataURL(file!);
 	}
-
 
 	handleUploadFile() {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;

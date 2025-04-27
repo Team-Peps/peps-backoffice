@@ -1,9 +1,10 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PartnerService} from '../../../service/partner.service';
-import {ToastService} from '../../../service/toast.service';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {PartnerService} from '@/app/service/partner.service';
+import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
-import {Partner} from '../../../model/partner';
+import {Partner} from '@/app/model/partner';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
 	selector: 'app-update-partner',
@@ -18,6 +19,7 @@ export class UpdatePartnerComponent implements OnChanges {
 		private readonly cdr: ChangeDetectorRef,
 		private readonly partnerService: PartnerService,
 		private readonly toastService: ToastService,
+		protected readonly imageService: ImageService,
 	) {}
 
 	ngOnChanges(): void {
@@ -113,7 +115,7 @@ export class UpdatePartnerComponent implements OnChanges {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file)) {
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				this.selectedFile = file;
 				this.toastService.show('Nouvelle image chargée', 'success');
 
@@ -124,14 +126,6 @@ export class UpdatePartnerComponent implements OnChanges {
 		}
 	}
 
-	checkSize(file: File): boolean {
-		if(file.size > 5 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
-			return false;
-		}
-		return true;
-	}
-
 	createPreview(file: File | null = this.selectedFile): void {
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -139,7 +133,6 @@ export class UpdatePartnerComponent implements OnChanges {
 		};
 		reader.readAsDataURL(file!);
 	}
-
 
 	handleUploadFile() {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;

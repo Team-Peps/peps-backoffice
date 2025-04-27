@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {ToastService} from '@/app/service/toast.service';
 import { VideoService } from '@/app/service/video.service';
 import {environment} from '@/environments/environment';

@@ -1,10 +1,11 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {SliderService} from '../../../service/slider.service';
-import {ToastService} from '../../../service/toast.service';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {SliderService} from '@/app/service/slider.service';
+import {ToastService} from '@/app/service/toast.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Slider} from '../../../model/slider';
+import {Slider} from '@/app/model/slider';
 import {NgClass} from '@angular/common';
 import {environment} from '@/environments/environment';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
 	selector: 'app-update-slider',
@@ -21,6 +22,7 @@ export class UpdateSliderComponent implements OnChanges {
 		private readonly cdr: ChangeDetectorRef,
 		private readonly sliderService: SliderService,
 		private readonly toastService: ToastService,
+		protected readonly imageService: ImageService,
 	) {}
 
 	ngOnChanges(): void {
@@ -124,7 +126,7 @@ export class UpdateSliderComponent implements OnChanges {
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
 
-			if(this.checkSize(file)) {
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				if(typeImg === 'desktop') {
 
 					this.selectedFile = file;
@@ -147,14 +149,6 @@ export class UpdateSliderComponent implements OnChanges {
 				input.value = "";
 			}
 		}
-	}
-
-	checkSize(file: File): boolean {
-		if(file.size > 5 * 1024 * 1024) {
-			this.toastService.show('L\'image ne doit pas dépasser 5 Mo', 'error');
-			return false;
-		}
-		return true;
 	}
 
 	handleUploadFile(imageType: string) {
