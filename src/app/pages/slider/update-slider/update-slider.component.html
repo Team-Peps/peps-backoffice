@@ -12,11 +12,17 @@
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="ctaLabel">Label du CTA</label>
-						<input type="text" id="ctaLabel" formControlName="ctaLabel" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="ctaLabel" formControlName="ctaLabel" class="p-2 border border-gray-300 rounded-lg" placeholder="En savoir plus"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="ctaLink">Lien du CTA</label>
-						<input type="text" id="ctaLink" formControlName="ctaLink" [ngClass]="{'border-red-500': !linkIsValid && sliderForm.get('ctaLink')!.value !== ''}" class="p-2 border border-gray-300 rounded-lg" (change)="checkSliderLink($event)"/>
+						<input
+							type="text"
+							id="ctaLink"
+							formControlName="ctaLink"
+							[ngClass]="{'border-red-500': !linkIsValid && sliderForm.get('ctaLink')!.value !== ''}"
+							class="p-2 border border-gray-300 rounded-lg" (change)="checkSliderLink($event)"
+							placeholder="https://full.life/team-peps-soon-tshirt"/>
 					</div>
 
 				</div>

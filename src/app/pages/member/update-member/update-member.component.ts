@@ -59,7 +59,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		isSubstitute: new FormControl(),
 		game: new FormControl(),
 		favoriteHeroes: new FormControl([], [Validators.maxLength(3)])
-
 	})
 
 	protected readonly Nationality = Nationality;
@@ -173,6 +172,10 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 				this.toastService.show('Une erreur est survenue', 'error');
 			}
 		});
+	}
+
+	filterHeroesByGame(game: string): Heroe[] {
+		return this.heroes.filter(hero => hero.game === game);
 	}
 
 	async onFileSelected(event: Event): Promise<void> {
