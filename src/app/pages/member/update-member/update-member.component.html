@@ -12,22 +12,22 @@
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="pseudo">Pseudo</label>
-						<input type="text" id="pseudo" formControlName="pseudo" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="pseudo" formControlName="pseudo" class="p-2 border border-gray-300 rounded-lg" placeholder="Féfé"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="firstname">Prénom</label>
-						<input type="text" id="firstname" formControlName="firstname" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="firstname" formControlName="firstname" class="p-2 border border-gray-300 rounded-lg" placeholder="Félix"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="lastname">Nom</label>
-						<input type="text" id="lastname" formControlName="lastname" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="lastname" formControlName="lastname" class="p-2 border border-gray-300 rounded-lg" placeholder="Munch"/>
 					</div>
 				</div>
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="dateOfBirth">Date de naissance</label>
-						<input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="p-2 border border-gray-300 rounded-lg"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="nationality">Nationalité</label>
@@ -64,26 +64,26 @@
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="xUsername">X</label>
-						<input type="text" id="xUsername" formControlName="xUsername" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="xUsername" formControlName="xUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="instagramUsername">Instagram</label>
-						<input type="text" id="instagramUsername" formControlName="instagramUsername" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="instagramUsername" formControlName="instagramUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="tiktokUsername">Tiktok</label>
-						<input type="text" id="tiktokUsername" formControlName="tiktokUsername" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="tiktokUsername" formControlName="tiktokUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
 					</div>
 				</div>
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="twitchUsername">Twitch</label>
-						<input type="text" id="twitchUsername" formControlName="twitchUsername" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="twitchUsername" formControlName="twitchUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="youtubeUsername">Youtube</label>
-						<input type="text" id="youtubeUsername" formControlName="youtubeUsername" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="youtubeUsername" formControlName="youtubeUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="game">Jeu</label>
@@ -97,16 +97,22 @@
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col">
 						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
-						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500"></textarea>
+						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Diplômé de 5, euh non 6 masters différents, il est le fondateur de la team peps depuis 1779"></textarea>
+					</div>
+					<div class="flex flex-col gap-4">
+						<span>Personnages favoris ({{memberForm.get('favoriteHeroes')?.value ? memberForm.get('favoriteHeroes')?.value.length : 0}}/3)</span>
+						@if(memberForm.get('game')?.value) {
+							<hero-selector
+								[heroes]="filterHeroesByGame(memberForm.get('game')?.value)"
+								formControlName="favoriteHeroes"
+							></hero-selector>
+						} @else {
+							<span>Veuillez choisir un jeu pour sélectionner les personnages favoris</span>
+						}
 					</div>
 					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
 				</div>
-				<div class="flex flex-col gap-4">
-					<hero-selector
-						[heroes]="heroes"
-						formControlName="favoriteHeroes"
-					></hero-selector>
-				</div>
+
 				<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" [accept]="imageService.getAcceptedFormats()" hidden/>
 				<div [innerHTML]="imageService.getImageRequirementHtml()"></div>
 				@if (imagePreview) {

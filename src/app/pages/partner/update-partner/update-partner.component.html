@@ -12,11 +12,11 @@
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="name">Nom</label>
-						<input type="text" id="name" formControlName="name" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="name" formControlName="name" class="p-2 border border-gray-300 rounded-lg" placeholder="Deblock"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="link">Lien du partenaire</label>
-						<input type="text" id="link" formControlName="link" class="p-2 border border-gray-300 rounded-lg" (change)="checkPartnerLink($event)"/>
+						<input type="text" id="link" formControlName="link" class="p-2 border border-gray-300 rounded-lg" (change)="checkPartnerLink($event)" placeholder="https://deblock.com/fr-FR?c=teampeps"/>
 					</div>
 
 				</div>
@@ -24,7 +24,7 @@
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="codes">Codes <span class="text-xs">(Séparés par une virgule)</span></label>
-						<input type="text" id="codes" formControlName="codes" class="p-2 border border-gray-300 rounded-lg" />
+						<input type="text" id="codes" formControlName="codes" class="p-2 border border-gray-300 rounded-lg" placeholder="PEPS5,PEPS10"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="isActive">Partenariat actif</label>
@@ -38,7 +38,7 @@
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col">
 						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
-						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500"></textarea>
+						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Deblock est une néobanque française..."></textarea>
 					</div>
 					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter le logo du partenaire</button>
 				</div>
