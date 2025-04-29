@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {UserService} from '../../service/user.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {User} from '../../model/auth/user';
-import {AsyncPipe, NgClass, TitleCasePipe} from '@angular/common';
+import {AsyncPipe, NgClass} from '@angular/common';
 import {AuthService} from '../../service/auth.service';
 import {ToastService} from '../../service/toast.service';
 import {Authority} from '../../model/auth/authority';
@@ -15,7 +15,6 @@ import {enumKeysObject} from '../../core/utils/enum';
 	imports: [
 		AsyncPipe,
 		NgClass,
-		TitleCasePipe,
 		ReactiveFormsModule,
 		TooltipDirective,
 	],
