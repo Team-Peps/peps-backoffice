@@ -6,17 +6,17 @@ import {
 	OnChanges, OnInit, Output
 } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {getNationalityName, Nationality} from '../../../model/nationality';
-import {enumKeysObject} from '../../../core/utils/enum';
-import {MemberService} from '../../../service/member.service';
-import {ToastService} from '../../../service/toast.service';
-import {MemberRole} from '../../../model/member/memberRole';
+import {Nationality} from '@/app/model/nationality';
+import {enumKeysObject} from '@/app/core/utils/enum';
+import {MemberService} from '@/app/service/member.service';
+import {ToastService} from '@/app/service/toast.service';
+import {MemberRole} from '@/app/model/member/memberRole';
 import {environment} from '@/environments/environment';
-import {Member} from '../../../model/member/member';
-import {Game} from '../../../model/game';
+import {Member} from '@/app/model/member/member';
+import {Game} from '@/app/model/game';
 import {HeroSelectorComponent} from './hero-selector/hero-selector.component';
-import {Heroe} from '../../../model/heroe';
-import {HeroeService} from '../../../service/heroe.service';
+import {Heroe} from '@/app/model/heroe';
+import {HeroeService} from '@/app/service/heroe.service';
 import {ImageService} from '@/app/service/image.service';
 
 @Component({
@@ -63,7 +63,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 
 	protected readonly Nationality = Nationality;
 	protected readonly enumKeysObject = enumKeysObject;
-	protected readonly getNationalityName = getNationalityName;
 	protected readonly Role = MemberRole;
 	protected readonly Game = Game;
 

@@ -33,7 +33,7 @@
 						<label for="nationality">Nationalité</label>
 						<select class="p-2.5 rounded-lg border border-gray-300" id="nationality" formControlName="nationality">
 							@for (nationality of enumKeysObject(Nationality); track nationality){
-								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="getNationalityName(nationality)">{{ nationality }}</option>
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="nationality">{{ nationality }}</option>
 							}
 						</select>
 					</div>
