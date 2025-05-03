@@ -1,5 +1,5 @@
 apiVersion: v2
-name: peps-backoffice-1
+name: peps-backoffice
 description: Chart pour le back office de la Team Peps
 type: application
 version: 1.0.0
