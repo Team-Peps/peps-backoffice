@@ -35,6 +35,7 @@ export class UpdatePartnerComponent implements OnChanges {
 		link: new FormControl(Validators.required),
 		codes: new FormControl(Validators.required),
 		isActive: new FormControl(),
+		order: new FormControl(),
 	});
 
 	@Input() partner: Partner | null = null;
@@ -52,6 +53,7 @@ export class UpdatePartnerComponent implements OnChanges {
 				link: this.partner.link,
 				codes: this.partner.codes.join(","),
 				isActive: this.partner.isActive,
+				order: this.partner.order,
 			});
 
 			this.imagePreview = this.minioBaseUrl + this.partner.imageKey;
