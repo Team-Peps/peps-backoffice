@@ -24,7 +24,8 @@
 							{
 								"glob": "**/*",
 								"input": "public"
-							}
+							},
+							"src/robots.txt"
 						],
 						"styles": [
 							"src/styles.css"
