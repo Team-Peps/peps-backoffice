@@ -14,6 +14,7 @@ import {AmbassadorListComponent} from './pages/ambassador/ambassador-list/ambass
 import {AchievementListComponent} from './pages/achievement/achievement-list/achievement-list.component';
 import {SliderListComponent} from './pages/slider/slider-list/slider-list.component';
 import {LastVideoListComponent} from '@/app/pages/last-video/last-video-list/last-video-list.component';
+import {GalleryListComponent} from '@/app/pages/gallery/gallery-list/gallery-list.component';
 
 export const routes: Routes = [
 	{
@@ -59,6 +60,10 @@ export const routes: Routes = [
 			{
 				path: 'last-videos',
 				component: LastVideoListComponent
+			},
+			{
+				path: 'gallery',
+				component: GalleryListComponent
 			}
 		]
 	},

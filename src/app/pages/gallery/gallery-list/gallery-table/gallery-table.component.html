@@ -1,0 +1,77 @@
+<table class="w-full table-auto">
+	<thead>
+	<tr>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Nom de l'event</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Auteurs</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Date</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Photos</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Actions</div>
+			</div>
+		</th>
+	</tr>
+	</thead>
+	<tbody>
+		@defer {
+
+			@for (gallery of galleries; track gallery.id){
+				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+					<td class="p-3">
+						{{ gallery.eventName }}
+					</td>
+					<td class="p-3 text-wrap max-w-36">
+						{{ gallery.authors.join(', ') }}
+					</td>
+					<td class="p-3">
+						{{ gallery.date | date:'dd/MM/yyyy' }}
+					</td>
+					<td class="p-3">
+						{{ gallery.photos.length }}
+					</td>
+					<td class="p-3 flex flex-col gap-2">
+						@if(gallery.photos.length > 0) {
+							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="viewGallery(gallery)">Voir les photos</button>
+						}
+						<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectGallery(gallery)">Modifier</button>
+						<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="addPhotos(gallery)">Ajouter des photos</button>
+						<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deleteGallery(gallery)">Supprimer la galerie</button>
+					</td>
+				</tr>
+			} @empty {
+				<tr>
+					<td colspan="5" class="p-3 text-center">
+						Aucune donnée
+					</td>
+				</tr>
+			}
+		} @loading (minimum 500ms) {
+			<tr>
+				<td colspan="10" class="p-3 text-center h-48">
+					<div class="relative flex justify-center items-center">
+						<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+						<div class="relative h-14 w-14">
+							<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

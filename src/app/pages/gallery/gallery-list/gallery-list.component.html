@@ -1,0 +1,56 @@
+<main class="container mx-auto p-4">
+	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Galeries</h1>
+
+	<div class="relative flex flex-col gap-4">
+
+		@if (selectedGallery && !isCreatedGallery || !selectedGallery && isCreatedGallery) {
+			<app-update-gallery
+				id="updateGallery"
+				(galleryUpdated)="loadGalleries()"
+				[gallery]="selectedGallery">
+			</app-update-gallery>
+		}
+
+		@if (!isCreatedGallery && !selectedGallery) {
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateGallery()">Ajouter une galerie</button>
+		} @else {
+			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="cancelCreateGallery()">Annuler</button>
+		}
+
+		<gallery-table
+			[galleries]="galleries"
+			(galleryToDelete)="wantToDeleteGallery($event)"
+			(galleryToUpdate)="selectGallery($event)"
+			(galleryToView)="viewGallery($event)"
+			(galleryToAddPhotos)="addPhotos($event)"
+		></gallery-table>
+
+		@if(previewGallery) {
+			<gallery-preview
+				id="previewGallery"
+				[gallery]="previewGallery!"
+				(photoToDelete)="deletePhoto($event)"
+			></gallery-preview>
+		}
+
+		@if(isShowingModal) {
+			<gallery-upload
+				[gallery]="addingPhotoGallery!"
+				(uploaded)="loadGalleries()"
+				(close)="closeModal()"
+			></gallery-upload>
+		}
+
+		@if (isShowingDeleteModal) {
+			<app-modal
+				[title]="'Supprimer la galerie ' + deletingGallery?.eventName"
+				[content]="'Êtes-vous sûr de vouloir supprimer cette galerie ? Cette action est irréversible.'"
+				[action]="'delete'"
+				[type]="'danger'"
+				(closeAction)="cancelDeleteGallery()"
+				(okAction)="deleteGallery(deletingGallery!)"
+			></app-modal>
+		}
+
+	</div>
+</main>

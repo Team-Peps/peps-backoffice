@@ -40,7 +40,6 @@ export class PartnerListComponent implements OnInit {
 		this.partnerService.getPartners().subscribe(response => {
 			this.partnersActive = response["activePartners"];
 			this.partnersInactive = response["inactivePartners"];
-			console.log(response);
 			this.cdr.detectChanges();
 		});
 	}

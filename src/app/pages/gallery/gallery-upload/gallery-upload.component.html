@@ -1,0 +1,40 @@
+<div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+	<div class="fixed inset-0 bg-gray-800/75 transition-opacity" aria-hidden="true"></div>
+
+	<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+		<div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
+			<div class="relative transform overflow-hidden rounded-lg bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg py-4 px-8">
+				<h3 class="text-center text-2xl mb-2">Ajouter des photos pour la galerie "{{ gallery.eventName }}"</h3>
+				<form [formGroup]="form" class="flex flex-col gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="author">Auteur</label>
+						<input type="text" id="author" formControlName="author" class="p-2 border border-gray-300 rounded-lg" placeholder="Freud"/>
+					</div>
+
+					<div class="flex flex-col flex-1">
+						<label for="zipFile">Fichier ZIP ({{ getZipSizeInMB(selectedFile) }}/200MB)</label>
+						<input type="file" id="zipFile" class="p-2 border border-gray-300 rounded-lg" (change)="onFileSelected($event)" accept=".zip"/>
+					</div>
+					<span class="text-sm font-medium">⚠️ Seul un .zip est autorisé, les formats d'images autre que jpg, png, avif et webp ne seront pas pris en compte ⚠️</span>
+
+					@if(isUploading && uploadProgress < 100) {
+						<div class="flex w-full h-4 bg-gray-200 rounded-lg overflow-hidden dark:bg-neutral-700" role="progressbar">
+							<div class="flex flex-col justify-center rounded-lg overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500" [style.width.%]="uploadProgress">{{ uploadProgress }}%</div>
+						</div>
+					}
+
+					@if(uploadProgress >= 100) {
+						<div class="flex w-full h-4 bg-gray-200 rounded-lg overflow-hidden dark:bg-neutral-700">
+							<div class="flex flex-col justify-center rounded-lg overflow-hidden bg-green-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-green-500" [style.width.%]="100">Upload terminé, traitement en cours ...</div>
+						</div>
+					}
+
+					<div class="flex flex-row justify-center gap-4">
+						<button class="p-2 bg-green-700 w-full rounded-lg cursor-pointer hover:bg-green-600 text-white" [ngClass]="{'cursor-pointer': !isUploading}" (click)="upload()" [disabled]="isUploading || form.invalid">{{ isUploading ? 'Envoi en cours...' : 'Ajouter les photos' }}</button>
+						<button class="p-2 bg-red-700 w-full rounded-lg cursor-pointer hover:bg-red-600 text-white" [ngClass]="{'cursor-pointer': !isUploading}" (click)="close.emit()">Annuler</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
