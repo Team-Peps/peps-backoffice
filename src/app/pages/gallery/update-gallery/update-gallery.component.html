@@ -1,0 +1,34 @@
+<main class="container mx-auto p-4">
+	<div class="relative flex flex-col gap-4">
+		<form [formGroup]="galleryForm" class="my-12 text-gray-900 dark:text-gray-100">
+			<h2 class="text-center text-2xl mb-4">Ajout d'une galerie</h2>
+
+			<div class="flex flex-col gap-4">
+
+				<div class="flex flex-col md:flex-row gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="eventName">Nom de l'event</label>
+						<input type="text" id="eventName" formControlName="eventName" class="p-2 border border-gray-300 rounded-lg" placeholder="Bootcamp avril 2025"/>
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="date">Date</label>
+						<input type="date" id="date" formControlName="date" class="p-2 border border-gray-300 rounded-lg"/>
+					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-4">
+					<div class="flex flex-col flex-1">
+						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Le bootcamp d'avril vise à consolider la cohésion d'équipe !"></textarea>
+					</div>
+				</div>
+
+				<div class="flex flex-row justify-center">
+					<button class="p-2 bg-green-700 w-full md:w-fit rounded-lg cursor-pointer hover:bg-green-600 text-white" (click)="saveOrUpdate()">Sauvegarder</button>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+</main>
