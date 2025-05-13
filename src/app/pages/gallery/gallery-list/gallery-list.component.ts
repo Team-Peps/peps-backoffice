@@ -9,6 +9,10 @@ import {GalleryPreviewComponent} from '@/app/pages/gallery/gallery-preview/galle
 import {GalleryPhoto} from '@/app/model/galleryPhoto';
 import {GalleryUploadComponent} from '@/app/pages/gallery/gallery-upload/gallery-upload.component';
 import {ModalComponent} from '@/app/core/components/modal/modal.component';
+import {Author} from '@/app/model/author';
+import {AuthorService} from '@/app/service/author.service';
+import {AuthorUpdateComponent} from '@/app/pages/gallery/author/author-update/author-update.component';
+import {AuthorTableComponent} from '@/app/pages/gallery/author/author-table/author-table.component';
 
 @Component({
   selector: 'app-gallery-list',
@@ -18,7 +22,9 @@ import {ModalComponent} from '@/app/core/components/modal/modal.component';
 		GalleryTableComponent,
 		GalleryPreviewComponent,
 		GalleryUploadComponent,
-		ModalComponent
+		ModalComponent,
+		AuthorUpdateComponent,
+		AuthorTableComponent
 	],
   templateUrl: './gallery-list.component.html',
 })
@@ -26,31 +32,56 @@ export class GalleryListComponent implements OnInit {
 
 	constructor(
 		private readonly galleryService: GalleryService,
+		private readonly authorService: AuthorService,
 		private readonly toastService: ToastService,
 		private readonly cdr: ChangeDetectorRef
 	) {}
 
 	selectedGallery: Gallery | null = null;
+	selectedAuthor: Author | null = null;
+
 	previewGallery: Gallery | null = null;
 	addingPhotoGallery: Gallery | null = null;
 	deletingGallery: Gallery | null = null;
 
 	galleries: Gallery[] = [];
+	authors: Author[] = [];
 
 	isCreatedGallery: boolean = false;
+	isCreatedAuthor: boolean = false;
+
 	isShowingModal: boolean = false;
 	isShowingDeleteModal: boolean = false;
 
 	ngOnInit(): void {
+		this.loadAuthors();
 		this.loadGalleries();
+	}
+
+	loadAuthors() {
+		this.authorService.getAllAuthors().subscribe({
+			next: (res) => {
+				this.authors = res;
+				this.cdr.detectChanges();
+			},
+			error: (err) => {
+				console.error('Erreur lors de la récupération des auteurs :', err);
+			}
+		});
 	}
 
 	loadGalleries() {
 		this.galleryService.getAllGalleries().subscribe({
 			next: (galleries) => {
 				this.galleries = galleries;
+				if(this.previewGallery) {
+					this.previewGallery = this.galleries.find(g => g.id === this.previewGallery?.id) || null;
+				}
+				this.cdr.detectChanges();
 			},
-			error: (err) => console.error(err)
+			error: (err) => {
+				console.error('Erreur lors de la récupération des galeries :', err);
+			}
 		});
 	}
 
@@ -64,9 +95,15 @@ export class GalleryListComponent implements OnInit {
 		this.isCreatedGallery = !this.isCreatedGallery;
 	}
 
-	cancelCreateGallery() {
+	toggleCreateAuthor() {
+		this.isCreatedAuthor = !this.isCreatedAuthor;
+	}
+
+	cancelCreateProcess() {
 		this.isCreatedGallery = false;
+		this.isCreatedAuthor = false;
 		this.selectedGallery = null;
+		this.selectedAuthor = null;
 	}
 
 	wantToDeleteGallery(gallery: Gallery) {
@@ -124,5 +161,16 @@ export class GalleryListComponent implements OnInit {
 	cancelDeleteGallery() {
 		this.deletingGallery = null;
 		this.isShowingDeleteModal = false;
+	}
+
+	selectAuthor(author: Author) {
+		this.selectedAuthor = author;
+		this.isCreatedAuthor = false;
+		document.getElementById('updateAuthor')?.scrollIntoView({behavior: 'smooth'});
+	}
+
+	handleUpdateAuthor() {
+		this.loadAuthors();
+		this.loadGalleries();
 	}
 }

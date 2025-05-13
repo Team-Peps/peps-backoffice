@@ -14,7 +14,7 @@ export class GalleryService {
 	) {}
 
 	getAllGalleries(): Observable<Gallery[]> {
-		return this.http.get<Gallery[]>(`${environment.backendUrl}/gallery`);
+		return this.http.get<Gallery[]>(`${environment.backendUrl}/gallery/all`);
 	}
 
 	createGallery(gallery: Gallery): Observable<{ message: string; gallery: Gallery }> {
@@ -39,4 +39,5 @@ export class GalleryService {
 		formData.append('zipFile', zipFile);
 		return this.http.put<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery/${id}/photos`, formData, {reportProgress: true, observe: 'events'});
 	}
+
 }

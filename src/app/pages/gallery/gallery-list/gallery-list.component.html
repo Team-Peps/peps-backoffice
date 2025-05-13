@@ -11,11 +11,27 @@
 			</app-update-gallery>
 		}
 
-		@if (!isCreatedGallery && !selectedGallery) {
-			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateGallery()">Ajouter une galerie</button>
-		} @else {
-			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="cancelCreateGallery()">Annuler</button>
+		@if(selectedAuthor && !isCreatedAuthor || !selectedAuthor && isCreatedAuthor) {
+			<app-author-update
+				id="updateAuthor"
+				[author]="selectedAuthor"
+				(authorUpdated)="handleUpdateAuthor()">
+			</app-author-update>
 		}
+
+		<div class="flex flex-row gap-2">
+			@if (!isCreatedGallery && !selectedGallery && !isCreatedAuthor && !selectedAuthor) {
+				<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateGallery()">Ajouter une galerie</button>
+				<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateAuthor()">Ajouter un auteur</button>
+			} @else {
+				<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="cancelCreateProcess()">Annuler</button>
+			}
+		</div>
+
+		<author-table
+			[authors]="authors"
+			(authorToUpdate)="selectAuthor($event)"
+		></author-table>
 
 		<gallery-table
 			[galleries]="galleries"

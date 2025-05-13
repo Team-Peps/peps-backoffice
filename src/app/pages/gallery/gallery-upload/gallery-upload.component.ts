@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Gallery} from '@/app/model/gallery';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ToastService} from '@/app/service/toast.service';
 import { GalleryService } from '@/app/service/gallery.service';
 import {HttpEventType} from '@angular/common/http';
 import {NgClass} from '@angular/common';
+import {AuthorService} from '@/app/service/author.service';
+import {Author} from '@/app/model/author';
 
 @Component({
   selector: 'gallery-upload',
@@ -14,11 +15,11 @@ import {NgClass} from '@angular/common';
 	],
   templateUrl: './gallery-upload.component.html',
 })
-export class GalleryUploadComponent {
+export class GalleryUploadComponent implements OnInit {
 
 	constructor(
 		private readonly galleryService: GalleryService,
-		private readonly toastService: ToastService,
+		private readonly authorService: AuthorService,
 	) {}
 
 	@Input() gallery!: Gallery;
@@ -34,6 +35,19 @@ export class GalleryUploadComponent {
 		author: new FormControl('', Validators.required),
 	});
 
+	authors: Author[] = [];
+
+	ngOnInit() {
+		this.authorService.getAllAuthors().subscribe({
+			next: (res) => {
+				this.authors = res;
+			},
+			error: (err) => {
+				console.error('Erreur lors de la récupération des auteurs :', err);
+			}
+		});
+	}
+
 	onFileSelected($event: Event) {
 		const input = $event.target as HTMLInputElement;
 		if (input.files && input.files.length > 0) {
@@ -43,7 +57,10 @@ export class GalleryUploadComponent {
 	}
 
 	upload() {
-		if (this.form.invalid || !this.gallery) return;
+		if (this.form.invalid || !this.gallery) {
+			console.error('Formulaire invalide ou galerie non définie');
+			return;
+		}
 
 		this.isUploading = true;
 		this.uploadProgress = 0;

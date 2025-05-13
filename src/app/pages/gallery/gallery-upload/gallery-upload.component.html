@@ -8,7 +8,11 @@
 				<form [formGroup]="form" class="flex flex-col gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="author">Auteur</label>
-						<input type="text" id="author" formControlName="author" class="p-2 border border-gray-300 rounded-lg" placeholder="Freud"/>
+						<select class="p-2.5 border rounded-lg border-gray-300" id="author" formControlName="author">
+							@for (author of authors; track author.id){
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="author.id">{{ author.name }}</option>
+							}
+						</select>
 					</div>
 
 					<div class="flex flex-col flex-1">

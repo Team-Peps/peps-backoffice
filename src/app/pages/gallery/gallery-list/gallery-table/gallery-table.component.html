@@ -37,7 +37,7 @@
 						{{ gallery.eventName }}
 					</td>
 					<td class="p-3 text-wrap max-w-36">
-						{{ gallery.authors.join(', ') }}
+						{{ gallery.authors.length > 0 ? gallery.authors.join(', ') : 'Aucun auteur' }}
 					</td>
 					<td class="p-3">
 						{{ gallery.date | date:'dd/MM/yyyy' }}
