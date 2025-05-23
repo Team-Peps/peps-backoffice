@@ -3,6 +3,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ToastService} from '@/app/service/toast.service';
 import {GalleryService} from '@/app/service/gallery.service';
 import {Gallery} from '@/app/model/gallery';
+import {ImageService} from '@/app/service/image.service';
+import {environment} from '@/environments/environment';
 
 @Component({
   selector: 'app-update-gallery',
@@ -17,6 +19,7 @@ export class UpdateGalleryComponent implements OnChanges {
 		private readonly toastService: ToastService,
 		private readonly galleryService: GalleryService,
 		private readonly cdr: ChangeDetectorRef,
+		protected readonly imageService: ImageService,
 	) {}
 
 	ngOnChanges(): void {
@@ -25,9 +28,14 @@ export class UpdateGalleryComponent implements OnChanges {
 
 	galleryForm: FormGroup = new FormGroup({
 		eventName: new FormControl('', [Validators.required]),
+		image: new FormControl(),
 		date: new FormControl('', Validators.required),
 		description: new FormControl('', Validators.required),
 	});
+
+	selectedFile: File | null = null;
+	imagePreview: string | null = null;
+	minioBaseUrl = environment.minioBaseUrl;
 
 	@Input() gallery: Gallery | null = null;
 	@Output() galleryUpdated: EventEmitter<Gallery | null> = new EventEmitter();
@@ -39,8 +47,11 @@ export class UpdateGalleryComponent implements OnChanges {
 				date: this.gallery.date,
 				description: this.gallery.description,
 			});
+
+			this.imagePreview = this.minioBaseUrl + this.gallery.thumbnailImageKey;
 		} else {
 			this.galleryForm.reset();
+			this.imagePreview = null;
 		}
 		this.cdr.detectChanges();
 	}
@@ -60,10 +71,13 @@ export class UpdateGalleryComponent implements OnChanges {
 		}
 
 		const saveData = { ...this.galleryForm.value };
-		this.galleryService.createGallery(saveData).subscribe({
+		delete saveData.image;
+
+		this.galleryService.createGallery(saveData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.galleryUpdated.emit();
 				this.galleryForm.reset();
+				this.imagePreview = "";
 				this.toastService.show(response.message, 'success');
 			},
 			error: (error) => {
@@ -80,7 +94,10 @@ export class UpdateGalleryComponent implements OnChanges {
 		}
 
 		const updateData = { ...this.galleryForm.value };
-		this.galleryService.updateGallery(this.gallery!.id, updateData).subscribe({
+		delete updateData.image;
+		updateData.thumbnailImageKey = this.gallery!.thumbnailImageKey
+
+		this.galleryService.updateGallery(this.gallery!.id, updateData, this.selectedFile!).subscribe({
 			next: (response) => {
 				this.galleryUpdated.emit();
 				this.toastService.show(response.message, 'success');
@@ -91,5 +108,34 @@ export class UpdateGalleryComponent implements OnChanges {
 			}
 		});
 
+	}
+
+	async onFileSelected(event: Event): Promise<void> {
+		const input = event.target as HTMLInputElement;
+		if (input.files && input.files.length > 0) {
+			const file = input.files[0];
+
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
+				this.selectedFile = file;
+				this.toastService.show('Nouvelle image chargée', 'success');
+
+				this.createPreview()
+			}else{
+				input.value = "";
+			}
+		}
+	}
+
+	createPreview(file: File | null = this.selectedFile): void {
+		const reader = new FileReader();
+		reader.onload = () => {
+			this.imagePreview = reader.result as string;
+		};
+		reader.readAsDataURL(file!);
+	}
+
+	handleUploadFile() {
+		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+		fileInput.click();
 	}
 }

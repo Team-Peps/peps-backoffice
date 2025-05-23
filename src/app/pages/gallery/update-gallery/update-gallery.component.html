@@ -21,7 +21,14 @@
 						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
 						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Le bootcamp d'avril vise à consolider la cohésion d'équipe !"></textarea>
 					</div>
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
 				</div>
+
+				<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" [accept]="imageService.getAcceptedFormats()" hidden/>
+				<div [innerHTML]="imageService.getImageRequirementHtml()"></div>
+				@if (imagePreview) {
+					<img [src]="imagePreview" class="w-24" alt="Aperçu">
+				}
 
 				<div class="flex flex-row justify-center">
 					<button class="p-2 bg-green-700 w-full md:w-fit rounded-lg cursor-pointer hover:bg-green-600 text-white" (click)="saveOrUpdate()">Sauvegarder</button>

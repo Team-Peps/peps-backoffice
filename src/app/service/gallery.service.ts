@@ -17,16 +17,26 @@ export class GalleryService {
 		return this.http.get<Gallery[]>(`${environment.backendUrl}/gallery/all`);
 	}
 
-	createGallery(gallery: Gallery): Observable<{ message: string; gallery: Gallery }> {
-		return this.http.post<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery`, gallery);
+	createGallery(gallery: Gallery, imageFile: File): Observable<{ message: string; gallery: Gallery }> {
+
+		const formData = new FormData();
+		formData.append('gallery', new Blob([JSON.stringify(gallery)], {type: 'application/json'}));
+		formData.append('imageFile', imageFile);
+
+		return this.http.post<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery`, formData);
 	}
 
 	deleteGallery(id: string) {
 		return this.http.delete<{ message: string }>(`${environment.backendUrl}/gallery/${id}`);
 	}
 
-	updateGallery(galleryId: string, gallery: Gallery): Observable<{ message: string; gallery: Gallery }> {
-		return this.http.put<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery/${galleryId}`, gallery);
+	updateGallery(galleryId: string, gallery: Gallery, imageFile: File): Observable<{ message: string; gallery: Gallery }> {
+
+		const formData = new FormData();
+		formData.append('gallery', new Blob([JSON.stringify(gallery)], {type: 'application/json'}));
+		formData.append('imageFile', imageFile);
+
+		return this.http.put<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery/${galleryId}`, formData);
 	}
 
 	deletePhoto(id: string) {
