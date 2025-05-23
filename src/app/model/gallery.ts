@@ -7,4 +7,5 @@ export interface Gallery {
 	description: string;
 	photos: GalleryPhoto[];
 	authors: string[];
+	thumbnailImageKey: string;
 }

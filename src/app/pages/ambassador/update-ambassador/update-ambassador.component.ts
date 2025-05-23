@@ -67,7 +67,6 @@ export class UpdateAmbassadorComponent implements OnChanges {
 
 	saveOrUpdateAmbassador(): void {
 		if(this.ambassador){
-			console.log("update")
 			this.update();
 		}else{
 			this.save();
