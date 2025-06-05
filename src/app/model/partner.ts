@@ -7,4 +7,5 @@ export interface Partner {
 	codes: string[];
 	isActive: boolean;
 	order: number;
+	type: 'MINOR' | 'MAJOR';
 }
