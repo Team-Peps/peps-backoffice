@@ -3,6 +3,7 @@ import {MatchService} from '../../../service/match.service';
 import {DatePipe, NgClass} from '@angular/common';
 import {Match} from '../../../model/match';
 import {environment} from '@/environments/environment';
+import {demandCommandFailureMessage} from '@angular/cli/src/command-builder/utilities/command';
 
 @Component({
   selector: 'app-match-list',
@@ -28,6 +29,10 @@ export class MatchListComponent implements OnInit {
 	filteredMatches: Match[] = [];
 
 	selectedGame: string = 'all';
+	isLoading: boolean = false;
+	isShowProgress: boolean = false;
+	messages: string[] = [];
+	receivedMessages = false;
 
 	loadMatches(): void {
 		this.matchService.getAllMatches().subscribe((data: Record<string, Match[]>) => {
@@ -53,7 +58,29 @@ export class MatchListComponent implements OnInit {
 		return Object.keys(this.groupedMatches);
 	}
 
-	wantEditMatch(matchId: string) {
-
+	updateMatches() {
+		this.messages = [];
+		this.isLoading = true;
+		this.isShowProgress = true;
+		this.matchService.updateAndSaveMatches().subscribe({
+			next: (msg) => {
+				this.messages.push(msg)
+				this.receivedMessages = true;
+			},
+			error: (err) => {
+				if (!this.receivedMessages) {
+					this.messages.push('Erreur bloquante : ' + err);
+					this.isLoading = false;
+				} else {
+					this.messages.push('Mise à jours des matchs terminés avec des erreurs non bloquantes');
+					this.isLoading = false;
+				}
+			},
+			complete: () => {
+				this.messages.push('Mise à jour des matchs terminée');
+				this.isLoading = false;
+				this.loadMatches();
+			}
+		})
 	}
 }
