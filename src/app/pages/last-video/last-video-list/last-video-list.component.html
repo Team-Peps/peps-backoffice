@@ -3,15 +3,13 @@
 
 	<div class="relative flex flex-col gap-4">
 
-
-
-			@if (selectedVideo && !isCreateVideo || !selectedVideo && isCreateVideo) {
-				<app-update-last-video
-					id="updateVideo"
-					(videoUpdated)="loadVideos()"
-					[video]="selectedVideo">
-				</app-update-last-video>
-			}
+		@if (selectedVideo && !isCreateVideo || !selectedVideo && isCreateVideo) {
+			<app-update-last-video
+				id="updateVideo"
+				(videoUpdated)="loadVideos()"
+				[video]="selectedVideo">
+			</app-update-last-video>
+		}
 
 		@if(videos.length < 3) {
 			@if (!isCreateVideo) {
