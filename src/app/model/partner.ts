@@ -26,3 +26,8 @@ export interface PartnerPayload {
 	partner: Partner;
 	image: File;
 }
+
+export interface PartnerCode {
+	code: string;
+	description: string;
+}
