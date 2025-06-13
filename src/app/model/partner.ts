@@ -4,8 +4,13 @@ export interface Partner {
 	description: string;
 	imageKey: string;
 	link: string;
-	codes: string[];
+	codes: PartnerCode[];
 	isActive: boolean;
 	order: number;
 	type: 'MINOR' | 'MAJOR';
+}
+
+export interface PartnerCode {
+	code: string;
+	description: string;
 }
