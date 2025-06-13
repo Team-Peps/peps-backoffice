@@ -2,8 +2,8 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} fr
 import {PartnerService} from '@/app/service/partner.service';
 import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
-import {Partner} from '@/app/model/partner';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Partner, PartnerCode} from '@/app/model/partner';
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ImageService} from '@/app/service/image.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class UpdatePartnerComponent implements OnChanges {
 		description: new FormControl(Validators.required),
 		image: new FormControl(),
 		link: new FormControl(Validators.required),
-		codes: new FormControl(Validators.required),
+		codes: new FormArray([], Validators.required),
 		isActive: new FormControl(),
 		order: new FormControl(),
 		type: new FormControl(Validators.required),
@@ -52,21 +52,51 @@ export class UpdatePartnerComponent implements OnChanges {
 				name: this.partner.name,
 				description: this.partner.description,
 				link: this.partner.link,
-				codes: this.partner.codes.join(","),
 				isActive: this.partner.isActive,
 				order: this.partner.order,
 				type: this.partner.type,
 			});
 
+			const codesArray = this.partnerForm.get('codes') as FormArray;
+			codesArray.clear();
+
+			if(this.partner.codes && Array.isArray(this.partner.codes)) {
+				this.partner.codes.forEach((codeObj: PartnerCode) => {
+					const codeGroup = new FormGroup({
+						code: new FormControl(codeObj.code, Validators.required),
+						description: new FormControl(codeObj.description, Validators.required)
+					});
+					codesArray.push(codeGroup);
+				});
+			}
+
 			this.imagePreview = this.minioBaseUrl + this.partner.imageKey;
 		}else{
 			this.partnerForm.reset();
+			(this.partnerForm.get('codes') as FormArray).clear();
 			this.imagePreview = null;
 		}
 		this.cdr.detectChanges();
 	}
 
+	addCode(): void {
+		const codeGroup = new FormGroup({
+			code: new FormControl('', Validators.required),
+			description: new FormControl('', Validators.required)
+		});
+		(this.partnerForm.get('codes') as FormArray).push(codeGroup);
+	}
+
+	removeCode(index: number): void {
+		(this.partnerForm.get('codes') as FormArray).removeAt(index);
+	}
+
 	saveOrUpdatePartner(): void {
+
+		if(!this.checkCodeValidity(this.partnerForm.value.codes)) {
+			return;
+		}
+
 		if(this.partner){
 			this.update();
 		}else{
@@ -155,4 +185,27 @@ export class UpdatePartnerComponent implements OnChanges {
 		}
 		target.reportValidity();
 	}
+
+	checkCodeValidity(codes: PartnerCode[]) {
+
+		const hasInvalidCode = codes?.some(
+			(code: any) =>
+				!code.code?.trim() || !code.description?.trim()
+		);
+
+		if (hasInvalidCode) {
+			this.toastService.show('Les codes doivent avoir un code ET une description', 'error');
+			return false;
+		}
+
+		const uniqueCodes = new Set(codes.map(code => code.code.trim()));
+
+		if (uniqueCodes.size !== codes.length) {
+			this.toastService.show('Les codes doivent être uniques', 'error');
+			return false;
+		}
+
+		return true;
+	}
+
 }

@@ -21,9 +21,15 @@
 				<div class="flex flex-col sm:flex-row gap-2 sm:gap-6 w-full sm:w-auto items-center">
 					<div class="font-semibold text-gray-800 dark:text-gray-100">{{ partner.name }}</div>
 					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">{{ partner.link }}</div>
-					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">{{ partner.codes }}</div>
-					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">Partenariat <span [ngClass]="{'text-red-500' : !partner.isActive, 'text-green-500': partner.isActive}">{{ partner.isActive ? 'ACTIF' : 'INACTIF' }}</span></div>
-					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">Partenaire <span [ngClass]="{'text-red-500' : partner.type === 'MINOR', 'text-green-500': partner.type === 'MAJOR'}">{{ partner.type }}</span></div>
+					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">
+						{{ showCodes(partner.codes) }}
+					</div>
+					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">
+						Partenaire
+						<span [ngClass]="{'text-red-500' : partner.type === 'MINOR', 'text-green-500': partner.type === 'MAJOR'}">{{ partner.type === 'MAJOR' ? 'MAJEUR' : 'MINEUR' }}</span>
+						et
+						<span [ngClass]="{'text-red-500' : !partner.isActive, 'text-green-500': partner.isActive}">{{ partner.isActive ? 'ACTIF' : 'INACTIF' }}</span>
+					</div>
 				</div>
 
 				<div class="flex flex-col gap-2 min-w-[180px] mt-2 sm:mt-0">
