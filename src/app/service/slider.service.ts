@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Slider, SliderTiny} from '../model/slider';
+import {Slider, SliderPayload} from '../model/slider';
 import {environment} from '@/environments/environment';
 
 @Injectable({
@@ -17,20 +17,26 @@ export class SliderService {
 		return this.http.get<Record<string, Slider[]>>(`${environment.backendUrl}/slider`);
 	}
 
-	createSlider(slider: Slider, imageFile: File, mobileImageFile: File): Observable<{ message: string; slider: Slider }> {
+	createSlider(payload: SliderPayload): Observable<{ message: string; slider: Slider }> {
+
 		const formData = new FormData();
-		formData.append('slider', new Blob([JSON.stringify(slider)], { type: 'application/json' }));
-		formData.append('imageFile', imageFile);
-		formData.append('mobileImageFile', mobileImageFile);
+		formData.append('slider', new Blob([JSON.stringify(payload.slider)], { type: 'application/json' }));
+		formData.append('imageFileFr', payload.files.fr.image);
+		formData.append('imageFileEn', payload.files.en.image);
+		formData.append('mobileImageFileFr', payload.files.fr.mobileImage);
+		formData.append('mobileImageFileEn', payload.files.en.mobileImage);
 
 		return this.http.post<{ message: string; slider: Slider }>(`${environment.backendUrl}/slider`, formData);
 	}
 
-	updateSlider(slider: Slider, imageFile: File, mobileImageFile: File): Observable<{ message: string, slider: Slider}> {
+	updateSlider(payload: SliderPayload): Observable<{ message: string, slider: Slider}> {
+
 		const formData = new FormData();
-		formData.append('slider', new Blob([JSON.stringify(slider)], { type: 'application/json' }));
-		formData.append('imageFile', imageFile);
-		formData.append('mobileImageFile', mobileImageFile);
+		formData.append('slider', new Blob([JSON.stringify(payload.slider)], { type: 'application/json' }));
+		formData.append('imageFileFr', payload.files.fr.image);
+		formData.append('imageFileEn', payload.files.en.image);
+		formData.append('mobileImageFileFr', payload.files.fr.mobileImage);
+		formData.append('mobileImageFileEn', payload.files.en.mobileImage);
 
 		return this.http.put<{ message: string, slider: Slider}>(`${environment.backendUrl}/slider`, formData);
 	}
