@@ -49,7 +49,7 @@ export class SliderListComponent implements OnInit {
 	}
 
 	toggleActive(slider: Slider) {
-		this.sliderService.toggleActive(slider.id).subscribe({
+		this.sliderService.toggleActive(slider.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadSliders();
@@ -61,7 +61,7 @@ export class SliderListComponent implements OnInit {
 	}
 
 	deleteSlider(slider: Slider) {
-		this.sliderService.deleteSlider(slider.id).subscribe({
+		this.sliderService.deleteSlider(slider.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadSliders();

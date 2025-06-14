@@ -11,9 +11,16 @@
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="ctaLabel">Label du CTA</label>
-						<input type="text" id="ctaLabel" formControlName="ctaLabel" class="p-2 border border-gray-300 rounded-lg" placeholder="En savoir plus"/>
+						<label for="ctaLabelFr">Label du CTA (FR)</label>
+						<input type="text" id="ctaLabelFr" formControlName="ctaLabelFr" class="p-2 border border-gray-300 rounded-lg" placeholder="En savoir plus"/>
 					</div>
+					<div class="flex flex-col flex-1">
+						<label for="ctaLabelEn">Label du CTA (EN)</label>
+						<input type="text" id="ctaLabelEn" formControlName="ctaLabelEn" class="p-2 border border-gray-300 rounded-lg" placeholder="Read more"/>
+					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="ctaLink">Lien du CTA</label>
 						<input
@@ -24,10 +31,6 @@
 							class="p-2 border border-gray-300 rounded-lg" (change)="checkSliderLink($event)"
 							placeholder="https://full.life/team-peps-soon-tshirt"/>
 					</div>
-
-				</div>
-
-				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="isActive">Slider actif</label>
 						<select class="p-2.5 rounded-lg border border-gray-300" id="isActive" formControlName="isActive">
@@ -39,20 +42,50 @@
 
 
 				<div class="flex flex-col md:flex-row gap-4">
-					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputImage')">Ajouter l'image</button>
-					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputImageMobile')">Ajouter l'image mobile</button>
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputImageFr')">Ajouter l'image (FR)</button>
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputImageMobileFr')">Ajouter l'image mobile (FR)</button>
+				</div>
+				<div class="flex flex-col md:flex-row gap-4">
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputImageEn')">Ajouter l'image desktop (EN)</button>
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile('fileInputImageMobileEn')">Ajouter l'image mobile (EN)</button>
 				</div>
 
-				<input type="file" id="fileInputImage" formControlName="image" (change)="onFileSelected($event, 'desktop')" [accept]="imageService.getAcceptedFormats()" hidden/>
-				<input type="file" id="fileInputImageMobile" formControlName="imageMobile" (change)="onFileSelected($event, 'mobile')" [accept]="imageService.getAcceptedFormats()" hidden/>
-				<div [innerHTML]="imageService.getImageRequirementHtml()"></div>
-				@if (imagePreview) {
-					<img [src]="imagePreview" class="w-24" alt="Aperçu">
-				}
+				<input type="file" id="fileInputImageFr" formControlName="imageFr" (change)="onFileSelected($event, 'desktop', 'fr')" [accept]="imageService.getAcceptedFormats()" hidden/>
+				<input type="file" id="fileInputImageMobileFr" formControlName="imageMobileFr" (change)="onFileSelected($event, 'mobile', 'fr')" [accept]="imageService.getAcceptedFormats()" hidden/>
 
-				@if (imageMobilePreview) {
-					<img [src]="imageMobilePreview" class="w-24" alt="Aperçu">
-				}
+				<input type="file" id="fileInputImageEn" formControlName="imageEn" (change)="onFileSelected($event, 'desktop', 'en')" [accept]="imageService.getAcceptedFormats()" hidden/>
+				<input type="file" id="fileInputImageMobileEn" formControlName="imageMobileEn" (change)="onFileSelected($event, 'mobile', 'en')" [accept]="imageService.getAcceptedFormats()" hidden/>
+
+				<div [innerHTML]="imageService.getImageRequirementHtml()"></div>
+				<div class="flex flex-row gap-4">
+					@if (imagePreviewFr) {
+						<div class="flex flex-col items-center gap-4">
+							<span>Image desktop FR</span>
+							<img [src]="imagePreviewFr" class="w-24" alt="Aperçu">
+						</div>
+					}
+					@if (imagePreviewEn) {
+						<div class="flex flex-col items-center gap-4">
+							<span>Image desktop EN</span>
+							<img [src]="imagePreviewEn" class="w-24" alt="Aperçu">
+						</div>
+					}
+				</div>
+				<div class="flex flex-row gap-4">
+					@if (imageMobilePreviewFr) {
+						<div class="flex flex-col items-center gap-4">
+							<span>Image mobile FR</span>
+							<img [src]="imageMobilePreviewFr" class="w-24" alt="Aperçu">
+						</div>
+					}
+
+					@if (imageMobilePreviewEn) {
+						<div class="flex flex-col items-center gap-4">
+							<span>Image mobile EN</span>
+							<img [src]="imageMobilePreviewEn" class="w-24" alt="Aperçu">
+						</div>
+					}
+				</div>
 
 				<div class="flex flex-row justify-center">
 					<button class="p-2 bg-green-700 w-full md:w-fit rounded-lg cursor-pointer hover:bg-green-600 text-white" (click)="saveOrUpdateSlider()">Sauvegarder</button>
