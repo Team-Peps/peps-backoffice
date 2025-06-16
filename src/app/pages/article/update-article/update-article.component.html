@@ -2,7 +2,7 @@
 	<div class="relative flex flex-col gap-4">
 		<form [formGroup]="articleForm" class="my-12 text-gray-900 dark:text-gray-100">
 			@if(article){
-				<h2 class="text-center text-2xl mb-4">Modification de l'article "{{ article?.title }}"</h2>
+				<h2 class="text-center text-2xl mb-4">Modification de l'article "{{ article.translations.fr.title }}"</h2>
 			} @else {
 				<h2 class="text-center text-2xl mb-4">Ajout d'un article</h2>
 			}
@@ -11,9 +11,16 @@
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="title">Titre</label>
-						<input type="text" id="title" formControlName="title" class="p-2 border border-gray-300 rounded-lg" placeholder="Le nouveau jersey est disponible !"/>
+						<label for="titleFr">Titre (FR)</label>
+						<input type="text" id="titleFr" formControlName="titleFr" class="p-2 border border-gray-300 rounded-lg" placeholder="Le nouveau jersey est disponible !"/>
 					</div>
+					<div class="flex flex-col flex-1">
+						<label for="titleEn">Titre (EN)</label>
+						<input type="text" id="titleEn" formControlName="titleEn" class="p-2 border border-gray-300 rounded-lg" placeholder="The new jersey is available!"/>
+					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="articleType">Sujet</label>
 						<select class="p-2.5 border rounded-lg border-gray-300" id="articleType" formControlName="articleType">
@@ -25,8 +32,15 @@
 
 				</div>
 
-				<div class="flex flex-col text-gray-900 dark:text-gray-300">
-					<editor [init]="init" [apiKey]="tinyMCEApiKey" formControlName="content"></editor>
+				<div class="flex flex-col text-gray-900 dark:text-gray-300 gap-4">
+					<div>
+						<label for="contentFr">Contenu (FR)</label>
+						<editor [init]="init" [apiKey]="tinyMCEApiKey" formControlName="contentFr" id="contentFr"></editor>
+					</div>
+					<div>
+						<label for="contentEn">Contenu (EN)</label>
+						<editor [init]="init" [apiKey]="tinyMCEApiKey" formControlName="contentEn" id="contentEn"></editor>
+					</div>
 				</div>
 
 				<div class="flex flex-col md:flex-row gap-4">

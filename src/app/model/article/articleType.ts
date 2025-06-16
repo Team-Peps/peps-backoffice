@@ -1,5 +1,0 @@
-export enum ArticleType {
-	OVERWATCH = "OVERWATCH",
-	MARVEL_RIVALS = "MARVEL_RIVALS",
-	TEAM_PEPS = "TEAM_PEPS",
-}
