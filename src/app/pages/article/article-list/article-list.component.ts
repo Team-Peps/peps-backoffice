@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ArticleService} from '@/app/service/article.service';
 import {ToastService} from '@/app/service/toast.service';
-import {Article} from '@/app/model/article/article';
+import {Article} from '@/app/model/article';
 import {ReactiveFormsModule} from '@angular/forms';
 import {UpdateArticleComponent} from '../update-article/update-article.component';
 import {NgOptimizedImage} from '@angular/common';
@@ -55,7 +55,7 @@ export class ArticleListComponent implements OnInit {
 	}
 
 	removeArticle(article: Article): void {
-		this.articleService.deleteArticle(article.id).subscribe({
+		this.articleService.deleteArticle(article.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadArticles();

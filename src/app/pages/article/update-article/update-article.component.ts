@@ -10,9 +10,8 @@ import {ArticleService} from '@/app/service/article.service';
 import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Article} from '@/app/model/article/article';
+import {Article, ArticlePayload, ArticleType} from '@/app/model/article';
 import {enumKeysObject} from '@/app/core/utils/enum';
-import {ArticleType} from '@/app/model/article/articleType';
 import {EditorComponent} from '@tinymce/tinymce-angular';
 import {ImageService} from '@/app/service/image.service';
 
@@ -51,8 +50,12 @@ export class UpdateArticleComponent implements OnChanges {
 	}
 
 	articleForm: FormGroup = new FormGroup({
-		title: new FormControl(Validators.required),
-		content: new FormControl(null, [Validators.required]),
+		titleFr: new FormControl(Validators.required),
+		titleEn: new FormControl(Validators.required),
+
+		contentFr: new FormControl(null, [Validators.required]),
+		contentEn: new FormControl(null, [Validators.required]),
+
 		imageThumbnail: new FormControl(),
 		imageBackground: new FormControl(),
 		articleType: new FormControl(Validators.required),
@@ -70,8 +73,10 @@ export class UpdateArticleComponent implements OnChanges {
 	initForm(): void {
 		if (this.article) {
 			this.articleForm.patchValue({
-				title: this.article.title,
-				content: this.article.content,
+				titleFr: this.article.translations.en.title,
+				titleEn: this.article.translations.fr.title,
+				contentFr: this.article.translations.fr.content,
+				contentEn: this.article.translations.en.content,
 				articleType: this.article.articleType,
 			});
 
@@ -86,6 +91,11 @@ export class UpdateArticleComponent implements OnChanges {
 	}
 
 	saveOrUpdateArticle(): void {
+		if(this.articleForm.invalid) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
 		if(this.article){
 			this.update();
 		}else{
@@ -94,15 +104,32 @@ export class UpdateArticleComponent implements OnChanges {
 	}
 
 	save() {
-		if(this.articleForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
-		}
-		const saveData = { ...this.articleForm.value };
-		delete saveData.imageThumbnail;
-		delete saveData.imageBackground;
 
-		this.articleService.saveArticle(saveData, this.selectedFileThumbnail!, this.selectedFileBackground!).subscribe({
+		const {articleType, titleFr, titleEn, contentFr, contentEn} = this.articleForm.value;
+
+		const article: Article = {
+			articleType,
+			translations: {
+				fr: {
+					title: titleFr,
+					content: contentFr,
+				},
+				en: {
+					title: titleEn,
+					content: contentEn,
+				}
+			}
+		};
+
+		const payload: ArticlePayload = {
+			article,
+			files: {
+				thumbnailImage: this.selectedFileThumbnail!,
+				image: this.selectedFileBackground!
+			}
+		}
+
+		this.articleService.saveArticle(payload).subscribe({
 			next: (response) => {
 				this.articleUpdated.emit();
 				this.articleForm.reset();
@@ -119,14 +146,32 @@ export class UpdateArticleComponent implements OnChanges {
 
 	update(){
 		const updateData = { ...this.articleForm.value, id: this.article!.id };
+		const {articleType, titleFr, titleEn, contentFr, contentEn} = this.articleForm.value;
 
-		delete updateData.imageThumbnail;
-		delete updateData.imageBackground;
-		updateData.imageThumbnail = this.article!.thumbnailImageKey;
-		updateData.imageBackground = this.article!.imageKey;
-		updateData.createdAt = this.article?.createdAt
+		const article: Article = {
+			id: this.article!.id,
+			articleType,
+			translations: {
+				fr: {
+					title: titleFr,
+					content: contentFr,
+				},
+				en: {
+					title: titleEn,
+					content: contentEn,
+				}
+			}
+		}
 
-		this.articleService.updateArticle(updateData, this.selectedFileThumbnail!, this.selectedFileBackground!).subscribe({
+		const payload: ArticlePayload = {
+			article,
+			files: {
+				thumbnailImage: this.selectedFileThumbnail!,
+				image: this.selectedFileBackground!
+			}
+		}
+
+		this.articleService.updateArticle(payload).subscribe({
 			next: (response) => {
 				this.articleUpdated.emit();
 				this.toastService.show(response.message, 'success');
