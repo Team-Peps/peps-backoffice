@@ -40,8 +40,12 @@
 				</div>
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col">
-						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
-						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Poko, de son vrai nom Gaël Gouzerch, est un streamer français très populaire sur Twitch..."></textarea>
+						<label for="descriptionFr">Description (FR)<span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="descriptionFr" formControlName="descriptionFr" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Poko, de son vrai nom Gaël Gouzerch, est un streamer français très populaire sur Twitch..."></textarea>
+					</div>
+					<div class="flex flex-col">
+						<label for="descriptionEn">Description (EN)<span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="descriptionEn" formControlName="descriptionEn" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Poko, whose real name is Gaël Gouzerch, is a very popular French streamer on Twitch..."></textarea>
 					</div>
 					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
 				</div>

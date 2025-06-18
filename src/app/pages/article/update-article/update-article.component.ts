@@ -145,7 +145,6 @@ export class UpdateArticleComponent implements OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.articleForm.value, id: this.article!.id };
 		const {articleType, titleFr, titleEn, contentFr, contentEn} = this.articleForm.value;
 
 		const article: Article = {
