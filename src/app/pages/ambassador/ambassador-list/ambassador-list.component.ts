@@ -59,7 +59,7 @@ export class AmbassadorListComponent implements OnInit {
 	}
 
 	deleteAmbassador(ambassador: Ambassador) {
-		this.ambassadorService.deleteAmbassador(ambassador.id).subscribe({
+		this.ambassadorService.deleteAmbassador(ambassador.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadAmbassadors();
