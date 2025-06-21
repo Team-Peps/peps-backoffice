@@ -65,7 +65,7 @@ export class GalleryUploadComponent implements OnInit {
 		this.isUploading = true;
 		this.uploadProgress = 0;
 
-		this.galleryService.uploadGallery(this.gallery.id, this.form.value.author, this.selectedFile!).subscribe({
+		this.galleryService.uploadGallery(this.gallery.id!, this.form.value.author, this.selectedFile!).subscribe({
 			next: (event) => {
 				if (event.type === HttpEventType.UploadProgress && event.total) {
 					this.uploadProgress = Math.round((100 * event.loaded) / event.total);

@@ -59,7 +59,7 @@
 
 		@if (isShowingDeleteModal) {
 			<app-modal
-				[title]="'Supprimer la galerie ' + deletingGallery?.eventName"
+				[title]="'Supprimer la galerie ' + deletingGallery!.translations.fr.eventName"
 				[content]="'Êtes-vous sûr de vouloir supprimer cette galerie ? Cette action est irréversible.'"
 				[action]="'delete'"
 				[type]="'danger'"

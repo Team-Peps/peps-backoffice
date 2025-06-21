@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} fr
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ToastService} from '@/app/service/toast.service';
 import {GalleryService} from '@/app/service/gallery.service';
-import {Gallery} from '@/app/model/gallery';
+import {Gallery, GalleryPayload} from '@/app/model/gallery';
 import {ImageService} from '@/app/service/image.service';
 import {environment} from '@/environments/environment';
 
@@ -27,10 +27,14 @@ export class UpdateGalleryComponent implements OnChanges {
 	}
 
 	galleryForm: FormGroup = new FormGroup({
-		eventName: new FormControl('', [Validators.required]),
+		eventNameFr: new FormControl('', [Validators.required]),
+		eventNameEn: new FormControl('', [Validators.required]),
+
+		descriptionFr: new FormControl('', Validators.required),
+		descriptionEn: new FormControl('', Validators.required),
+
 		image: new FormControl(),
 		date: new FormControl('', Validators.required),
-		description: new FormControl('', Validators.required),
 	});
 
 	selectedFile: File | null = null;
@@ -43,9 +47,13 @@ export class UpdateGalleryComponent implements OnChanges {
 	initForm() {
 		if(this.gallery) {
 			this.galleryForm.patchValue({
-				eventName: this.gallery.eventName,
+				eventNameFr: this.gallery.translations.fr.eventName,
+				eventNameEn: this.gallery.translations.en.eventName,
+
+				descriptionFr: this.gallery.translations.fr.description,
+				descriptionEn: this.gallery.translations.en.description,
+
 				date: this.gallery.date,
-				description: this.gallery.description,
 			});
 
 			this.imagePreview = this.minioBaseUrl + this.gallery.thumbnailImageKey;
@@ -57,6 +65,11 @@ export class UpdateGalleryComponent implements OnChanges {
 	}
 
 	saveOrUpdate() {
+		if(this.galleryForm.invalid) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
 		if(this.gallery) {
 			this.update();
 		} else {
@@ -65,15 +78,28 @@ export class UpdateGalleryComponent implements OnChanges {
 	}
 
 	save() {
-		if(this.galleryForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
+		const {date, eventNameFr, eventNameEn, descriptionFr, descriptionEn} = this.galleryForm.value;
+
+		const gallery: Gallery = {
+			translations: {
+				fr: {
+					eventName: eventNameFr,
+					description: descriptionFr
+				},
+				en: {
+					eventName: eventNameEn,
+					description: descriptionEn
+				}
+			},
+			date: date
 		}
 
-		const saveData = { ...this.galleryForm.value };
-		delete saveData.image;
+		const payload: GalleryPayload = {
+			gallery,
+			image: this.selectedFile!
+		}
 
-		this.galleryService.createGallery(saveData, this.selectedFile!).subscribe({
+		this.galleryService.createGallery(payload).subscribe({
 			next: (response) => {
 				this.galleryUpdated.emit();
 				this.galleryForm.reset();
@@ -88,16 +114,29 @@ export class UpdateGalleryComponent implements OnChanges {
 	}
 
 	update() {
-		if(this.galleryForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
+		const {date, eventNameFr, eventNameEn, descriptionFr, descriptionEn} = this.galleryForm.value;
+
+		const gallery: Gallery = {
+			id: this.gallery!.id,
+			translations: {
+				fr: {
+					eventName: eventNameFr,
+					description: descriptionFr
+				},
+				en: {
+					eventName: eventNameEn,
+					description: descriptionEn
+				}
+			},
+			date: date
 		}
 
-		const updateData = { ...this.galleryForm.value };
-		delete updateData.image;
-		updateData.thumbnailImageKey = this.gallery!.thumbnailImageKey
+		const payload: GalleryPayload = {
+			gallery,
+			image: this.selectedFile!
+		}
 
-		this.galleryService.updateGallery(this.gallery!.id, updateData, this.selectedFile!).subscribe({
+		this.galleryService.updateGallery(payload).subscribe({
 			next: (response) => {
 				this.galleryUpdated.emit();
 				this.toastService.show(response.message, 'success');
