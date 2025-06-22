@@ -48,7 +48,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		role: new FormControl('', Validators.required),
 		image: new FormControl(),
 
-		xUsername: new FormControl('', Validators.required),
+		twitterUsername: new FormControl('', Validators.required),
 		instagramUsername: new FormControl('', Validators.required),
 		tiktokUsername: new FormControl('', Validators.required),
 		twitchUsername: new FormControl('', Validators.required),
@@ -99,7 +99,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 				descriptionFr: this.member.translations.fr.description,
 				descriptionEn: this.member.translations.en.description,
 
-				xUsername: this.member.xusername,
+				twitterUsername: this.member.twitterUsername,
 				instagramUsername: this.member.instagramUsername,
 				tiktokUsername: this.member.tiktokUsername,
 				twitchUsername: this.member.twitchUsername,
@@ -129,6 +129,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	saveOrUpdate(){
+		console.log(this.memberForm.value);
 		if (this.memberForm.invalid) {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
@@ -142,7 +143,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	save(){
-		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, xUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, isActive, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
 
 		const member: Member = {
 			pseudo,
@@ -151,7 +152,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 			nationality,
 			dateOfBirth,
 			role,
-			xusername: xUsername,
+			twitterUsername,
 			instagramUsername,
 			tiktokUsername,
 			twitchUsername,
@@ -159,7 +160,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 			isSubstitute,
 			game,
 			favoriteHeroes: favoriteHeroes || [],
-			isActive,
 			translations: {
 				fr: {
 					description: descriptionFr
@@ -190,7 +190,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	update(){
-		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, xUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, isActive, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
 
 		const member: Member = {
 			id: this.member!.id,
@@ -200,7 +200,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 			nationality,
 			dateOfBirth,
 			role,
-			xusername: xUsername,
+			twitterUsername,
 			instagramUsername,
 			tiktokUsername,
 			twitchUsername,
@@ -208,7 +208,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 			isSubstitute,
 			game,
 			favoriteHeroes: favoriteHeroes || [],
-			isActive,
 			translations: {
 				fr: {
 					description: descriptionFr
