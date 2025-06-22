@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Member} from '../model/member/member';
+import {Member, MemberPayload} from '../model/member';
 import {Observable} from 'rxjs';
 import {environment} from '@/environments/environment';
 
@@ -17,20 +17,20 @@ export class MemberService {
 		return this.http.get<Record<string, Member[]>>(`${environment.backendUrl}/member/game/` + game);
 	}
 
-	updateMember(member: Member, imageFile: File): Observable<{ message: string; member: Member }> {
+	updateMember(payload: MemberPayload): Observable<{ message: string; member: Member }> {
 
 		const formData = new FormData();
-		formData.append('member', new Blob([JSON.stringify(member)], { type: 'application/json' }));
-		formData.append('imageFile', imageFile);
+		formData.append('member', new Blob([JSON.stringify(payload.member)], { type: 'application/json' }));
+		formData.append('imageFile', payload.image);
 
 		return this.http.put<{ message: string; member: Member }>(`${environment.backendUrl}/member`, formData);
 	}
 
-	saveMember(member: Member, imageFile: File): Observable<{ message: string; member: Member }> {
+	saveMember(payload: MemberPayload): Observable<{ message: string; member: Member }> {
 
 		const formData = new FormData();
-		formData.append('member', new Blob([JSON.stringify(member)], { type: 'application/json' }));
-		formData.append('imageFile', imageFile);
+		formData.append('member', new Blob([JSON.stringify(payload.member)], { type: 'application/json' }));
+		formData.append('imageFile', payload.image);
 
 		return this.http.post<{ message: string; member: Member }>(`${environment.backendUrl}/member`, formData);
 	}

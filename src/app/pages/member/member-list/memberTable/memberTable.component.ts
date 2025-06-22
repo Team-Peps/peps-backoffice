@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
-import {Member} from '../../../../model/member/member';
+import {NgOptimizedImage} from '@angular/common';
+import {Member, MemberRole} from '@/app/model/member';
 import {environment} from '@/environments/environment';
-import {MemberRole} from '../../../../model/member/memberRole';
-import {determineRoleIcon} from '../../../../core/utils/range';
+import {determineRoleIcon} from '@/app/core/utils/range';
 
 @Component({
 	selector: 'member-table',

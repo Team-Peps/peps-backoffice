@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MemberService} from '../../../service/member.service';
-import {Member} from '../../../model/member/member';
+import {Member} from '../../../model/member';
 import {environment} from '@/environments/environment';
 import {MemberTableComponent} from './memberTable/memberTable.component';
 import {UpdateMemberComponent} from '../update-member/update-member.component';
@@ -75,7 +75,7 @@ export class MemberListComponent implements OnInit {
 	}
 
 	toggleSubstitute($event: Member) {
-		this.memberService.toggleSubstitute($event.id).subscribe({
+		this.memberService.toggleSubstitute($event.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadMembers();
@@ -88,7 +88,7 @@ export class MemberListComponent implements OnInit {
 	}
 
 	toggleActive($event: Member) {
-		this.memberService.toggleActive($event.id).subscribe({
+		this.memberService.toggleActive($event.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadMembers();
@@ -101,7 +101,7 @@ export class MemberListComponent implements OnInit {
 	}
 
 	removeMember($event: Member) {
-		this.memberService.deleteMember($event.id).subscribe({
+		this.memberService.deleteMember($event.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadMembers();

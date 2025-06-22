@@ -10,9 +10,8 @@ import {Nationality} from '@/app/model/nationality';
 import {enumKeysObject} from '@/app/core/utils/enum';
 import {MemberService} from '@/app/service/member.service';
 import {ToastService} from '@/app/service/toast.service';
-import {MemberRole} from '@/app/model/member/memberRole';
 import {environment} from '@/environments/environment';
-import {Member} from '@/app/model/member/member';
+import {Member, MemberPayload, MemberRole} from '@/app/model/member';
 import {Game} from '@/app/model/game';
 import {HeroSelectorComponent} from './hero-selector/hero-selector.component';
 import {Heroe} from '@/app/model/heroe';
@@ -48,7 +47,6 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		dateOfBirth: new FormControl('', Validators.required),
 		role: new FormControl('', Validators.required),
 		image: new FormControl(),
-		description: new FormControl(),
 
 		xUsername: new FormControl('', Validators.required),
 		instagramUsername: new FormControl('', Validators.required),
@@ -58,7 +56,10 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 
 		isSubstitute: new FormControl(),
 		game: new FormControl(),
-		favoriteHeroes: new FormControl([], [Validators.maxLength(3)])
+		favoriteHeroes: new FormControl([], [Validators.maxLength(3)]),
+
+		descriptionFr: new FormControl(),
+		descriptionEn: new FormControl(),
 	})
 
 	protected readonly Nationality = Nationality;
@@ -94,7 +95,9 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 				dateOfBirth: new Date(this.member.dateOfBirth).toISOString().substring(0, 10),
 				role: this.member.role,
 				image: null,
-				description: this.member.description,
+
+				descriptionFr: this.member.translations.fr.description,
+				descriptionEn: this.member.translations.en.description,
 
 				xUsername: this.member.xusername,
 				instagramUsername: this.member.instagramUsername,
@@ -126,6 +129,11 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	saveOrUpdate(){
+		if (this.memberForm.invalid) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
 		if(this.member) {
 			this.update();
 		}else{
@@ -134,14 +142,40 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	save(){
-		if (this.memberForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
-		}
-		const saveData = { ...this.memberForm.value };
-		delete saveData.image;
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, xUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, isActive, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
 
-		this.memberService.saveMember(saveData, this.selectedFile!).subscribe({
+		const member: Member = {
+			pseudo,
+			lastname,
+			firstname,
+			nationality,
+			dateOfBirth,
+			role,
+			xusername: xUsername,
+			instagramUsername,
+			tiktokUsername,
+			twitchUsername,
+			youtubeUsername,
+			isSubstitute,
+			game,
+			favoriteHeroes: favoriteHeroes || [],
+			isActive,
+			translations: {
+				fr: {
+					description: descriptionFr
+				},
+				en: {
+					description: descriptionEn
+				}
+			}
+		}
+
+		const payload: MemberPayload = {
+			member,
+			image: this.selectedFile!
+		}
+
+		this.memberService.saveMember(payload).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.memberForm.reset();
@@ -156,12 +190,41 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	update(){
-		const updateData = { ...this.memberForm.value, id: this.member!.id };
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, xUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, isActive, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
 
-		delete updateData.image;
-		updateData.imageKey = this.member!.imageKey;
+		const member: Member = {
+			id: this.member!.id,
+			pseudo,
+			lastname,
+			firstname,
+			nationality,
+			dateOfBirth,
+			role,
+			xusername: xUsername,
+			instagramUsername,
+			tiktokUsername,
+			twitchUsername,
+			youtubeUsername,
+			isSubstitute,
+			game,
+			favoriteHeroes: favoriteHeroes || [],
+			isActive,
+			translations: {
+				fr: {
+					description: descriptionFr
+				},
+				en: {
+					description: descriptionEn
+				}
+			}
+		}
 
-		this.memberService.updateMember(updateData, this.selectedFile!).subscribe({
+		const payload: MemberPayload = {
+			member,
+			image: this.selectedFile!
+		}
+
+		this.memberService.updateMember(payload).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');
