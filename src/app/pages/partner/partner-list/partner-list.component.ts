@@ -52,7 +52,7 @@ export class PartnerListComponent implements OnInit {
 	}
 
 	toggleActive(partner: Partner) {
-		this.partnerService.toggleActive(partner.id).subscribe({
+		this.partnerService.toggleActive(partner.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadPartners();
@@ -64,7 +64,7 @@ export class PartnerListComponent implements OnInit {
 	}
 
 	deletePartner(partner: Partner) {
-		this.partnerService.deletePartner(partner.id).subscribe({
+		this.partnerService.deletePartner(partner.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadPartners();
