@@ -112,7 +112,7 @@ export class GalleryListComponent implements OnInit {
 	}
 
 	deleteGallery(gallery: Gallery) {
-		this.galleryService.deleteGallery(gallery.id).subscribe({
+		this.galleryService.deleteGallery(gallery.id!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.loadGalleries();

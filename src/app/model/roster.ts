@@ -1,4 +1,4 @@
-import {Member} from './member/member';
+import {Member} from './member';
 
 export interface Roster {
 	id?: string;

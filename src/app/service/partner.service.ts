@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Partner} from '../model/partner';
+import {Partner, PartnerPayload} from '../model/partner';
 import {Observable} from 'rxjs';
 import {environment} from '@/environments/environment';
 
@@ -17,18 +17,18 @@ export class PartnerService {
 		return this.http.get<Record<string, Partner[]>>(`${environment.backendUrl}/partner`);
 	}
 
-	updatePartner(partner: Partner, imageFile: File): Observable<{ message: string, partner: Partner}> {
+	updatePartner(payload: PartnerPayload): Observable<{ message: string, partner: Partner}> {
 		const formData = new FormData();
-		formData.append('partner', new Blob([JSON.stringify(partner)], { type: 'application/json' }));
-		formData.append('imageFile', imageFile);
+		formData.append('partner', new Blob([JSON.stringify(payload.partner)], { type: 'application/json' }));
+		formData.append('imageFile', payload.image);
 
 		return this.http.put<{ message: string, partner: Partner}>(`${environment.backendUrl}/partner`, formData);
 	}
 
-	savePartner(partner: Partner, imageFile: File): Observable<{ message: string, partner: Partner}> {
+	savePartner(payload: PartnerPayload): Observable<{ message: string, partner: Partner}> {
 		const formData = new FormData();
-		formData.append('partner', new Blob([JSON.stringify(partner)], { type: 'application/json' }));
-		formData.append('imageFile', imageFile);
+		formData.append('partner', new Blob([JSON.stringify(payload.partner)], { type: 'application/json' }));
+		formData.append('imageFile', payload.image);
 
 		return this.http.post<{ message: string, partner: Partner}>(`${environment.backendUrl}/partner`, formData);
 	}

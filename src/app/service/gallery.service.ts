@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '@/environments/environment';
-import {Gallery} from '@/app/model/gallery';
+import {Gallery, GalleryPayload} from '@/app/model/gallery';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,11 +17,11 @@ export class GalleryService {
 		return this.http.get<Gallery[]>(`${environment.backendUrl}/gallery/all`);
 	}
 
-	createGallery(gallery: Gallery, imageFile: File): Observable<{ message: string; gallery: Gallery }> {
+	createGallery(payload: GalleryPayload): Observable<{ message: string; gallery: Gallery }> {
 
 		const formData = new FormData();
-		formData.append('gallery', new Blob([JSON.stringify(gallery)], {type: 'application/json'}));
-		formData.append('imageFile', imageFile);
+		formData.append('gallery', new Blob([JSON.stringify(payload.gallery)], {type: 'application/json'}));
+		formData.append('imageFile', payload.image);
 
 		return this.http.post<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery`, formData);
 	}
@@ -30,13 +30,13 @@ export class GalleryService {
 		return this.http.delete<{ message: string }>(`${environment.backendUrl}/gallery/${id}`);
 	}
 
-	updateGallery(galleryId: string, gallery: Gallery, imageFile: File): Observable<{ message: string; gallery: Gallery }> {
+	updateGallery(payload: GalleryPayload): Observable<{ message: string; gallery: Gallery }> {
 
 		const formData = new FormData();
-		formData.append('gallery', new Blob([JSON.stringify(gallery)], {type: 'application/json'}));
-		formData.append('imageFile', imageFile);
+		formData.append('gallery', new Blob([JSON.stringify(payload.gallery)], {type: 'application/json'}));
+		formData.append('imageFile', payload.image);
 
-		return this.http.put<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery/${galleryId}`, formData);
+		return this.http.put<{ message: string; gallery: Gallery }>(`${environment.backendUrl}/gallery/${payload.gallery.id}`, formData);
 	}
 
 	deletePhoto(id: string) {

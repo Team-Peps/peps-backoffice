@@ -63,8 +63,8 @@
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="xUsername">X</label>
-						<input type="text" id="xUsername" formControlName="xUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
+						<label for="twitterUsername">Twitter/X</label>
+						<input type="text" id="twitterUsername" formControlName="twitterUsername" class="p-2 border border-gray-300 rounded-lg" placeholder="fefegg"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="instagramUsername">Instagram</label>
@@ -96,8 +96,12 @@
 				</div>
 				<div class="flex flex-col gap-4">
 					<div class="flex flex-col">
-						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
-						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Diplômé de 5, euh non 6 masters différents, il est le fondateur de la team peps depuis 1779"></textarea>
+						<label for="descriptionFr">Description (FR) <span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="descriptionFr" formControlName="descriptionFr" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Diplômé de 5, euh non 6 masters différents, il est le fondateur de la team peps depuis 1779"></textarea>
+					</div>
+					<div class="flex flex-col">
+						<label for="descriptionEn">Description (EN) <span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="descriptionEn" formControlName="descriptionEn" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="A graduate of 5, no 6 different masters, he is the founder of the peps team since 1779."></textarea>
 					</div>
 					<div class="flex flex-col gap-4">
 						<span>Personnages favoris ({{memberForm.get('favoriteHeroes')?.value ? memberForm.get('favoriteHeroes')?.value.length : 0}}/3)</span>

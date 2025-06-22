@@ -7,8 +7,12 @@
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="eventName">Nom de l'event</label>
-						<input type="text" id="eventName" formControlName="eventName" class="p-2 border border-gray-300 rounded-lg" placeholder="Bootcamp avril 2025"/>
+						<label for="eventNameFr">Nom de l'event (FR)</label>
+						<input type="text" id="eventNameFr" formControlName="eventNameFr" class="p-2 border border-gray-300 rounded-lg" placeholder="Bootcamp avril 2025"/>
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="eventNameEn">Nom de l'event (EN)</label>
+						<input type="text" id="eventNameEn" formControlName="eventNameEn" class="p-2 border border-gray-300 rounded-lg" placeholder="Bootcamp april 2025"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="date">Date</label>
@@ -18,8 +22,12 @@
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
-						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Le bootcamp d'avril vise à consolider la cohésion d'équipe !"></textarea>
+						<label for="descriptionFr">Description (FR) <span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="descriptionFr" formControlName="descriptionFr" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Le bootcamp d'avril vise à consolider la cohésion d'équipe !"></textarea>
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="descriptionEn">Description (EN) <span class="text-xs">(Limite de 500 caractères)</span></label>
+						<textarea type="text" id="descriptionEn" formControlName="descriptionEn" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="The April bootcamp aims to consolidate team cohesion!"></textarea>
 					</div>
 					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter une image</button>
 				</div>

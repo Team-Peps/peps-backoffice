@@ -40,7 +40,7 @@ export class PartnerTableComponent {
 
 	drop($event: CdkDragDrop<Slider[]>) {
 		moveItemInArray(this.partners, $event.previousIndex, $event.currentIndex);
-		const newOrder = this.partners.map(partner => partner.id);
+		const newOrder = this.partners.map(partner => partner.id!);
 		this.orderChanged.emit(newOrder);
 	}
 

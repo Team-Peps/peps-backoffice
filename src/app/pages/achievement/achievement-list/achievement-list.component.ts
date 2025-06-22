@@ -3,7 +3,7 @@ import {AchievementService} from '@/app/service/achievement.service';
 import {Achievement} from '@/app/model/achievement';
 import {Game} from '@/app/model/game';
 import {MemberService} from '@/app/service/member.service';
-import {Member} from '@/app/model/member/member';
+import {Member} from '@/app/model/member';
 import {FormsModule} from '@angular/forms';
 import {enumKeysObject} from '@/app/core/utils/enum';
 import {NgClass, NgOptimizedImage} from '@angular/common';
