@@ -33,7 +33,7 @@
 						"scripts": []
 					},
 					"configurations": {
-						"production": {
+						"prod": {
 							"budgets": [
 								{
 									"type": "initial",
@@ -46,9 +46,22 @@
 									"maximumError": "8kB"
 								}
 							],
-							"outputHashing": "all"
+							"outputHashing": "all",
+							"optimization": true,
+							"sourceMap": true,
+							"extractLicenses": true,
+							"namedChunks": false,
+							"aot": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.production.ts"
+								}
+							]
 						},
-						"development": {
+						"dev": {
 							"optimization": false,
 							"extractLicenses": false,
 							"sourceMap": true,
@@ -71,16 +84,16 @@
 							]
 						}
 					},
-					"defaultConfiguration": "production"
+					"defaultConfiguration": "local"
 				},
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
-						"production": {
-							"buildTarget": "peps-backoffice:build:production"
+						"prod": {
+							"buildTarget": "peps-backoffice:build:prod"
 						},
-						"development": {
-							"buildTarget": "peps-backoffice:build:development"
+						"dev": {
+							"buildTarget": "peps-backoffice:build:dev"
 						},
 						"local": {
 							"buildTarget": "peps-backoffice:build:local"
