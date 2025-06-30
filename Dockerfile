@@ -6,7 +6,9 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
-RUN npm run build -- --configuration=development
+
+ARG ENV=dev
+RUN npm run build:$ENV
 
 # Étape 2 : Nginx pour servir l'app
 FROM nginx:alpine
