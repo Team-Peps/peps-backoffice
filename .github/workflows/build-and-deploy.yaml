@@ -83,10 +83,12 @@ jobs:
             - name: 🐳 Build Docker image
               run: |
                   docker build --build-arg ENV=$ENVIRONMENT -t $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }} .
+                  docker build --build-arg ENV=$ENVIRONMENT -t $IMAGE_NAME:latest .
 
             - name: 📤 Push Docker image
               run: |
                   docker push $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }}
+                  docker push $IMAGE_NAME:latest
 
     deploy:
         needs: [build-push, set-environment]
