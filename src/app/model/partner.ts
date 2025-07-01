@@ -1,10 +1,28 @@
+import {SupportedLang} from '@/app/model/supportedLang';
+
 export interface Partner {
-	id: string;
+	id?: string;
 	name: string;
-	description: string;
-	imageKey: string;
+	imageKey?: string;
 	link: string;
-	codes: string[];
+	codes: PartnerCode[];
 	isActive: boolean;
 	order: number;
+	type: 'MINOR' | 'MAJOR';
+	translations: Record<SupportedLang, PartnerTranslation>;
+}
+
+export interface PartnerCode {
+	code: string;
+	descriptionFr: string;
+	descriptionEn: string;
+}
+
+export interface PartnerTranslation {
+	description: string;
+}
+
+export interface PartnerPayload {
+	partner: Partner;
+	image: File;
 }

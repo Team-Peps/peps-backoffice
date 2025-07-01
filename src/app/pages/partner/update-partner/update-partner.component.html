@@ -18,14 +18,46 @@
 						<label for="link">Lien du partenaire</label>
 						<input type="text" id="link" formControlName="link" class="p-2 border border-gray-300 rounded-lg" (change)="checkPartnerLink($event)" placeholder="https://deblock.com/fr-FR?c=teampeps"/>
 					</div>
-
+					<div class="flex flex-col flex-1">
+						<label for="type">Type de partenaire</label>
+						<select class="p-2.5 rounded-lg border border-gray-300" id="type" formControlName="type">
+							<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="MAJOR">Majeur</option>
+							<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="MINOR">Mineur</option>
+						</select>
+					</div>
 				</div>
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
-						<label for="codes">Codes <span class="text-xs">(Séparés par une virgule)</span></label>
-						<input type="text" id="codes" formControlName="codes" class="p-2 border border-gray-300 rounded-lg" placeholder="PEPS5,PEPS10"/>
+
+						<div formArrayName="codes" class="flex flex-col gap-2">
+							<label>Codes</label>
+
+							@for (codeGroup of partnerForm.get('codes')?.value; track codeGroup.id; let i = $index) {
+								<div [formGroupName]="i"
+									 class="flex flex-col md:flex-row gap-2 items-start md:items-center">
+
+									<div class="flex-1">
+										<input type="text" formControlName="code" placeholder="PEPS5" class="w-full p-2 border border-gray-300 rounded-lg"/>
+									</div>
+									<div class="flex-1">
+										<textarea type="text" formControlName="descriptionFr" class="w-full p-2 border border-gray-300 rounded-lg" maxlength="100" placeholder="Ce code promos donner droit à 5% lors de la première commande."></textarea>
+									</div>
+									<div class="flex-1">
+										<textarea type="text" formControlName="descriptionEn" class="w-full p-2 border border-gray-300 rounded-lg" maxlength="100" placeholder="This promotional code entitles you to a 5% discount on your first order."></textarea>
+									</div>
+									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="removeCode(i)">Supprimer le code</button>
+								</div>
+							}
+							<button type="button" (click)="addCode()" class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white">
+								Ajouter un code
+							</button>
+						</div>
 					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-4">
+
 					<div class="flex flex-col flex-1">
 						<label for="isActive">Partenariat actif</label>
 						<select class="p-2.5 rounded-lg border border-gray-300" id="isActive" formControlName="isActive">
@@ -36,10 +68,17 @@
 				</div>
 
 				<div class="flex flex-col gap-4">
-					<div class="flex flex-col">
-						<label for="description">Description <span class="text-xs">(Limite de 500 caractères)</span></label>
-						<textarea type="text" id="description" formControlName="description" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="Deblock est une néobanque française..."></textarea>
-					</div>
+					@if(partnerForm.get('type')?.value == 'MAJOR') {
+						<div class="flex flex-col">
+							<label for="descriptionFr">Description (FR) <span class="text-xs">(Limite de 500 caractères)</span></label>
+							<textarea type="text" id="descriptionFr" formControlName="descriptionFr" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="o2switch, le meilleure hébergeur français"></textarea>
+						</div>
+						<div class="flex flex-col">
+							<label for="descriptionEn">Description (EN) <span class="text-xs">(Limite de 500 caractères)</span></label>
+							<textarea type="text" id="descriptionEn" formControlName="descriptionEn" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="o2switch, the best French hosting provider"></textarea>
+						</div>
+					}
+
 					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter le logo du partenaire</button>
 				</div>
 

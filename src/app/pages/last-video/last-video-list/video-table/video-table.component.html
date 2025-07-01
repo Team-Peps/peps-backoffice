@@ -3,6 +3,11 @@
 	<tr>
 		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 			<div class="flex items-center px-2 py-1">
+				<div class="flex-1 text-left font-normal">Miniature</div>
+			</div>
+		</th>
+		<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<div class="flex items-center px-2 py-1">
 				<div class="flex-1 text-left font-normal">Titre</div>
 			</div>
 		</th>
@@ -23,6 +28,9 @@
 
 			@for (video of videos; track video.id){
 				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+					<td class="p-3">
+						<img [src]="minioBaseUrl + video.imageKey" alt="Miniature : {{video.title}}" class="w-24">
+					</td>
 					<td class="p-3">
 						{{ video.title }}
 					</td>

@@ -4,7 +4,7 @@ import {AchievementService} from '@/app/service/achievement.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {enumKeysObject} from '@/app/core/utils/enum';
 import {Game} from '@/app/model/game';
-import {Member} from '@/app/model/member/member';
+import {Member} from '@/app/model/member';
 
 @Component({
 	selector: 'app-create-achievement',

@@ -2,10 +2,11 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} fr
 import {SliderService} from '@/app/service/slider.service';
 import {ToastService} from '@/app/service/toast.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Slider} from '@/app/model/slider';
+import {Slider, SliderPayload} from '@/app/model/slider';
 import {NgClass} from '@angular/common';
 import {environment} from '@/environments/environment';
 import {ImageService} from '@/app/service/image.service';
+import {SupportedLang} from '@/app/model/supportedLang';
 
 @Component({
 	selector: 'app-update-slider',
@@ -32,9 +33,15 @@ export class UpdateSliderComponent implements OnChanges {
 	minioBaseUrl = environment.minioBaseUrl;
 
 	sliderForm: FormGroup = new FormGroup({
-		image: new FormControl(),
-		imageMobile: new FormControl(),
-		ctaLabel: new FormControl('',Validators.required),
+		imageFr: new FormControl(),
+		imageMobileFr: new FormControl(),
+
+		imageEn: new FormControl(),
+		imageMobileEn: new FormControl(),
+
+		ctaLabelFr: new FormControl('',Validators.required),
+		ctaLabelEn: new FormControl('',Validators.required),
+
 		ctaLink: new FormControl('',Validators.required),
 		isActive: new FormControl(),
 	});
@@ -43,27 +50,42 @@ export class UpdateSliderComponent implements OnChanges {
 
 	@Output() sliderUpdated: EventEmitter<Slider | null> = new EventEmitter();
 
-	selectedFile: File | null = null;
-	selectedMobileFile: File | null = null;
+	selectedFileFr: File | null = null;
+	selectedMobileFileFr: File | null = null;
 
-	imagePreview: string | null = null;
-	imageMobilePreview: string | null = null;
+	selectedFileEn: File | null = null;
+	selectedMobileFileEn: File | null = null;
+
+	imagePreviewFr: string | null = null;
+	imageMobilePreviewFr: string | null = null;
+
+	imagePreviewEn: string | null = null;
+	imageMobilePreviewEn: string | null = null;
+
 	linkIsValid: boolean = false;
 
 	initForm(): void {
 		if (this.slider) {
 			this.sliderForm.patchValue({
-				ctaLabel: this.slider.ctaLabel,
+				ctaLabelFr: this.slider.translations.fr.ctaLabel,
+				ctaLabelEn: this.slider.translations.en.ctaLabel,
 				ctaLink: this.slider.ctaLink,
 				isActive: this.slider.isActive,
 			});
 			this.checkLink(this.slider.ctaLink);
-			this.imagePreview = this.minioBaseUrl + this.slider.imageKey;
-			this.imageMobilePreview = this.minioBaseUrl + this.slider.mobileImageKey;
+			this.imagePreviewFr = this.minioBaseUrl + this.slider.translations.fr.imageKey;
+			this.imageMobilePreviewFr = this.minioBaseUrl + this.slider.translations.fr.mobileImageKey;
+
+			this.imagePreviewEn = this.minioBaseUrl + this.slider.translations.en.imageKey;
+			this.imageMobilePreviewEn = this.minioBaseUrl + this.slider.translations.en.mobileImageKey;
 		}else{
 			this.sliderForm.reset();
-			this.imagePreview = null;
-			this.imageMobilePreview = null;
+
+			this.imagePreviewFr = null;
+			this.imageMobilePreviewFr = null;
+
+			this.imagePreviewEn = null;
+			this.imageMobilePreviewEn= null;
 		}
 		this.cdr.detectChanges();
 	}
@@ -82,16 +104,50 @@ export class UpdateSliderComponent implements OnChanges {
 	}
 
 	save() {
-		const saveData = { ...this.sliderForm.value };
-		delete saveData.image;
-		delete saveData.imageMobile;
+		const { isActive, ctaLink, ctaLabelFr, ctaLabelEn } = this.sliderForm.value;
 
-		this.sliderService.createSlider(saveData, this.selectedFile!, this.selectedMobileFile!).subscribe({
+		const slider: Slider = {
+			isActive,
+			ctaLink,
+			translations: {
+				fr: {
+					ctaLabel: ctaLabelFr,
+					imageKey: '',
+					mobileImageKey: ''
+				},
+				en: {
+					ctaLabel: ctaLabelEn,
+					imageKey: '',
+					mobileImageKey: ''
+				}
+			}
+		};
+
+		const payload: SliderPayload = {
+			slider,
+			files: {
+				fr: {
+					image: this.selectedFileFr!,
+					mobileImage: this.selectedMobileFileFr!
+				},
+				en: {
+					image: this.selectedFileEn!,
+					mobileImage: this.selectedMobileFileEn!
+				}
+			}
+		};
+
+		this.sliderService.createSlider(payload).subscribe({
 			next: (response) => {
 				this.sliderUpdated.emit();
 				this.sliderForm.reset();
-				this.imagePreview = "";
-				this.imageMobilePreview = "";
+
+				this.imagePreviewFr = "";
+				this.imageMobilePreviewFr = "";
+
+				this.imagePreviewEn = "";
+				this.imageMobilePreviewEn = "";
+
 				this.toastService.show(response.message, 'success');
 			},
 			error: (error) => {
@@ -102,14 +158,41 @@ export class UpdateSliderComponent implements OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.sliderForm.value, id: this.slider!.id };
+		const { isActive, ctaLink, ctaLabelFr, ctaLabelEn } = this.sliderForm.value;
 
-		delete updateData.image;
-		delete updateData.imageMobile;
-		updateData.imageKey = this.slider!.imageKey;
-		updateData.mobileImageKey = this.slider!.mobileImageKey;
+		const slider: Slider = {
+			id: this.slider!.id,
+			isActive,
+			ctaLink,
+			translations: {
+				fr: {
+					ctaLabel: ctaLabelFr,
+					imageKey: this.slider!.translations.fr.imageKey,
+					mobileImageKey: this.slider!.translations.fr.mobileImageKey
+				},
+				en: {
+					ctaLabel: ctaLabelEn,
+					imageKey: this.slider!.translations.en.imageKey,
+					mobileImageKey: this.slider!.translations.en.mobileImageKey
+				}
+			}
+		};
 
-		this.sliderService.updateSlider(updateData, this.selectedFile!, this.selectedMobileFile!).subscribe({
+		const payload: SliderPayload = {
+			slider,
+			files: {
+				fr: {
+					image: this.selectedFileFr!,
+					mobileImage: this.selectedMobileFileFr!
+				},
+				en: {
+					image: this.selectedFileEn!,
+					mobileImage: this.selectedMobileFileEn!
+				}
+			}
+		};
+
+		this.sliderService.updateSlider(payload).subscribe({
 			next: (response) => {
 				this.sliderUpdated.emit();
 				this.toastService.show(response.message, 'success');
@@ -121,7 +204,7 @@ export class UpdateSliderComponent implements OnChanges {
 		});
 	}
 
-	async onFileSelected(event: Event, typeImg: string): Promise<void> {
+	async onFileSelected(event: Event, typeImg: string, lang: SupportedLang): Promise<void> {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files.length > 0) {
 			const file = input.files[0];
@@ -129,19 +212,40 @@ export class UpdateSliderComponent implements OnChanges {
 			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				if(typeImg === 'desktop') {
 
-					this.selectedFile = file;
-					const reader = new FileReader();
-					reader.onload = () => {
-						this.imagePreview = reader.result as string;
-					};
-					reader.readAsDataURL(file!);
+					if(lang === 'fr') {
+						this.selectedFileFr = file;
+						const reader = new FileReader();
+						reader.onload = () => {
+							this.imagePreviewFr = reader.result as string;
+						};
+						reader.readAsDataURL(file!);
+					} else if (lang === 'en') {
+						this.selectedFileEn = file;
+						const reader = new FileReader();
+						reader.onload = () => {
+							this.imagePreviewEn = reader.result as string;
+						};
+						reader.readAsDataURL(file!);
+					}
+
 				} else {
-					this.selectedMobileFile = file;
-					const reader = new FileReader();
-					reader.onload = () => {
-						this.imageMobilePreview = reader.result as string;
-					};
-					reader.readAsDataURL(file!);
+
+					if(lang === 'fr') {
+						this.selectedMobileFileFr = file;
+						const reader = new FileReader();
+						reader.onload = () => {
+							this.imageMobilePreviewFr = reader.result as string;
+						};
+						reader.readAsDataURL(file!);
+					} else if (lang === 'en') {
+						this.selectedMobileFileEn = file;
+						const reader = new FileReader();
+						reader.onload = () => {
+							this.imageMobilePreviewEn = reader.result as string;
+						};
+						reader.readAsDataURL(file!);
+					}
+
 				}
 				this.toastService.show('Nouvelle image chargée', 'success');
 

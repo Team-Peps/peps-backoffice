@@ -38,7 +38,7 @@ export class SliderTableComponent {
 
 	drop($event: CdkDragDrop<Slider[]>) {
 		moveItemInArray(this.sliders, $event.previousIndex, $event.currentIndex);
-		const newOrder = this.sliders.map(slider => slider.id);
+		const newOrder = this.sliders.map(slider => slider.id!);
 		this.orderChanged.emit(newOrder);
 	}
 }

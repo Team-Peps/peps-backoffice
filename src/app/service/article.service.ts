@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Article} from '../model/article/article';
+import {Article, ArticlePayload} from '../model/article';
 import {environment} from '@/environments/environment';
 
 @Injectable({
@@ -17,20 +17,20 @@ export class ArticleService {
 		return this.http.get<Article[]>(`${environment.backendUrl}/article/all`);
 	}
 
-	updateArticle(article: Article, imageFileThumbnail: File, imageFileBackground: File): Observable<{ message: string, article: Article}> {
+	updateArticle(payoad: ArticlePayload): Observable<{ message: string, article: Article}> {
 		const formData = new FormData();
-		formData.append('article', new Blob([JSON.stringify(article)], { type: 'application/json' }));
-		formData.append('imageFileThumbnail', imageFileThumbnail);
-		formData.append('imageFileBackground', imageFileBackground);
+		formData.append('article', new Blob([JSON.stringify(payoad.article)], { type: 'application/json' }));
+		formData.append('imageFileThumbnail', payoad.files.thumbnailImage);
+		formData.append('imageFileBackground', payoad.files.image);
 
 		return this.http.put<{ message: string, article: Article}>(`${environment.backendUrl}/article`, formData);
 	}
 
-	saveArticle(article: Article, imageFileThumbnail: File, imageFileBackground: File): Observable<{ message: string, article: Article}> {
+	saveArticle(payoad: ArticlePayload): Observable<{ message: string, article: Article}> {
 		const formData = new FormData();
-		formData.append('article', new Blob([JSON.stringify(article)], { type: 'application/json' }));
-		formData.append('imageFileThumbnail', imageFileThumbnail);
-		formData.append('imageFileBackground', imageFileBackground);
+		formData.append('article', new Blob([JSON.stringify(payoad.article)], { type: 'application/json' }));
+		formData.append('imageFileThumbnail', payoad.files.thumbnailImage);
+		formData.append('imageFileBackground', payoad.files.image);
 
 		return this.http.post<{ message: string, article: Article}>(`${environment.backendUrl}/article`, formData);
 	}

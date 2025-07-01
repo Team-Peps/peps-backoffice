@@ -1,17 +1,29 @@
+import {SupportedLang} from '@/app/model/supportedLang';
+
 export interface Slider {
-	id: string;
+	id?: string;
 	isActive: boolean;
-	imageKey: string;
-	mobileImageKey: string;
 	ctaLink: string;
-	ctaLabel: string;
-	order: number;
+	order?: number;
+	translations: Record<SupportedLang, SliderTranslation>
 }
 
-export interface SliderTiny {
-	id: string;
+export interface SliderTranslation {
+	ctaLabel: string;
 	imageKey: string;
 	mobileImageKey: string;
-	ctaLink: string;
-	ctaLabel: string;
+}
+
+export interface SliderPayload {
+	slider: Slider;
+	files: {
+		fr: {
+			image: File;
+			mobileImage: File;
+		},
+		en: {
+			image: File;
+			mobileImage: File;
+		}
+	}
 }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgClass, NgOptimizedImage} from '@angular/common';
 import {environment} from '@/environments/environment';
-import {Partner} from '@/app/model/partner';
+import {Partner, PartnerCode} from '@/app/model/partner';
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {Slider} from '@/app/model/slider';
 
@@ -40,7 +40,15 @@ export class PartnerTableComponent {
 
 	drop($event: CdkDragDrop<Slider[]>) {
 		moveItemInArray(this.partners, $event.previousIndex, $event.currentIndex);
-		const newOrder = this.partners.map(partner => partner.id);
+		const newOrder = this.partners.map(partner => partner.id!);
 		this.orderChanged.emit(newOrder);
+	}
+
+	showCodes(codes: PartnerCode[]) {
+		if (codes.length === 0) {
+			return 'Aucun code';
+		}
+		return codes.map(code => code.code).join(', ');
+
 	}
 }

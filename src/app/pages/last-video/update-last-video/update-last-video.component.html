@@ -18,7 +18,14 @@
 						<label for="link">Lien de la vidéo</label>
 						<input type="text" id="link" formControlName="link" [ngClass]="{'border-red-500': !linkIsValid && videoForm.get('link')!.value !== ''}" class="p-2 border border-gray-300 rounded-lg" (change)="checkVideoLink($event)" placeholder="https://www.youtube.com/watch?v=7XfRo1Lu7vg"/>
 					</div>
-
+				</div>
+				<div class="flex flex-col flex-1">
+					<button class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white" (click)="handleUploadFile()">Ajouter la miniature</button>
+					<input type="file" id="fileInput" formControlName="image" (change)="onFileSelected($event)" [accept]="imageService.getAcceptedFormats()" hidden/>
+					<div [innerHTML]="imageService.getImageRequirementHtml()"></div>
+					@if (imagePreview) {
+						<img [src]="imagePreview" class="w-24" alt="Aperçu">
+					}
 				</div>
 
 				<div class="flex flex-row justify-center">

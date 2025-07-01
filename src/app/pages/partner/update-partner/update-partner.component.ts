@@ -2,8 +2,8 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output} fr
 import {PartnerService} from '@/app/service/partner.service';
 import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
-import {Partner} from '@/app/model/partner';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Partner, PartnerCode, PartnerPayload} from '@/app/model/partner';
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ImageService} from '@/app/service/image.service';
 
 @Component({
@@ -30,11 +30,16 @@ export class UpdatePartnerComponent implements OnChanges {
 
 	partnerForm: FormGroup = new FormGroup({
 		name: new FormControl(Validators.required),
-		description: new FormControl(Validators.required),
+
+		descriptionFr: new FormControl(Validators.required),
+		descriptionEn: new FormControl(Validators.required),
+
 		image: new FormControl(),
 		link: new FormControl(Validators.required),
-		codes: new FormControl(Validators.required),
+		codes: new FormArray([]),
 		isActive: new FormControl(),
+		order: new FormControl(),
+		type: new FormControl(Validators.required),
 	});
 
 	@Input() partner: Partner | null = null;
@@ -46,23 +51,66 @@ export class UpdatePartnerComponent implements OnChanges {
 
 	initForm(): void {
 		if (this.partner) {
+
 			this.partnerForm.patchValue({
 				name: this.partner.name,
-				description: this.partner.description,
 				link: this.partner.link,
-				codes: this.partner.codes.join(","),
 				isActive: this.partner.isActive,
+				order: this.partner.order,
+				type: this.partner.type,
 			});
+			if(this.partner.type === 'MAJOR') {
+				this.partnerForm.patchValue({
+					descriptionFr: this.partner.translations.fr.description,
+					descriptionEn: this.partner.translations.en.description,
+				})
+			}
+			const codesArray = this.partnerForm.get('codes') as FormArray;
+			codesArray.clear();
+
+			if(this.partner.codes && Array.isArray(this.partner.codes)) {
+				this.partner.codes.forEach((codeObj: PartnerCode) => {
+					const codeGroup = new FormGroup({
+						code: new FormControl(codeObj.code, Validators.required),
+						descriptionFr: new FormControl(codeObj.descriptionFr, Validators.required),
+						descriptionEn: new FormControl(codeObj.descriptionEn, Validators.required),
+					});
+					codesArray.push(codeGroup);
+				});
+			}
 
 			this.imagePreview = this.minioBaseUrl + this.partner.imageKey;
 		}else{
 			this.partnerForm.reset();
+			(this.partnerForm.get('codes') as FormArray).clear();
 			this.imagePreview = null;
 		}
 		this.cdr.detectChanges();
 	}
 
+	addCode(): void {
+		const codeGroup = new FormGroup({
+			code: new FormControl('', Validators.required),
+			descriptionFr: new FormControl('', Validators.required),
+			descriptionEn: new FormControl('', Validators.required),
+		});
+		(this.partnerForm.get('codes') as FormArray).push(codeGroup);
+	}
+
+	removeCode(index: number): void {
+		(this.partnerForm.get('codes') as FormArray).removeAt(index);
+	}
+
 	saveOrUpdatePartner(): void {
+		if(this.partnerForm.invalid) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
+		if(!this.checkCodeValidity(this.partnerForm.value.codes)) {
+			return;
+		}
+
 		if(this.partner){
 			this.update();
 		}else{
@@ -71,14 +119,31 @@ export class UpdatePartnerComponent implements OnChanges {
 	}
 
 	save() {
-		if(this.partnerForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
-		}
-		const saveData = { ...this.partnerForm.value };
-		delete saveData.image;
+		const {name, descriptionFr, descriptionEn, link, isActive, order, type, codes} = this.partnerForm.value;
 
-		this.partnerService.savePartner(saveData, this.selectedFile!).subscribe({
+		const partner: Partner = {
+			name,
+			translations: {
+				fr: { description: descriptionFr },
+				en: { description: descriptionEn }
+			},
+			link,
+			isActive,
+			order,
+			type,
+			codes: codes.map((code: any) => ({
+				code: code.code.trim(),
+				descriptionFr: code.descriptionFr.trim(),
+				descriptionEn: code.descriptionEn.trim()
+			})),
+		};
+
+		const payload: PartnerPayload = {
+			partner,
+			image: this.selectedFile!
+		}
+
+		this.partnerService.savePartner(payload).subscribe({
 			next: (response) => {
 				this.partnerUpdated.emit();
 				this.partnerForm.reset();
@@ -93,12 +158,32 @@ export class UpdatePartnerComponent implements OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.partnerForm.value, id: this.partner!.id };
+		const {name, descriptionFr, descriptionEn, link, isActive, order, type, codes} = this.partnerForm.value;
 
-		delete updateData.image;
-		updateData.imageKey = this.partner!.imageKey;
+		const partner: Partner = {
+			id: this.partner!.id,
+			name,
+			translations: {
+				fr: { description: descriptionFr },
+				en: { description: descriptionEn }
+			},
+			link,
+			isActive,
+			order,
+			type,
+			codes: codes.map((code: any) => ({
+				code: code.code.trim(),
+				descriptionFr: code.descriptionFr.trim(),
+				descriptionEn: code.descriptionEn.trim()
+			})),
+		};
 
-		this.partnerService.updatePartner(updateData, this.selectedFile!).subscribe({
+		const payload: PartnerPayload = {
+			partner,
+			image: this.selectedFile!
+		}
+
+		this.partnerService.updatePartner(payload).subscribe({
 			next: (response) => {
 				this.partnerUpdated.emit();
 				this.toastService.show(response.message, 'success');
@@ -151,4 +236,26 @@ export class UpdatePartnerComponent implements OnChanges {
 		}
 		target.reportValidity();
 	}
+
+	checkCodeValidity(codes: PartnerCode[]) {
+
+		const hasInvalidCode = codes?.some(
+			(code: any) => !code.code?.trim() || !code.descriptionEn?.trim() || !code.descriptionFr?.trim()
+		);
+
+		if (hasInvalidCode) {
+			this.toastService.show('Les codes doivent avoir un code ET une description', 'error');
+			return false;
+		}
+
+		const uniqueCodes = new Set(codes.map(code => code.code.trim()));
+
+		if (uniqueCodes.size !== codes.length) {
+			this.toastService.show('Les codes doivent être uniques', 'error');
+			return false;
+		}
+
+		return true;
+	}
+
 }

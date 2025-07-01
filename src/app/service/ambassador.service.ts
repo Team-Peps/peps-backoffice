@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Ambassador} from '../model/ambassador';
+import {Ambassador, AmbassadorPayload} from '../model/ambassador';
 import {environment} from '@/environments/environment';
 
 @Injectable({
@@ -17,20 +17,20 @@ export class AmbassadorService {
 		return this.http.get<Ambassador[]>(`${environment.backendUrl}/ambassador`);
 	}
 
-	updateAmbassador(ambassador: Ambassador, imageFile: File): Observable<{ message: string; ambassador: Ambassador }> {
+	updateAmbassador(payload: AmbassadorPayload): Observable<{ message: string; ambassador: Ambassador }> {
 
 		const formData = new FormData();
-		formData.append('ambassador', new Blob([JSON.stringify(ambassador)], {type: 'application/json'}));
-		formData.append('imageFile', imageFile);
+		formData.append('ambassador', new Blob([JSON.stringify(payload.ambassador)], {type: 'application/json'}));
+		formData.append('imageFile', payload.image);
 
 		return this.http.put<{ message: string; ambassador: Ambassador }>(`${environment.backendUrl}/ambassador`, formData);
 	}
 
-	saveAmbassador(ambassador: Ambassador, imageFile: File): Observable<{ message: string; ambassador: Ambassador }> {
+	saveAmbassador(payload: AmbassadorPayload): Observable<{ message: string; ambassador: Ambassador }> {
 
 		const formData = new FormData();
-		formData.append('ambassador', new Blob([JSON.stringify(ambassador)], {type: 'application/json'}));
-		formData.append('imageFile', imageFile);
+		formData.append('ambassador', new Blob([JSON.stringify(payload.ambassador)], {type: 'application/json'}));
+		formData.append('imageFile', payload.image);
 
 		return this.http.post<{ message: string; ambassador: Ambassador }>(`${environment.backendUrl}/ambassador`, formData);
 	}

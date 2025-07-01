@@ -6,17 +6,16 @@ import {
 	OnChanges, OnInit, Output
 } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {getNationalityName, Nationality} from '../../../model/nationality';
-import {enumKeysObject} from '../../../core/utils/enum';
-import {MemberService} from '../../../service/member.service';
-import {ToastService} from '../../../service/toast.service';
-import {MemberRole} from '../../../model/member/memberRole';
+import {Nationality} from '@/app/model/nationality';
+import {enumKeysObject} from '@/app/core/utils/enum';
+import {MemberService} from '@/app/service/member.service';
+import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
-import {Member} from '../../../model/member/member';
-import {Game} from '../../../model/game';
+import {Member, MemberPayload, MemberRole} from '@/app/model/member';
+import {Game} from '@/app/model/game';
 import {HeroSelectorComponent} from './hero-selector/hero-selector.component';
-import {Heroe} from '../../../model/heroe';
-import {HeroeService} from '../../../service/heroe.service';
+import {Heroe} from '@/app/model/heroe';
+import {HeroeService} from '@/app/service/heroe.service';
 import {ImageService} from '@/app/service/image.service';
 
 @Component({
@@ -48,9 +47,8 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		dateOfBirth: new FormControl('', Validators.required),
 		role: new FormControl('', Validators.required),
 		image: new FormControl(),
-		description: new FormControl(),
 
-		xUsername: new FormControl('', Validators.required),
+		twitterUsername: new FormControl('', Validators.required),
 		instagramUsername: new FormControl('', Validators.required),
 		tiktokUsername: new FormControl('', Validators.required),
 		twitchUsername: new FormControl('', Validators.required),
@@ -58,12 +56,14 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 
 		isSubstitute: new FormControl(),
 		game: new FormControl(),
-		favoriteHeroes: new FormControl([], [Validators.maxLength(3)])
+		favoriteHeroes: new FormControl([], [Validators.maxLength(3)]),
+
+		descriptionFr: new FormControl(),
+		descriptionEn: new FormControl(),
 	})
 
 	protected readonly Nationality = Nationality;
 	protected readonly enumKeysObject = enumKeysObject;
-	protected readonly getNationalityName = getNationalityName;
 	protected readonly Role = MemberRole;
 	protected readonly Game = Game;
 
@@ -95,9 +95,11 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 				dateOfBirth: new Date(this.member.dateOfBirth).toISOString().substring(0, 10),
 				role: this.member.role,
 				image: null,
-				description: this.member.description,
 
-				xUsername: this.member.xusername,
+				descriptionFr: this.member.translations.fr.description,
+				descriptionEn: this.member.translations.en.description,
+
+				twitterUsername: this.member.twitterUsername,
 				instagramUsername: this.member.instagramUsername,
 				tiktokUsername: this.member.tiktokUsername,
 				twitchUsername: this.member.twitchUsername,
@@ -127,6 +129,12 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	saveOrUpdate(){
+		console.log(this.memberForm.value);
+		if (this.memberForm.invalid) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
 		if(this.member) {
 			this.update();
 		}else{
@@ -135,14 +143,39 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	save(){
-		if (this.memberForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
-		}
-		const saveData = { ...this.memberForm.value };
-		delete saveData.image;
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
 
-		this.memberService.saveMember(saveData, this.selectedFile!).subscribe({
+		const member: Member = {
+			pseudo,
+			lastname,
+			firstname,
+			nationality,
+			dateOfBirth,
+			role,
+			twitterUsername,
+			instagramUsername,
+			tiktokUsername,
+			twitchUsername,
+			youtubeUsername,
+			isSubstitute,
+			game,
+			favoriteHeroes: favoriteHeroes || [],
+			translations: {
+				fr: {
+					description: descriptionFr
+				},
+				en: {
+					description: descriptionEn
+				}
+			}
+		}
+
+		const payload: MemberPayload = {
+			member,
+			image: this.selectedFile!
+		}
+
+		this.memberService.saveMember(payload).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.memberForm.reset();
@@ -157,12 +190,40 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	update(){
-		const updateData = { ...this.memberForm.value, id: this.member!.id };
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
 
-		delete updateData.image;
-		updateData.imageKey = this.member!.imageKey;
+		const member: Member = {
+			id: this.member!.id,
+			pseudo,
+			lastname,
+			firstname,
+			nationality,
+			dateOfBirth,
+			role,
+			twitterUsername,
+			instagramUsername,
+			tiktokUsername,
+			twitchUsername,
+			youtubeUsername,
+			isSubstitute,
+			game,
+			favoriteHeroes: favoriteHeroes || [],
+			translations: {
+				fr: {
+					description: descriptionFr
+				},
+				en: {
+					description: descriptionEn
+				}
+			}
+		}
 
-		this.memberService.updateMember(updateData, this.selectedFile!).subscribe({
+		const payload: MemberPayload = {
+			member,
+			image: this.selectedFile!
+		}
+
+		this.memberService.updateMember(payload).subscribe({
 			next: (response) => {
 				this.memberSaved.emit();
 				this.toastService.show(response.message, 'success');

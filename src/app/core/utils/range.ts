@@ -1,4 +1,4 @@
-import {MemberRole} from '../../model/member/memberRole';
+import {MemberRole} from '@/app/model/member';
 
 export function range(n: number): number[] {
 	return Array.from({ length: n }, (_, i) => i);

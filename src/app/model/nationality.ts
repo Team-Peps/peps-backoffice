@@ -230,7 +230,3 @@ export enum Nationality {
 	Zambia = "ZM",
 	Zimbabwe = "ZW"
 }
-
-export function getNationalityName(nationality: string): string {
-	return Nationality[nationality as keyof typeof Nationality];
-}

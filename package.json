@@ -4,9 +4,10 @@
 	"scripts": {
 		"ng": "ng",
 		"start": "ng serve --port 4300",
-		"start:dev": "ng serve --port 4300 --configuration=local",
-		"build": "ng build --configuration=development",
-		"watch": "ng build --watch --configuration development",
+		"start:local": "ng serve --port 4300 --configuration=local",
+		"build:dev": "ng build --configuration=dev",
+		"build:prod": "ng build --configuration=prod",
+		"watch": "ng build --watch --configuration dev",
 		"test": "ng test",
 		"prepare": "husky"
 	},

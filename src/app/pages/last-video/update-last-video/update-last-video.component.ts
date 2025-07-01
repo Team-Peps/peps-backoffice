@@ -5,6 +5,7 @@ import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import { Video } from '@/app/model/video';
 import {NgClass} from '@angular/common';
+import {ImageService} from '@/app/service/image.service';
 
 @Component({
 	selector: 'app-update-last-video',
@@ -20,6 +21,7 @@ export class UpdateLastVideoComponent implements OnChanges {
 		private readonly cdr: ChangeDetectorRef,
 		private readonly videoService: VideoService,
 		private readonly toastService: ToastService,
+		protected readonly imageService: ImageService,
 	) {}
 
 
@@ -32,6 +34,7 @@ export class UpdateLastVideoComponent implements OnChanges {
 	videoForm: FormGroup = new FormGroup({
 		title: new FormControl(),
 		link: new FormControl(),
+		image: new FormControl(),
 	});
 
 	@Input() video: Video | null = null;
@@ -40,15 +43,21 @@ export class UpdateLastVideoComponent implements OnChanges {
 
 	linkIsValid: boolean = false;
 
+	selectedFile: File | null = null;
+	imagePreview: string | null = null;
+
 	initForm(): void {
 		if (this.video) {
 			this.videoForm.patchValue({
 				title: this.video.title,
 				link: this.video.link,
 			});
+			this.imagePreview = this.minioBaseUrl + this.video.imageKey;
+
 			this.checkLink(this.video.link);
 		} else {
 			this.videoForm.reset();
+			this.imagePreview = null;
 		}
 		this.cdr.detectChanges();
 	}
@@ -67,7 +76,15 @@ export class UpdateLastVideoComponent implements OnChanges {
 	}
 
 	save(): void {
-		this.videoService.createVideo(this.videoForm.value).subscribe({
+		if(this.videoForm.invalid || !this.checkLink(this.videoForm.get('link')!.value)) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
+		const saveData = { ...this.videoForm.value };
+		delete saveData.image;
+
+		this.videoService.createVideo(saveData, this.selectedFile!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.videoUpdated.emit(res.video);
@@ -83,7 +100,10 @@ export class UpdateLastVideoComponent implements OnChanges {
 	update(): void {
 		const updateData = { ...this.videoForm.value, id: this.video!.id };
 
-		this.videoService.updateVideo(updateData).subscribe({
+		delete updateData.image;
+		updateData.imageKey = this.video!.imageKey;
+
+		this.videoService.updateVideo(updateData, this.selectedFile!).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
 				this.videoUpdated.emit(res.video);
@@ -111,5 +131,35 @@ export class UpdateLastVideoComponent implements OnChanges {
 			target.setCustomValidity('');
 		}
 		target.reportValidity();
+	}
+
+
+	async onFileSelected(event: Event): Promise<void> {
+		const input = event.target as HTMLInputElement;
+		if (input.files && input.files.length > 0) {
+			const file = input.files[0];
+
+			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
+				this.selectedFile = file;
+				this.toastService.show('Nouvelle image chargée', 'success');
+
+				this.createPreview()
+			}else{
+				input.value = "";
+			}
+		}
+	}
+
+	createPreview(file: File | null = this.selectedFile): void {
+		const reader = new FileReader();
+		reader.onload = () => {
+			this.imagePreview = reader.result as string;
+		};
+		reader.readAsDataURL(file!);
+	}
+
+	handleUploadFile() {
+		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+		fileInput.click();
 	}
 }

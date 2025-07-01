@@ -3,7 +3,7 @@ import {AmbassadorService} from '@/app/service/ambassador.service';
 import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Ambassador} from '@/app/model/ambassador';
+import {Ambassador, AmbassadorPayload} from '@/app/model/ambassador';
 import {ImageService} from '@/app/service/image.service';
 
 @Component({
@@ -31,7 +31,10 @@ export class UpdateAmbassadorComponent implements OnChanges {
 	ambassadorForm: FormGroup = new FormGroup({
 		name: new FormControl(Validators.required),
 		image: new FormControl(),
-		description: new FormControl(Validators.required),
+
+		descriptionFr: new FormControl(Validators.required),
+		descriptionEn: new FormControl(Validators.required),
+
 		twitterXUsername: new FormControl(),
 		instagramUsername: new FormControl(),
 		tiktokUsername: new FormControl(),
@@ -49,7 +52,8 @@ export class UpdateAmbassadorComponent implements OnChanges {
 		if (this.ambassador) {
 			this.ambassadorForm.patchValue({
 				name: this.ambassador.name,
-				description: this.ambassador.description,
+				descriptionFr: this.ambassador.translations.fr.description,
+				descriptionEn: this.ambassador.translations.en.description,
 				twitterXUsername: this.ambassador.twitterXUsername,
 				instagramUsername: this.ambassador.instagramUsername,
 				tiktokUsername: this.ambassador.tiktokUsername,
@@ -66,8 +70,12 @@ export class UpdateAmbassadorComponent implements OnChanges {
 	}
 
 	saveOrUpdateAmbassador(): void {
+		if(this.ambassadorForm.invalid) {
+			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
+			return;
+		}
+
 		if(this.ambassador){
-			console.log("update")
 			this.update();
 		}else{
 			this.save();
@@ -75,14 +83,32 @@ export class UpdateAmbassadorComponent implements OnChanges {
 	}
 
 	save() {
-		if(this.ambassadorForm.invalid) {
-			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
-			return;
-		}
-		const saveData = { ...this.ambassadorForm.value };
-		delete saveData.image;
 
-		this.ambassadorService.saveAmbassador(saveData, this.selectedFile!).subscribe({
+		const {name, descriptionFr, descriptionEn, twitterXUsername, instagramUsername, tiktokUsername, youtubeUsername, twitchUsername} = this.ambassadorForm.value;
+
+		const ambassador: Ambassador = {
+			name,
+			instagramUsername,
+			twitchUsername,
+			tiktokUsername,
+			twitterXUsername,
+			youtubeUsername,
+			translations: {
+				fr: {
+					description: descriptionFr,
+				},
+				en: {
+					description: descriptionEn,
+				}
+			}
+		};
+
+		const payload: AmbassadorPayload = {
+			ambassador,
+			image: this.selectedFile!
+		}
+
+		this.ambassadorService.saveAmbassador(payload).subscribe({
 			next: (response) => {
 				this.ambassadorUpdated.emit();
 				this.ambassadorForm.reset();
@@ -97,12 +123,32 @@ export class UpdateAmbassadorComponent implements OnChanges {
 	}
 
 	update(){
-		const updateData = { ...this.ambassadorForm.value, id: this.ambassador!.id };
+		const {name, descriptionFr, descriptionEn, twitterXUsername, instagramUsername, tiktokUsername, youtubeUsername, twitchUsername} = this.ambassadorForm.value;
 
-		delete updateData.image;
-		updateData.imageKey = this.ambassador!.imageKey;
+		const ambassador: Ambassador = {
+			id: this.ambassador!.id,
+			name,
+			instagramUsername,
+			twitchUsername,
+			tiktokUsername,
+			twitterXUsername,
+			youtubeUsername,
+			translations: {
+				fr: {
+					description: descriptionFr,
+				},
+				en: {
+					description: descriptionEn,
+				}
+			}
+		}
 
-		this.ambassadorService.updateAmbassador(updateData, this.selectedFile!).subscribe({
+		const payload: AmbassadorPayload = {
+			ambassador,
+			image: this.selectedFile!
+		}
+
+		this.ambassadorService.updateAmbassador(payload).subscribe({
 			next: (response) => {
 				this.ambassadorUpdated.emit();
 				this.toastService.show(response.message, 'success');
