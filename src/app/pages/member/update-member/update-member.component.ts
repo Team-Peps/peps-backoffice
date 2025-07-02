@@ -54,12 +54,12 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		twitchUsername: new FormControl('', Validators.required),
 		youtubeUsername: new FormControl('', Validators.required),
 
-		isSubstitute: new FormControl(),
-		game: new FormControl(),
+		isSubstitute: new FormControl(false),
+		game: new FormControl('', Validators.required),
 		favoriteHeroes: new FormControl([], [Validators.maxLength(3)]),
 
-		descriptionFr: new FormControl(),
-		descriptionEn: new FormControl(),
+		descriptionFr: new FormControl('', Validators.required),
+		descriptionEn: new FormControl('', Validators.required),
 	})
 
 	protected readonly Nationality = Nationality;
@@ -129,8 +129,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	saveOrUpdate(){
-		console.log(this.memberForm.value);
-		if (this.memberForm.invalid) {
+		if (this.memberForm.invalid || (this.memberForm.get('role')?.value != 'COACH' && this.memberForm.get('isSubstitute')?.value === null)) {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
 		}
