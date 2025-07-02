@@ -53,9 +53,9 @@
 							<label for="isSubstitute">Status</label>
 							<select class="p-2.5 border rounded-lg border-gray-300" id="isSubstitute" formControlName="isSubstitute">
 								@if (countMembers < 6) {
-									<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="false">Titulaire</option>
+									<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [ngValue]="false">Titulaire</option>
 								}
-								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="true">Remplacant</option>
+								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [ngValue]="true">Remplacant</option>
 							</select>
 						</div>
 					</div>
