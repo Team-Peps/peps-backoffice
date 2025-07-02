@@ -48,11 +48,11 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		role: new FormControl('', Validators.required),
 		image: new FormControl(),
 
-		twitterUsername: new FormControl('', Validators.required),
-		instagramUsername: new FormControl('', Validators.required),
-		tiktokUsername: new FormControl('', Validators.required),
-		twitchUsername: new FormControl('', Validators.required),
-		youtubeUsername: new FormControl('', Validators.required),
+		twitterUsername: new FormControl(''),
+		instagramUsername: new FormControl(''),
+		tiktokUsername: new FormControl(''),
+		twitchUsername: new FormControl(''),
+		youtubeUsername: new FormControl(''),
 
 		isSubstitute: new FormControl(false),
 		game: new FormControl('', Validators.required),
