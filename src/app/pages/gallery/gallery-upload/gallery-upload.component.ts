@@ -28,6 +28,7 @@ export class GalleryUploadComponent implements OnInit {
 
 	isUploading: boolean = false;
 	uploadProgress: number = 0;
+	currentSize: number = 0;
 
 	selectedFile: File | null = null;
 
@@ -62,6 +63,11 @@ export class GalleryUploadComponent implements OnInit {
 			return;
 		}
 
+		if(this.currentSize > 100) {
+			console.error('La taille du fichier ZIP dépasse la limite de 100 Mo');
+			return;
+		}
+
 		this.isUploading = true;
 		this.uploadProgress = 0;
 
@@ -84,6 +90,7 @@ export class GalleryUploadComponent implements OnInit {
 	getZipSizeInMB(file: File | null): string {
 		if (!file) return '0 MB';
 		const sizeInMB = file.size / (1024 * 1024);
+		this.currentSize = sizeInMB;
 
 		return `${sizeInMB.toFixed(1)} MB`
 	}

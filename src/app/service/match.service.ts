@@ -38,4 +38,8 @@ export class MatchService {
 			return () => eventSource.close();
 		})
 	}
+
+	updateVodUrl(matchId: string, vodUrl: string): Observable<{ message: string; match: Match }> {
+		return this.http.put<{ message: string; match: Match }>(`${environment.backendUrl}/match/vod-url/${matchId}`, vodUrl);
+	}
 }

@@ -2,18 +2,14 @@
 	<div class="relative flex flex-col gap-4">
 		<form [formGroup]="videoForm" class="my-12 text-gray-900 dark:text-gray-100">
 			@if(video){
-				<h2 class="text-center text-2xl mb-4">Modification de {{ video.title }}</h2>
+				<h2 class="text-center text-2xl mb-4">Modification de la vidéo</h2>
 			} @else {
 				<h2 class="text-center text-2xl mb-4">Ajout d'une vidéo</h2>
 			}
 
 			<div class="flex flex-col gap-4">
 
-				<div class="flex flex-col md:flex-row gap-4">
-					<div class="flex flex-col flex-1">
-						<label for="title">Titre de la vidéo (30 caractères max)</label>
-						<input type="text" id="title" formControlName="title" class="p-2 border border-gray-300 rounded-lg" maxlength="30" placeholder="Match de légende en OWCS"/>
-					</div>
+				<div class="flex flex-col">
 					<div class="flex flex-col flex-1">
 						<label for="link">Lien de la vidéo</label>
 						<input type="text" id="link" formControlName="link" [ngClass]="{'border-red-500': !linkIsValid && videoForm.get('link')!.value !== ''}" class="p-2 border border-gray-300 rounded-lg" (change)="checkVideoLink($event)" placeholder="https://www.youtube.com/watch?v=7XfRo1Lu7vg"/>

@@ -73,7 +73,7 @@
 					</td>
 					<td class="p-3">
 						<img [src]="determineRoleIcon(member.role)" alt="">
-						@if(member.role == MemberRole.COACH) {
+						@if(member.role == MemberRole.COACH || member.role == MemberRole.TEAM_MANAGER) {
 							{{ member.role }}
 						}
 					</td>
@@ -90,7 +90,7 @@
 						}
 						@if(member.isSubstitute && countMembers < 6 && member.isActive) {
 							<button class="p-2 bg-orange-700 rounded-lg cursor-pointer hover:bg-orange-600 text-white" (click)="toggleSubstitute(member)">Titutaliser</button>
-						} @else if(!member.isSubstitute && member.role != MemberRole.COACH && member.isActive) {
+						} @else if(!member.isSubstitute && member.role != MemberRole.COACH && member.role != MemberRole.TEAM_MANAGER && member.isActive) {
 							<button class="p-2 bg-orange-700 rounded-lg cursor-pointer hover:bg-orange-600 text-white" (click)="toggleSubstitute(member)">Définir remplacant</button>
 						}
 						@if(member.isActive) {
