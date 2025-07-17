@@ -129,7 +129,9 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	saveOrUpdate(){
-		if (this.memberForm.invalid || (this.memberForm.get('role')?.value != 'COACH' && this.memberForm.get('isSubstitute')?.value === null)) {
+		if (this.memberForm.invalid ||
+			((this.memberForm.get('role')?.value != 'COACH' && this.memberForm.get('role')?.value != 'TEAM_MANAGER') && this.memberForm.get('isSubstitute')?.value === null)
+		) {
 			this.toastService.show('Veuillez remplir tous les champs obligatoires', 'error');
 			return;
 		}
