@@ -15,7 +15,7 @@
 				</svg>
 				<div class="flex items-center gap-4">
 					<img [src]="minioBaseUrl + partner.imageKey" alt="Image du partenaire {{partner.id}}" class="w-24 rounded shadow-sm" />
-					<div class="text-gray-600 dark:text-gray-300 break-all font-bold">{{ partner.order }}</div>
+					<div class="text-gray-600 dark:text-gray-300 break-all">Position sur la page : <span class="font-bold text-red-700">{{ partner.order }}</span></div>
 				</div>
 
 				<div class="flex flex-col sm:flex-row gap-2 sm:gap-6 w-full sm:w-auto items-center">

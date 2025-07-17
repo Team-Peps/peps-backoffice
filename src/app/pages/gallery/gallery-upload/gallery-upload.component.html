@@ -16,10 +16,11 @@
 					</div>
 
 					<div class="flex flex-col flex-1">
-						<label for="zipFile">Fichier ZIP ({{ getZipSizeInMB(selectedFile) }}/200MB)</label>
+						<label for="zipFile">Fichier ZIP ({{ getZipSizeInMB(selectedFile) }}/100MB)</label>
 						<input type="file" id="zipFile" class="p-2 border border-gray-300 rounded-lg" (change)="onFileSelected($event)" accept=".zip"/>
 					</div>
-					<span class="text-sm font-medium">⚠️ Seul un .zip est autorisé, les formats d'images autre que jpg, png, avif et webp ne seront pas pris en compte ⚠️</span>
+					<span class="text-sm font-medium">⚠️ Seul un .zip est autorisé, les formats d'images autre que JPG, PNG, AVIF et WEBP ne sont pas pris en charge ⚠️ <br>
+					</span>
 
 					@if(isUploading && uploadProgress < 100) {
 						<div class="flex w-full h-4 bg-gray-200 rounded-lg overflow-hidden dark:bg-neutral-700" role="progressbar">

@@ -32,7 +32,7 @@
 					<div class="flex flex-col flex-1">
 						<label for="nationality">Nationalité</label>
 						<select class="p-2.5 rounded-lg border border-gray-300" id="nationality" formControlName="nationality">
-							@for (nationality of enumKeysObject(Nationality); track nationality){
+							@for (nationality of nationalities; track nationality){
 								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="nationality">{{ nationality }}</option>
 							}
 						</select>
@@ -47,7 +47,7 @@
 					</div>
 				</div>
 
-				@if(memberForm.get('role')?.value !== null && memberForm.get('role')?.value != Role.COACH){
+				@if(memberForm.get('role')?.value !== null && memberForm.get('role')?.value != Role.COACH && memberForm.get('role')?.value != Role.TEAM_MANAGER){
 					<div class="flex flex-col md:flex-row gap-4">
 						<div class="flex flex-col flex-1">
 							<label for="isSubstitute">Status</label>

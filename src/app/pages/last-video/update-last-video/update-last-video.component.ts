@@ -32,7 +32,6 @@ export class UpdateLastVideoComponent implements OnChanges {
 	minioBaseUrl = environment.minioBaseUrl;
 
 	videoForm: FormGroup = new FormGroup({
-		title: new FormControl(),
 		link: new FormControl(),
 		image: new FormControl(),
 	});
@@ -49,7 +48,6 @@ export class UpdateLastVideoComponent implements OnChanges {
 	initForm(): void {
 		if (this.video) {
 			this.videoForm.patchValue({
-				title: this.video.title,
 				link: this.video.link,
 			});
 			this.imagePreview = this.minioBaseUrl + this.video.imageKey;

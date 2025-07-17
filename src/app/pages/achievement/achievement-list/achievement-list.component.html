@@ -68,7 +68,7 @@
 								</td>
 								<td
 									class="border-b p-3 dark:border-gray-900 font-bold"
-									[ngClass]="{'text-[#EEC932]': achievement.ranking === 1, 'text-white': achievement.ranking === 2, 'text-[#C96527]': achievement.ranking === 3}"
+									[ngClass]="{'text-[#EEC932]': achievement.ranking === 1, 'text-white': achievement.ranking === 2, 'text-[#C96527]': achievement.ranking > 2}"
 								>
 									{{ achievement.ranking }}
 								</td>
