@@ -1,22 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {MatchService} from '../../../service/match.service';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {MatchService} from '@/app/service/match.service';
 import {DatePipe, NgClass} from '@angular/common';
-import {Match} from '../../../model/match';
+import {Match} from '@/app/model/match';
 import {environment} from '@/environments/environment';
-import {demandCommandFailureMessage} from '@angular/cli/src/command-builder/utilities/command';
+import {UpdateMatchComponent} from '@/app/pages/match/update-match/update-match.component';
 
 @Component({
   selector: 'app-match-list',
 	imports: [
 		DatePipe,
-		NgClass
+		NgClass,
+		UpdateMatchComponent
 	],
   templateUrl: './match-list.component.html',
 })
 export class MatchListComponent implements OnInit {
 
 	constructor(
-		private readonly matchService: MatchService
+		private readonly matchService: MatchService,
+		private readonly cdr: ChangeDetectorRef
 	) {}
 
 	ngOnInit(): void {
@@ -33,6 +35,8 @@ export class MatchListComponent implements OnInit {
 	isShowProgress: boolean = false;
 	messages: string[] = [];
 	receivedMessages = false;
+
+	selectedMatch: Match | null = null;
 
 	loadMatches(): void {
 		this.matchService.getAllMatches().subscribe((data: Record<string, Match[]>) => {
@@ -82,5 +86,11 @@ export class MatchListComponent implements OnInit {
 				this.loadMatches();
 			}
 		})
+	}
+
+	selectMatch(match: Match): void {
+		this.selectedMatch = match;
+		document.getElementById('updateMatch')?.scrollIntoView({behavior: 'smooth'});
+		this.cdr.detectChanges();
 	}
 }

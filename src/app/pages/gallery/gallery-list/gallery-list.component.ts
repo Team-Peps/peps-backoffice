@@ -89,6 +89,8 @@ export class GalleryListComponent implements OnInit {
 		this.selectedGallery = gallery;
 		this.isCreatedGallery = false;
 		document.getElementById('updateGallery')?.scrollIntoView({behavior: 'smooth'});
+		this.selectedAuthor = null;
+		this.isCreatedAuthor = false;
 	}
 
 	toggleCreateGallery() {
@@ -167,10 +169,14 @@ export class GalleryListComponent implements OnInit {
 		this.selectedAuthor = author;
 		this.isCreatedAuthor = false;
 		document.getElementById('updateAuthor')?.scrollIntoView({behavior: 'smooth'});
+		this.selectedGallery = null;
+		this.isCreatedAuthor = false;
 	}
 
 	handleUpdateAuthor() {
 		this.loadAuthors();
 		this.loadGalleries();
+		this.selectedAuthor = null;
+		this.isCreatedAuthor = false;
 	}
 }

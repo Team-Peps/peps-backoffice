@@ -6,8 +6,7 @@ import {
 	OnChanges, OnInit, Output
 } from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Nationality} from '@/app/model/nationality';
-import {enumKeysObject} from '@/app/core/utils/enum';
+import {nationalities} from '@/app/model/nationality';
 import {MemberService} from '@/app/service/member.service';
 import {ToastService} from '@/app/service/toast.service';
 import {environment} from '@/environments/environment';
@@ -17,6 +16,7 @@ import {HeroSelectorComponent} from './hero-selector/hero-selector.component';
 import {Heroe} from '@/app/model/heroe';
 import {HeroeService} from '@/app/service/heroe.service';
 import {ImageService} from '@/app/service/image.service';
+import {enumKeysObject} from '@/app/core/utils/enum';
 
 @Component({
   selector: 'app-update-member',
@@ -62,10 +62,10 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		descriptionEn: new FormControl('', Validators.required),
 	})
 
-	protected readonly Nationality = Nationality;
-	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly Role = MemberRole;
 	protected readonly Game = Game;
+	protected readonly nationalities = nationalities;
+	protected readonly enumKeysObject = enumKeysObject;
 
 	@Input() member: Member | null = null;
 	@Input() countMembers!: number;
@@ -266,4 +266,5 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		const fileInput = document.getElementById('fileInput') as HTMLInputElement;
 		fileInput.click();
 	}
+
 }

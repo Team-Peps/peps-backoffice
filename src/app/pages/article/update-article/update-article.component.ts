@@ -73,8 +73,8 @@ export class UpdateArticleComponent implements OnChanges {
 	initForm(): void {
 		if (this.article) {
 			this.articleForm.patchValue({
-				titleFr: this.article.translations.en.title,
-				titleEn: this.article.translations.fr.title,
+				titleFr: this.article.translations.fr.title,
+				titleEn: this.article.translations.en.title,
 				contentFr: this.article.translations.fr.content,
 				contentEn: this.article.translations.en.content,
 				articleType: this.article.articleType,
@@ -190,21 +190,29 @@ export class UpdateArticleComponent implements OnChanges {
 			if(this.imageService.checkSize(file) && this.imageService.checkFormat(file)) {
 				if(typeImg === 'thumbnail') {
 
-					this.selectedFileThumbnail = file;
-					const reader = new FileReader();
-					reader.onload = () => {
-						this.imagePreviewThumbnail = reader.result as string;
-					};
-					reader.readAsDataURL(file!);
+					if(await this.imageService.checkWidthHeight(file, 350, 350)) {
+
+						this.selectedFileThumbnail = file;
+						const reader = new FileReader();
+						reader.onload = () => {
+							this.imagePreviewThumbnail = reader.result as string;
+						};
+						reader.readAsDataURL(file!);
+						this.toastService.show('Nouvelle image chargée', 'success');
+					}
+
 				} else {
-					this.selectedFileBackground = file;
-					const reader = new FileReader();
-					reader.onload = () => {
-						this.imagePreviewBackground = reader.result as string;
-					};
-					reader.readAsDataURL(file!);
+					if(await this.imageService.checkWidthHeight(file, 1440, 700)) {
+
+						this.selectedFileBackground = file;
+						const reader = new FileReader();
+						reader.onload = () => {
+							this.imagePreviewBackground = reader.result as string;
+						};
+						reader.readAsDataURL(file!);
+						this.toastService.show('Nouvelle image chargée', 'success');
+					}
 				}
-				this.toastService.show('Nouvelle image chargée', 'success');
 
 			}else{
 				input.value = "";

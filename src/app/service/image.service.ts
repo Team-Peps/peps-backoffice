@@ -12,10 +12,13 @@ export class ImageService {
 		private readonly sanitizer: DomSanitizer,
 	) {}
 
-	maxSize: number = 2;
+	maxSize: number = 10;
 	allowedFormats = [
 		'image/avif',
-		'image/webp'
+		'image/webp',
+		'image/svg+xml',
+		'image/jpeg',
+		'image/png'
 	];
 
 	checkSize(file: File): boolean {
@@ -30,17 +33,36 @@ export class ImageService {
 
 	checkFormat(file: File): boolean {
 		if (!this.allowedFormats.includes(file.type)) {
-			this.toastService.show('Format de fichier non pris en charge. Formats autorisés : AVIF, WEBP', 'error');
+			this.toastService.show('Format de fichier non pris en charge. Formats autorisés : AVIF, WEBP, SVG, JPG, PNG', 'error');
 			return false;
 		}
 		return true;
 	}
 
 	getImageRequirementHtml(): SafeHtml {
-		return this.sanitizer.bypassSecurityTrustHtml(`<span class="text-xs">⚠️ L'image doit être au format WEBP ou AVIF et ne pas faire plus de ${this.maxSize}Mo ! ⚠️</span>`);
+		return this.sanitizer.bypassSecurityTrustHtml(`<span class="text-xs">⚠️ L'image doit être au format WEBP, AVIF, SVG, JPG ou PNG et ne pas faire plus de ${this.maxSize}Mo ! ⚠️</span>`);
 	}
 
 	getAcceptedFormats(): string {
 		return this.allowedFormats.join(",");
+	}
+
+	async checkWidthHeight(file: File, width: number, height: number): Promise<boolean> {
+		return await new Promise<boolean>((resolve) => {
+			const img = new Image();
+			img.onload = () => {
+				if (img.width !== width || img.height !== height) {
+					this.toastService.show(`L'image doit avoir une taille de ${width}x${height} pixels`, 'error');
+					resolve(false);
+				} else {
+					resolve(true);
+				}
+			};
+			img.onerror = () => {
+				this.toastService.show('Erreur lors du chargement de l\'image', 'error');
+				resolve(false);
+			};
+			img.src = URL.createObjectURL(file);
+		});
 	}
 }

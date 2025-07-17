@@ -34,6 +34,7 @@ export enum MemberRole {
 	STRATEGIST = "STRATEGIST",
 	DUELIST = "DUELIST",
 	COACH = 'COACH',
+	TEAM_MANAGER = 'TEAM_MANAGER',
 }
 
 export interface MemberTranslation {
