@@ -4,21 +4,25 @@ on:
     workflow_dispatch:
         inputs:
             environment:
-                description: "Environment to deploy to"
+                description: "Environnement à déployer"
                 required: true
-                default: "dev"
+                default: "prod"
                 type: choice
                 options:
-                    - dev
                     - prod
+                    - dev
+            git_tag:
+                description: "Tag Git à déployer (ex: v1.2.3)"
+                required: true
     push:
         branches:
-            - dev
-            - main
-
-
+            - '**'
 env:
-    IMAGE_NAME: serkox/peps-backoffice
+    IMAGE_NAME: docker.io/serkox/peps-backoffice
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 jobs:
 
@@ -28,21 +32,20 @@ jobs:
             environment: ${{ steps.set-env.outputs.environment }}
             branch_name: ${{ steps.set-env.outputs.branch_name }}
         steps:
-            - name: 🧠 Déduire l’environnement
-              id: set-env
-              run: |
-                  BRANCH_NAME="${GITHUB_REF##*/}"
-                  echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+            -   name: 🧠 Définition de l’environnement
+                id: set-env
+                run: |
+                    BRANCH_NAME="${GITHUB_REF##*/}"
 
-                  if [ "${{ github.event_name }}" = "push" ]; then
-                    if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-                      echo "environment=prod" >> $GITHUB_OUTPUT
+                    if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                      ENVIRONMENT="${{ github.event.inputs.environment }}"
                     else
-                      echo "environment=dev" >> $GITHUB_OUTPUT
+                      ENVIRONMENT="dev"
                     fi
-                  else
-                    echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
-                  fi
+
+                    echo "Branche : $BRANCH_NAME | Environnement : $ENVIRONMENT"
+                    echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+                    echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
 
     build-push:
         runs-on: ubuntu-latest
@@ -53,26 +56,31 @@ jobs:
             ENVIRONMENT: ${{ needs.set-environment.outputs.environment }}
 
         steps:
-            - name: 🔄 Checkout du code
-              uses: actions/checkout@v4
+            -   name: 🔄 Checkout du code (Push ou Tag manuel)
+                uses: actions/checkout@v4
+                with:
+                    ref: ${{ github.event.inputs.git_tag || github.ref }}
+                    fetch-depth: 0
 
-            - name: 🧰 Set up Node
+            - name: 🧰 Configuration de node.js
               uses: actions/setup-node@v3
               with:
                   node-version: 18
 
-            - name: 📦 Install dependencies
+            - name: 📦 Installation des dépendances
               run: npm install
 
-            - name: 🛠️ Build Angular App
+            - name: 🛠️ Construction de l’application
               run: npm run build:$ENVIRONMENT
 
-            - name: 🏷️ Générer un tag basé sur le commit SHA
+            - name: 🔖 Génération du tag de l’image Docker
               id: generate-tag
               run: |
-                TAG=$(git rev-parse --short HEAD)
-                echo "TAG=$TAG"
-                echo "tag=$TAG" >> $GITHUB_OUTPUT
+                  BRANCH=$(echo "${GITHUB_REF##*/}" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-')
+                  DATE=$(date -u +"%Y%m%d_%H%M")
+                  TAG="$BRANCH-$DATE"
+                  echo "Docker tag généré : $TAG"
+                  echo "tag=$TAG" >> $GITHUB_OUTPUT
 
             - name: 🔐 Connexion à Docker Hub
               uses: docker/login-action@v2
@@ -80,15 +88,10 @@ jobs:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_PASSWORD }}
 
-            - name: 🐳 Build Docker image
+            - name: 🐳 Construction et push de l’image Docker
               run: |
-                  docker build --build-arg ENV=$ENVIRONMENT -t $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }} .
-                  docker build --build-arg ENV=$ENVIRONMENT -t $IMAGE_NAME:latest .
-
-            - name: 📤 Push Docker image
-              run: |
-                  docker push $IMAGE_NAME:${{ steps.generate-tag.outputs.tag }}
-                  docker push $IMAGE_NAME:latest
+                  docker build --build-arg ENV=$ENVIRONMENT -t ${{ env.IMAGE_NAME }}:${{ steps.generate-tag.outputs.tag }} .
+                  docker push ${{ env.IMAGE_NAME }}:${{ steps.generate-tag.outputs.tag }}
 
     deploy:
         needs: [build-push, set-environment]
@@ -98,10 +101,13 @@ jobs:
             ENVIRONMENT: ${{ needs.set-environment.outputs.environment }}
 
         steps:
-            - name: 🧾 Checkout code
+            - name: 🔄 Checkout du code (Push ou Tag manuel)
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.inputs.git_tag || github.ref }}
+                  fetch-depth: 0
 
-            -   name: 📦 Définir les variables selon l’environnement
+            -   name: 📦 Définition des variables selon l’environnement
                 id: set-vars
                 run: |
                     if [ "$ENVIRONMENT" = "prod" ]; then
@@ -114,18 +120,18 @@ jobs:
                         echo "values_file=values-dev.yaml" >> $GITHUB_OUTPUT
                     fi
 
-            - name: ⚙️ Set up kubectl
-              uses: azure/setup-kubectl@v3
+            -   name: ⚙️ Installation de kubectl
+                uses: azure/setup-kubectl@v3
 
-            - name: ⚙️ Set up Helm
-              uses: azure/setup-helm@v3
+            -   name: ⚙️ Installation de Helm
+                uses: azure/setup-helm@v3
 
-            - name: 📄 Configure kubeconfig
-              run: |
-                  mkdir -p ~/.kube
-                  echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+            -   name: 📄 Configuration de kubectl
+                run: |
+                    mkdir -p ~/.kube
+                    echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
-            - name: 🚀 Deploy with Helm
+            - name: 🚀 Déploiement avec Helm
               run: |
                   helm upgrade --install ${{ steps.set-vars.outputs.release_name }} ./deploy \
                     --namespace ${{ steps.set-vars.outputs.namespace }} \
@@ -141,7 +147,7 @@ jobs:
             ENVIRONMENT: ${{ needs.set-environment.outputs.environment }}
             TAG: ${{ needs.build-push.outputs.image_tag }}
         steps:
-            - name: 📣 Envoyer une notification Discord
+            - name: 📣 Envoi d'une notification Discord
               run: |
                   curl -H "Content-Type: application/json" \
                   -X POST \
