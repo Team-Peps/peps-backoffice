@@ -19,6 +19,7 @@ export class ToastComponent implements OnInit {
 
 	@Input() type: ToastType = 'info';
 	@Input() message: string = '';
+	@Input() details: string = '';
 	@Input() duration: number = 3000;
 
 	removeToast(): void {

@@ -1,5 +1,5 @@
 <div class="fixed bottom-2 right-2 md:bottom-4 md:right-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 md:p-4 rounded-lg shadow-lg w-fit" id="{{ message }}">
-	<div class="flex flex-row justify-between gap-2 md:gap-4 items-center text-sm md:text-base">
+	<div class="flex flex-row justify-between gap-2 md:gap-4 items-start text-sm md:text-base">
 		@if (type === 'success'){
 			<p class="text-green-500">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -19,7 +19,12 @@
 				</svg>
 			</p>
 		}
-		<p>{{ message }}</p>
+		<div class="flex flex-col gap-1">
+			<p class="font-semibold">{{ message }}</p>
+			@if(details) {
+				<p>{{ details }}</p>
+			}
+		</div>
 		<button class="cursor-pointer" (click)="removeToast()">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 				<path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
