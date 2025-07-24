@@ -3,32 +3,23 @@
 
 	<div class="relative flex flex-col gap-4">
 
+		@if(selectedAchievement && !isCreateAchievement || !selectedAchievement && isCreateAchievement) {
+			<app-update-achievement
+				id="updateAchievement"
+				[achievement]="selectedAchievement"
+			></app-update-achievement>
+		}
+
 		@if (!isCreateAchievement) {
-			<div class="flex flex-row gap-4">
-				<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateAchievement('game')">Ajouter un résultat pour un roster</button>
-				<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateAchievement('member')">Ajouter un résultat pour un membre</button>
-			</div>
+			<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white w-fit" (click)="toggleCreateAchievement()">Ajouter un résultat</button>
 		} @else {
-			<app-create-achievement
-				[members]="members"
-				[typeOfAchievement]="typeOfAchievement"
-			></app-create-achievement>
 			<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white w-fit" (click)="cancelCreateAchievement()">Annuler</button>
 		}
 
-		<label for="selectedGame">Roster/membre sélectionnée</label>
+		<label for="selectedGame">Roster sélectionnée</label>
 		<select class="p-2.5 border rounded-lg border-gray-300" id="selectedGame" (change)="changeSelection($event)">
-
-			<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white font-bold" value="game_placeholder">ROSTER</option>
-			<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="placeholder">----</option>
 			@for (game of enumKeysObject(Game); track game){
 				<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="game">{{ game }}</option>
-			}
-			<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="placeholder">----</option>
-			<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white font-bold" value="member_placeholder">MEMBRE</option>
-			<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" value="placeholder">----</option>
-			@for (member of members; track member.id){
-				<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="member.id">{{ member.pseudo }}</option>
 			}
 		</select>
 
@@ -76,6 +67,7 @@
 									{{ achievement.game }}
 								</td>
 								<td class="p-3 flex flex-col gap-2">
+									<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="updateAchievement(achievement)">Modifier</button>
 									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deleteAchievement(achievement.id)">Supprimer</button>
 								</td>
 							</tr>

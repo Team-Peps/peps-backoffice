@@ -1,14 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AchievementService} from '@/app/service/achievement.service';
 import {Achievement} from '@/app/model/achievement';
 import {Game} from '@/app/model/game';
-import {MemberService} from '@/app/service/member.service';
-import {Member} from '@/app/model/member';
 import {FormsModule} from '@angular/forms';
 import {enumKeysObject} from '@/app/core/utils/enum';
 import {NgClass, NgOptimizedImage} from '@angular/common';
 import {ToastService} from '@/app/service/toast.service';
-import {CreateAchievementComponent} from '../create-achievement/create-achievement.component';
+import {UpdateAchievementComponent} from '../update-achievement/update-achievement.component';
 
 @Component({
   selector: 'app-achievement-list',
@@ -16,7 +14,7 @@ import {CreateAchievementComponent} from '../create-achievement/create-achieveme
 		FormsModule,
 		NgOptimizedImage,
 		NgClass,
-		CreateAchievementComponent
+		UpdateAchievementComponent
 	],
   templateUrl: './achievement-list.component.html',
 })
@@ -24,40 +22,21 @@ export class AchievementListComponent implements OnInit {
 
 	constructor(
 		private readonly achievementService: AchievementService,
-		private readonly memberService: MemberService,
 		private readonly toastService: ToastService,
+		private readonly cdr: ChangeDetectorRef,
 	) {}
 
 	protected readonly enumKeysObject = enumKeysObject;
 	protected readonly Game = Game;
 
-	selectedGame: Game | null = null;
-	selectedMemberId: string | null = null;
-
+	selectedGame: Game | null = Game.OVERWATCH;
 	achievements: Achievement[] = [];
-	members: Member[] = [];
-
 	isCreateAchievement: boolean = false;
-	typeOfAchievement: 'game' | 'member' = 'game';
+	selectedAchievement: Achievement | null = null;
 
 	ngOnInit(): void {
-		this.loadMembers();
+		this.loadAchievementByGame();
     }
-
-	loadMembers() {
-		this.memberService.getMembers(Game.OVERWATCH).subscribe({
-			next: (members) => {
-				this.members = [...this.members, ...members['substitutes'], ...members['coaches'], ...members['members']];
-			},
-			error: (err) => console.error(err)
-		});
-		this.memberService.getMembers(Game.MARVEL_RIVALS).subscribe({
-			next: (members) => {
-				this.members = [...this.members, ...members['substitutes'], ...members['coaches'], ...members['members']];
-			},
-			error: (err) => console.error(err)
-		});
-	}
 
 	loadAchievementByGame(): void {
 		if (this.selectedGame) {
@@ -71,26 +50,11 @@ export class AchievementListComponent implements OnInit {
 	changeSelection($event: Event) {
 		const target = $event.target as HTMLSelectElement;
 		const value = target.value;
-		if(['member_placeholder', 'game_placeholder', 'placeholder'].includes(value)) {
-			return;
-		}
 		if([Game.OVERWATCH, Game.MARVEL_RIVALS].includes(value as Game)) {
 			this.selectedGame = value as Game;
-			this.selectedMemberId = null;
 			this.loadAchievementByGame();
 		} else {
-			this.selectedMemberId = value;
 			this.selectedGame = null;
-			this.loadAchievementByMember();
-		}
-	}
-
-	loadAchievementByMember(): void {
-		if (this.selectedMemberId) {
-			this.achievementService.getAllAchievementByMember(this.selectedMemberId).subscribe({
-				next: (data) => this.achievements = data.sort((a, b) => a.ranking - b.ranking),
-				error: (err) => console.error(err)
-			});
 		}
 	}
 
@@ -98,23 +62,24 @@ export class AchievementListComponent implements OnInit {
 		this.achievementService.deleteAchievement(achievementId).subscribe({
 			next: (res) => {
 				this.toastService.show(res.message, 'success');
-				if(this.selectedGame) {
-					this.loadAchievementByGame();
-				} else if(this.selectedMemberId) {
-					this.loadAchievementByMember();
-				}
+				this.loadAchievementByGame();
 			},
 			error: (err) => console.error(err)
 		});
 	}
 
-	toggleCreateAchievement(type: 'game' | 'member') {
+	toggleCreateAchievement() {
 		this.isCreateAchievement = !this.isCreateAchievement;
-		this.typeOfAchievement = type;
 	}
 
 	cancelCreateAchievement() {
 		this.isCreateAchievement = false;
 	}
 
+	updateAchievement(achievement: Achievement) {
+		this.selectedAchievement = achievement;
+		this.isCreateAchievement = false;
+		document.getElementById('updateAchievement')?.scrollIntoView({behavior: 'smooth'});
+		this.cdr.detectChanges();
+	}
 }
