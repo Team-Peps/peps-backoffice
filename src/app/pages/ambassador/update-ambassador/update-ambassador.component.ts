@@ -113,11 +113,12 @@ export class UpdateAmbassadorComponent implements OnChanges {
 				this.ambassadorUpdated.emit();
 				this.ambassadorForm.reset();
 				this.imagePreview = "";
-				this.toastService.show(response.message, 'success');
+				this.toastService.show(response.message, '', 'success');
 			},
 			error: (error) => {
+				const apiError = error.error;
+				this.toastService.show(apiError?.message, apiError?.details, 'error');
 				console.error("❌ Erreur lors de la sauvegarde :", error);
-				this.toastService.show('Une erreur est survenue', 'error');
 			}
 		});
 	}
@@ -151,11 +152,13 @@ export class UpdateAmbassadorComponent implements OnChanges {
 		this.ambassadorService.updateAmbassador(payload).subscribe({
 			next: (response) => {
 				this.ambassadorUpdated.emit();
-				this.toastService.show(response.message, 'success');
+				this.toastService.show(response.message, '', 'success');
 			},
 			error: (error) => {
-				console.error("❌ Erreur lors de la sauvegarde :", error);
-				this.toastService.show('Une erreur est survenue', 'error');
+				const apiError = error.error;
+
+				console.error("❌ Erreur lors de la mise à jour :", error);
+				this.toastService.show(apiError?.message, apiError?.details, 'error');
 			}
 		});
 	}

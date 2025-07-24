@@ -12,12 +12,13 @@ export class ToastService {
 		private appRef: ApplicationRef
 	) {}
 
-	show(message: string, type: ToastType = 'info', duration: number = 3000): void {
+	show(message: string, details: string, type: ToastType = 'info', duration: number = 3000): void {
 		const factory = this.componentFactoryResolver.resolveComponentFactory(ToastComponent);
 		const componentRef = factory.create(this.injector);
 
 		componentRef.instance.message = message;
 		componentRef.instance.type = type;
+		componentRef.instance.details = details;
 		componentRef.instance.duration = duration;
 
 		// Ajouter le composant au DOM

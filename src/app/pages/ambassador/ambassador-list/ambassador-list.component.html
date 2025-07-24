@@ -5,12 +5,67 @@
 
 		<div class="relative flex flex-col gap-4">
 
-			@if (selectedAmbassador && !isCreateAmbassador || !selectedAmbassador && isCreateAmbassador) {
-				<app-update-ambassador
-					id="updateAmbassador"
-					(ambassadorUpdated)="loadAmbassadors()"
-					[ambassador]="selectedAmbassador">
-				</app-update-ambassador>
+			@if ((selectedAmbassador && !isCreateAmbassador && !isWantDelete) || (!selectedAmbassador && isCreateAmbassador && !isWantDelete)) {
+				<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-10">
+					<div aria-hidden="true" class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+
+					<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+						<div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
+							<div class="relative transform rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 w-10/12">
+								<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 rounded-2xl">
+									<app-update-ambassador
+										id="updateAmbassador"
+										(ambassadorUpdated)="loadAmbassadors()"
+										[ambassador]="selectedAmbassador">
+									</app-update-ambassador>
+								</div>
+								<button
+									type="button"
+									(click)="closeUpdateModal()"
+									class="inline-flex cursor-pointer justify-center rounded-full bg-red-600 p-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 absolute -top-4 -right-4">
+									<svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+										 stroke-linecap="round" stroke-linejoin="round" fill="none">
+										<line x1="18" y1="6" x2="6" y2="18"/>
+										<line x1="6" y1="6" x2="18" y2="18"/>
+									</svg>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+
+			@if(selectedAmbassador && isWantDelete) {
+				<div role="dialog" aria-modal="true" aria-labelledby="dialog-title" class="relative z-10">
+					<div aria-hidden="true" class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
+					<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+						<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+
+							<div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+								<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+									<div class="sm:flex sm:items-start">
+										<div class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-red-600">
+												<path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
+											</svg>
+										</div>
+										<div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+											<h3 id="dialog-title" class="text-base font-semibold text-gray-900">Confirmation de suppression</h3>
+											<div class="mt-2">
+												<p class="text-sm text-gray-500">Êtes-vous sûr de vouloir supprimer cette ressource ? Cette action ne peut être annulée.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+									<button type="button" class="cursor-pointer inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto" (click)="confirmDelete()">Supprimer</button>
+									<button type="button" class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto" (click)="closeDeleteModal()">Annuler</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			}
 
 			@if (!isCreateAmbassador) {
@@ -26,37 +81,11 @@
 						<tr>
 							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 								<div class="flex items-center px-2 py-1">
-									<div class="flex-1 text-left font-normal">Image</div>
 								</div>
 							</th>
 							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
 								<div class="flex items-center px-2 py-1">
 									<div class="flex-1 text-left font-normal">Nom</div>
-								</div>
-							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-								<div class="flex items-center px-2 py-1">
-									<div class="flex-1 text-left font-normal">Instagram</div>
-								</div>
-							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-								<div class="flex items-center px-2 py-1">
-									<div class="flex-1 text-left font-normal">X</div>
-								</div>
-							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-								<div class="flex items-center px-2 py-1">
-									<div class="flex-1 text-left font-normal">TikTok</div>
-								</div>
-							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-								<div class="flex items-center px-2 py-1">
-									<div class="flex-1 text-left font-normal">Twitch</div>
-								</div>
-							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
-								<div class="flex items-center px-2 py-1">
-									<div class="flex-1 text-left font-normal">Youtube</div>
 								</div>
 							</th>
 
@@ -70,34 +99,19 @@
 					<tbody>
 					@defer {
 
-						@for (ambassador of ambassadors$ | async; track ambassador.id){
-							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-								<td class="border-b p-3 dark:border-gray-900">
+						@for (ambassador of ambassadors$ | async; track ambassador.id; let even = $even){
+							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700" [ngClass]="{'bg-gray-600': even}">
+								<td class="p-3">
 									<div class="flex flex-row items-center gap-2">
 										<img [src]="minioBaseUrl + ambassador.imageKey" alt="Photo de {{ambassador.name}}" class="w-16">
 									</div>
 								</td>
-								<td class="border-b p-3 dark:border-gray-900">
+								<td class="p-3">
 									{{ ambassador.name }}
-								</td>
-								<td class="border-b p-3 dark:border-gray-900">
-									{{ ambassador.instagramUsername }}
-								</td>
-								<td class="border-b p-3 dark:border-gray-900">
-									{{ ambassador.twitterXUsername }}
-								</td>
-								<td class="border-b p-3 dark:border-gray-900">
-									{{ ambassador.tiktokUsername }}
-								</td>
-								<td class="border-b p-3 dark:border-gray-900">
-									{{ ambassador.twitchUsername }}
-								</td>
-								<td class="border-b p-3 dark:border-gray-900">
-									{{ ambassador.youtubeUsername }}
 								</td>
 								<td class="p-3 flex flex-col gap-2">
 									<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectAmbassador(ambassador)">Modifier</button>
-									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="deleteAmbassador(ambassador)">Supprimer</button>
+									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="wantDeleteAmbassador(ambassador)">Supprimer</button>
 								</td>
 							</tr>
 						} @empty {

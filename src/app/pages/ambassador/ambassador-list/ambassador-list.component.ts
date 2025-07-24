@@ -4,7 +4,7 @@ import {environment} from '@/environments/environment';
 import {Ambassador} from '@/app/model/ambassador';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {UpdateAmbassadorComponent} from '../update-ambassador/update-ambassador.component';
-import {AsyncPipe, NgOptimizedImage} from '@angular/common';
+import {AsyncPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {ToastService} from '@/app/service/toast.service';
 
 @Component({
@@ -12,7 +12,8 @@ import {ToastService} from '@/app/service/toast.service';
 	imports: [
 		UpdateAmbassadorComponent,
 		AsyncPipe,
-		NgOptimizedImage
+		NgOptimizedImage,
+		NgClass
 	],
   templateUrl: './ambassador-list.component.html',
 })
@@ -35,11 +36,14 @@ export class AmbassadorListComponent implements OnInit {
 
 	selectedAmbassador: Ambassador | null = null;
 	isCreateAmbassador: boolean = false;
+	isWantDelete: boolean = false;
 
 	loadAmbassadors() {
 		this.ambassadorService.getAllAmbassadors().subscribe({
 			next: (ambassadors) => {
 				this.ambassadorsSubject.next(ambassadors);
+				this.selectedAmbassador = null;
+				this.isCreateAmbassador = false;
 				this.cdr.detectChanges();
 			}
 		})
@@ -70,5 +74,30 @@ export class AmbassadorListComponent implements OnInit {
 
 			}
 		})
+	}
+
+	closeDeleteModal() {
+		this.selectedAmbassador = null;
+		this.isWantDelete = false;
+	}
+
+	closeUpdateModal() {
+		this.selectedAmbassador = null;
+		this.isCreateAmbassador = false;
+	}
+
+	wantDeleteAmbassador(ambassador: Ambassador) {
+		this.selectedAmbassador = ambassador;
+		this.isWantDelete = true;
+		this.cdr.detectChanges();
+	}
+
+	confirmDelete() {
+		if (this.selectedAmbassador) {
+			this.deleteAmbassador(this.selectedAmbassador);
+		}
+		this.isWantDelete = false;
+		this.selectedAmbassador = null;
+		this.cdr.detectChanges();
 	}
 }
