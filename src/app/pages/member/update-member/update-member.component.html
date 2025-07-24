@@ -103,6 +103,27 @@
 						<label for="descriptionEn">Description (EN) <span class="text-xs">(Limite de 500 caractères)</span></label>
 						<textarea type="text" id="descriptionEn" formControlName="descriptionEn" class="p-2 border border-gray-300 rounded-lg" maxlength="500" placeholder="A graduate of 5, no 6 different masters, he is the founder of the peps team since 1779."></textarea>
 					</div>
+					<div formArrayName="achievements" class="flex flex-col gap-2">
+						<label>Palmarès</label>
+
+						@for (achievement of memberForm.get('achievements')?.value; track achievement.id; let i = $index) {
+							<div [formGroupName]="i" class="flex flex-col md:flex-row gap-2 items-start md:items-center">
+
+								<div class="flex-1">
+									<input type="text" formControlName="competitionName" placeholder="Championnat de France " class="w-full p-2 border border-gray-300 rounded-lg"/>
+								</div>
+								<div class="flex-1">
+									<input type="number" formControlName="year" placeholder="2025" min="2000" class="w-full p-2 border border-gray-300 rounded-lg"/>
+								</div>
+								<input type="number" formControlName="ranking" placeholder="1" max="10" min="1" class="text-center p-2 border border-gray-300 rounded-lg"/>
+								<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-600 text-white" (click)="removeAchievement(i)">Supprimer le palmarès</button>
+							</div>
+						}
+						<button type="button" (click)="addAchievement()" class="flex-1 p-2 border border-blue-500 w-full md:w-fit rounded-lg cursor-pointer h-fit hover:border-blue-600 text-white">
+							Ajouter un palmarès
+						</button>
+					</div>
+
 					@if(memberForm.get('role')?.value !== null && memberForm.get('role')?.value != Role.COACH && memberForm.get('role')?.value != Role.TEAM_MANAGER){
 						<div class="flex flex-col gap-4">
 							<span>Personnages favoris ({{memberForm.get('favoriteHeroes')?.value ? memberForm.get('favoriteHeroes')?.value.length : 0}}/3)</span>

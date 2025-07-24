@@ -5,7 +5,7 @@ import {
 	Input,
 	OnChanges, OnInit, Output
 } from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {nationalities} from '@/app/model/nationality';
 import {MemberService} from '@/app/service/member.service';
 import {ToastService} from '@/app/service/toast.service';
@@ -17,6 +17,7 @@ import {Heroe} from '@/app/model/heroe';
 import {HeroeService} from '@/app/service/heroe.service';
 import {ImageService} from '@/app/service/image.service';
 import {enumKeysObject} from '@/app/core/utils/enum';
+import {Achievement} from '@/app/model/achievement';
 
 @Component({
   selector: 'app-update-member',
@@ -54,6 +55,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		twitchUsername: new FormControl(''),
 		youtubeUsername: new FormControl(''),
 
+		achievements: new FormArray([]),
 		isSubstitute: new FormControl(false),
 		game: new FormControl('', Validators.required),
 		favoriteHeroes: new FormControl([], [Validators.maxLength(3)]),
@@ -87,7 +89,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 
 	initForm() {
 		if (this.member) {
-			this.memberForm.setValue({
+			this.memberForm.patchValue({
 				pseudo: this.member.pseudo,
 				lastname: this.member.lastname,
 				firstname: this.member.firstname,
@@ -107,8 +109,23 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 
 				isSubstitute: this.member.isSubstitute,
 				game: this.member.game,
-				favoriteHeroes: this.member.favoriteHeroes || []
+				favoriteHeroes: this.member.favoriteHeroes || [],
+				achievements: this.member.achievements || []
 			});
+
+			const achievementsArray = this.memberForm.get('achievements') as FormArray;
+			achievementsArray.clear();
+
+			if(this.member.achievements && Array.isArray(this.member.achievements)) {
+				this.member.achievements.forEach((achievement: Achievement) => {
+					const achievementGroup = new FormGroup({
+						competitionName: new FormControl(achievement.competitionName, Validators.required),
+						ranking: new FormControl(achievement.ranking, Validators.required),
+						year: new FormControl(achievement.year || '', [Validators.required, Validators.min(2000), Validators.max(new Date().getFullYear())]),
+					});
+					achievementsArray.push(achievementGroup);
+				});
+			}
 
 			this.imagePreview = this.minioBaseUrl + this.member.imageKey;
 		}else{
@@ -144,7 +161,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	save(){
-		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn, achievements} = this.memberForm.value;
 
 		const member: Member = {
 			pseudo,
@@ -168,8 +185,13 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 				en: {
 					description: descriptionEn
 				}
-			}
-		}
+			},
+			achievements: achievements.map((achievement: Achievement) => ({
+				competitionName: achievement.competitionName.trim(),
+				ranking: achievement.ranking,
+				year: achievement.year
+			})),
+		};
 
 		const payload: MemberPayload = {
 			member,
@@ -191,7 +213,7 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 	}
 
 	update(){
-		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn} = this.memberForm.value;
+		const {pseudo, lastname, firstname, dateOfBirth, nationality, role, twitterUsername, instagramUsername, tiktokUsername, twitchUsername, youtubeUsername, isSubstitute, game, favoriteHeroes, descriptionFr, descriptionEn, achievements} = this.memberForm.value;
 
 		const member: Member = {
 			id: this.member!.id,
@@ -216,8 +238,13 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 				en: {
 					description: descriptionEn
 				}
-			}
-		}
+			},
+			achievements: achievements.map((achievement: Achievement) => ({
+				competitionName: achievement.competitionName.trim(),
+				ranking: achievement.ranking,
+				year: achievement.year
+			})),
+		};
 
 		const payload: MemberPayload = {
 			member,
@@ -269,4 +296,16 @@ export class UpdateMemberComponent implements OnChanges, OnInit {
 		fileInput.click();
 	}
 
+	removeAchievement(index: number) {
+		(this.memberForm.get('achievements') as FormArray).removeAt(index);
+	}
+
+	addAchievement() {
+		const achievementGroup = new FormGroup({
+			competitionName: new FormControl('', Validators.required),
+			ranking: new FormControl('', Validators.required),
+			year: new FormControl('', [Validators.required, Validators.min(2000), Validators.max(new Date().getFullYear())]),
+		});
+		(this.memberForm.get('achievements') as FormArray).push(achievementGroup);
+	}
 }
