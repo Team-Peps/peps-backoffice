@@ -11,12 +11,12 @@ on:
                 options:
                     - prod
                     - dev
-            git_tag:
-                description: "Tag Git à déployer (ex: v1.2.3)"
-                required: true
     push:
         branches:
             - '**'
+        tags-ignore:
+            - '*'
+
 env:
     IMAGE_NAME: docker.io/serkox/peps-backoffice
 
