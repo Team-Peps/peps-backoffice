@@ -9,18 +9,7 @@
 	  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-	<body class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+	<body class="bg-peps-dark-700 text-peps-text-9">
 		<app-root></app-root>
 	</body>
-	<script>
-		const theme = localStorage.getItem('theme');
-		const browserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		if (theme !== null) {
-			if (theme === 'dark') {
-				document.documentElement.classList.add('dark');
-			}
-		} else if (browserDark) {
-			document.documentElement.classList.add('dark');
-		}
-	</script>
 </html>
