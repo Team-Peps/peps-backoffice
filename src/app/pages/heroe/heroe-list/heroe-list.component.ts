@@ -3,11 +3,13 @@ import {Heroe} from '@/app/model/heroe';
 import {HeroeService} from '@/app/service/heroe.service';
 import {environment} from '@/environments/environment';
 import {UpdateHeroeComponent} from '../update-heroe/update-heroe.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-heroe-list',
 	imports: [
 		UpdateHeroeComponent,
+		NgClass,
 	],
   templateUrl: './heroe-list.component.html',
 })

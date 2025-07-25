@@ -1,11 +1,11 @@
 <main class="container mx-auto p-4">
-	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Membres de la Team Peps</h1>
+	<h1 class="text-3xl font-bold text-center mb-4">Membres de la Team Peps</h1>
 
 	<div class="relative flex flex-col gap-4">
 			<label for="selectedGame">Team sélectionnée</label>
-			<select class="p-2.5 border rounded-lg border-gray-300" id="selectedGame" (change)="changeGame($event)">
+			<select class="p-2.5 border rounded-lg border-white" id="selectedGame" (change)="changeGame($event)">
 				@for (game of enumKeysObject(Game); track game){
-					<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="game">{{ game }}</option>
+					<option class="bg-peps-dark-700" [value]="game">{{ game }}</option>
 				}
 			</select>
 

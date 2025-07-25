@@ -2,3 +2,59 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@font-face {
+	font-family: 'DinProCondensedBlack';
+	src: url('assets/fonts/din_pro/dinpro_condensedblack.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'DinProMedium';
+	font-weight: 500;
+	font-style: normal;
+	src: url('assets/fonts/din_pro/dinpro_medium.otf') format('opentype');
+}
+
+@font-face {
+	font-family: 'NotoSans';
+	src: url('assets/fonts/noto_sans/NotoSans-Regular.ttf') format('truetype');
+}
+
+@theme {
+	--font-dinpro: "DinProCondensedBlack";
+	--font-dinpro-medium: "DinProMedium";
+	--font-notosans: "NotoSans";
+
+	--color-peps-yellow: #FDF7BD;
+	--color-peps-gold: #EEC932;
+	--color-peps-orange: #C96527;
+	--color-peps-brown: #A63A20;
+
+	--color-peps-purple: #9146FF;
+	--color-peps-purple-hover: #9D5AFF;
+	--color-peps-red: #FF0000;
+	--color-peps-red-hover: #FF2C2C;
+	--color-peps-discord: #5865F2;
+	--color-peps-discord-hover: #4E5D94;
+
+	--color-peps-dark-900: #0B0B0C;
+	--color-peps-dark-800: #101010;
+	--color-peps-dark-700: #131415;
+	--color-peps-dark-600: #222426;
+	--color-peps-dark-500: #313437;
+	--color-peps-dark-400: #32373F;
+	--color-peps-dark-300: #424852;
+	--color-peps-dark-200: #F9ECEA;
+
+	--color-peps-text-0: #000000;
+	--color-peps-text-1: #3C3C3B;
+	--color-peps-text-2: #575756;
+	--color-peps-text-3: #706F6F;
+	--color-peps-text-4: #878787;
+	--color-peps-text-5: #9D9D9C;
+	--color-peps-text-6: #B3B2B2;
+	--color-peps-text-7: #C6C6C6;
+	--color-peps-text-8: #DADADA;
+	--color-peps-text-9: #EDEDED;
+	--color-peps-text-10: #FFFFFF;
+}

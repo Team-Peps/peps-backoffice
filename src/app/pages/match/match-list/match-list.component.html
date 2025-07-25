@@ -1,5 +1,5 @@
 <main class="container mx-auto p-4">
-	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Matchs</h1>
+	<h1 class="text-3xl font-bold text-center mb-4">Matchs</h1>
 
 	@if(selectedMatch) {
 		<app-update-match
@@ -15,7 +15,7 @@
 			<span>Progression :</span>
 			<ul>
 				@for (msg of messages; track msg) {
-					<li class="text-gray-600 dark:text-gray-400">{{ msg }}</li>
+					<li class="text-white">{{ msg }}</li>
 				}
 			</ul>
 		}
@@ -31,47 +31,47 @@
 	<table class="w-full table-auto ">
 		<thead>
 		<tr>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Jeu</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Date et heure</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Equipe adverse</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Nom de la compétition</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Score</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Score adverse</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Vod URL</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Stream URL</div>
 				</div>
 			</th>
-			<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+			<th class="bg-peps-discord text-white">
 				<div class="flex items-center px-2 py-1">
 					<div class="flex-1 text-left font-normal">Actions</div>
 				</div>
@@ -79,38 +79,39 @@
 		</tr>
 		</thead>
 		<tbody>
-			@for (match of filteredMatches; track match.id){
-				<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-					<td class="border-b p-3 dark:border-gray-900">
+			@for (match of filteredMatches; track match.id; let even = $even) {
+				<tr class="hover:bg-peps-dark-500" [ngClass]="{'bg-peps-dark-700': even, 'bg-peps-dark-600': !even}">
+					<td class="p-3">
 						{{ match.game }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3">
 						{{ match.datetime | date:'dd MMM yyyy HH:mm' }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3">
 						<div class="flex gap-2 items-center">
 							<img [src]="minioBaseUrl + match.opponentImageKey" alt="Logo de {{match.opponentImageKey}}" class="w-8">
 							{{ match.opponent }}
 						</div>
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3">
 						<div class="flex gap-2 items-center">
 							<img [src]="minioBaseUrl + match.competitionImageKey" alt="Logo de {{match.competitionName}}" class="w-8">
 							{{ match.competitionName }}
-						</div>					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+						</div>
+					</td>
+					<td class="p-3">
 						{{ match.score }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3">
 						{{ match.opponentScore }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3 max-w-48 overflow-hidden">
 						{{ match.vodUrl }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3 max-w-48 overflow-hidden">
 						{{ match.streamUrl }}
 					</td>
-					<td class="border-b p-3 dark:border-gray-900">
+					<td class="p-3">
 						<div class="flex flex-row gap-2">
 							<button class="p-2 bg-blue-700 rounded-lg cursor-pointer hover:bg-blue-600 text-white" (click)="selectMatch(match)">Modifier</button>
 						</div>

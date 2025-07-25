@@ -1,5 +1,5 @@
 <main class="container mx-auto p-4">
-	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Articles</h1>
+	<h1 class="text-3xl font-bold text-center text-white mb-4">Articles</h1>
 
 	<div class="relative flex flex-col gap-4">
 
@@ -21,22 +21,22 @@
 			<table class="w-full table-auto">
 				<thead>
 					<tr>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Sujet</div>
 							</div>
 						</th>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Titre</div>
 							</div>
 						</th>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Créé le</div>
 							</div>
 						</th>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Actions</div>
 							</div>
@@ -46,8 +46,8 @@
 				<tbody>
 					@defer {
 
-						@for (article of articles; track article.id){
-							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700 border-b dark:border-gray-900 even:bg-gray-200 odd:bg-white dark:even:bg-gray-700 dark:odd:bg-gray-800">
+						@for (article of articles; track article.id; let even = $even){
+							<tr class="hover:bg-peps-dark-500" [ngClass]="{'bg-peps-dark-700': even, 'bg-peps-dark-600': !even}">
 								<td class="p-3">
 									{{ article.articleType }}
 								</td>
@@ -73,7 +73,7 @@
 						<tr>
 							<td colspan="10" class="p-3 text-center h-48">
 								<div class="relative flex justify-center items-center">
-									<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+									<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-peps-gold"></div>
 									<div class="relative h-14 w-14">
 										<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
 									</div>
