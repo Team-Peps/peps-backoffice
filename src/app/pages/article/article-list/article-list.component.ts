@@ -4,7 +4,7 @@ import {ToastService} from '@/app/service/toast.service';
 import {Article} from '@/app/model/article';
 import {ReactiveFormsModule} from '@angular/forms';
 import {UpdateArticleComponent} from '../update-article/update-article.component';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {environment} from '@/environments/environment';
 
 @Component({
@@ -12,7 +12,8 @@ import {environment} from '@/environments/environment';
 	imports: [
 		ReactiveFormsModule,
 		UpdateArticleComponent,
-		NgOptimizedImage
+		NgOptimizedImage,
+		NgClass
 	],
   templateUrl:  './article-list.component.html',
 })

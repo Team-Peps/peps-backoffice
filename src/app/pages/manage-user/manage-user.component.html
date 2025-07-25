@@ -6,22 +6,22 @@
 		<table class="w-full table-auto ">
 			<thead>
 				<tr>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Role</div>
 						</div>
 					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Pseudo</div>
 						</div>
 					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Email</div>
 						</div>
 					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Actions</div>
 						</div>
@@ -29,22 +29,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				@for (user of users$ | async; track user.id){
-					<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-						<td class="border-b p-1.5 dark:border-gray-900">
+				@for (user of users$ | async; track user.id; let even = $even) {
+					<tr class="hover:bg-peps-dark-500" [ngClass]="{'bg-peps-dark-700': even, 'bg-peps-dark-600': !even}">
+						<td class="p-3">
 							<div class="flex flex-row gap-2">
 								@for (role of user.authorities; track role) {
 									<span class="text-xs p-1 rounded-lg" [ngClass]="{'bg-red-500' : role === Authority.ADMIN, 'bg-blue-500' : role === Authority.USER}">{{ role }}</span>
 								}
 							</div>
 						</td>
-						<td class="border-b p-3 dark:border-gray-900">
+						<td class="p-3">
 							<span>{{user.username}}</span>
 						</td>
-						<td class="border-b p-3 dark:border-gray-900">
+						<td class="p-3">
 							<span>{{user.email}}</span>
 						</td>
-						<td class="border-b p-3 text-center dark:border-gray-900">
+						<td class="p-3">
 							@if (user.username != authService.getUsername()){
 								<div class="flex flex-row gap-2">
 									<button class="p-2 bg-red-700 rounded-lg cursor-pointer hover:bg-red-800">Supprimer</button>

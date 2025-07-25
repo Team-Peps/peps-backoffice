@@ -1,5 +1,5 @@
 <main class="container mx-auto p-4">
-	<h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-200 mb-4">Palmarès de la Team Peps</h1>
+	<h1 class="text-3xl font-bold text-center text-white mb-4">Palmarès de la Team Peps</h1>
 
 	<div class="relative flex flex-col gap-4">
 
@@ -19,7 +19,7 @@
 		<label for="selectedGame">Roster sélectionnée</label>
 		<select class="p-2.5 border rounded-lg border-gray-300" id="selectedGame" (change)="changeSelection($event)">
 			@for (game of enumKeysObject(Game); track game){
-				<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="game">{{ game }}</option>
+				<option class="bg-peps-dark-700 text-white" [value]="game">{{ game }}</option>
 			}
 		</select>
 
@@ -28,21 +28,21 @@
 			<table class="w-full table-auto">
 				<thead>
 				<tr>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Compétition</div>
 						</div>
 					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Rang</div>
 						</div>
 					</th>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Jeu</div>
 						</div>
-					<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+					<th class="bg-peps-discord text-white">
 						<div class="flex items-center px-2 py-1">
 							<div class="flex-1 text-left font-normal">Actions</div>
 						</div>
@@ -52,18 +52,18 @@
 				<tbody>
 					@defer {
 
-						@for (achievement of achievements; track achievement.id){
-							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-								<td class="border-b p-3 dark:border-gray-900">
+						@for (achievement of achievements; track achievement.id; let even = $even) {
+							<tr class="hover:bg-peps-dark-500" [ngClass]="{'bg-peps-dark-700': even, 'bg-peps-dark-600': !even}">
+								<td class="p-3">
 									{{ achievement.competitionName }}
 								</td>
 								<td
-									class="border-b p-3 dark:border-gray-900 font-bold"
+									class="p-3 font-bold"
 									[ngClass]="{'text-[#EEC932]': achievement.ranking === 1, 'text-white': achievement.ranking === 2, 'text-[#C96527]': achievement.ranking > 2}"
 								>
 									{{ achievement.ranking }}
 								</td>
-								<td class="border-b p-3 dark:border-gray-900">
+								<td class="p-3">
 									{{ achievement.game }}
 								</td>
 								<td class="p-3 flex flex-col gap-2">
@@ -82,7 +82,7 @@
 						<tr>
 							<td colspan="10" class="p-3 text-center h-48">
 								<div class="relative flex justify-center items-center">
-									<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+									<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-peps-gold"></div>
 									<div class="relative h-14 w-14">
 										<img ngSrc="/assets/pepite.webp" class="rounded-full" fill>
 									</div>

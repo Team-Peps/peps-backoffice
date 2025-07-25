@@ -25,22 +25,22 @@
 				<table class="w-full table-auto">
 					<thead>
 						<tr>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<th class="bg-peps-discord text-white">
 								<div class="flex items-center px-2 py-1">
 									<div class="flex-1 text-left font-normal">Nom</div>
 								</div>
 							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<th class="bg-peps-discord text-white">
 								<div class="flex items-center px-2 py-1">
 									<div class="flex-1 text-left font-normal">Role</div>
 								</div>
 							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<th class="bg-peps-discord text-white">
 								<div class="flex items-center px-2 py-1">
 									<div class="flex-1 text-left font-normal">Image</div>
 								</div>
 							</th>
-							<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+							<th class="bg-peps-discord text-white">
 								<div class="flex items-center px-2 py-1">
 									<div class="flex-1 text-left font-normal">Actions</div>
 								</div>
@@ -48,15 +48,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						@for (hero of heroesOverwatch; track hero.id){
-							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-								<td class="border-b p-3 dark:border-gray-900 text-center">
+						@for (hero of heroesOverwatch; track hero.id; let even = $even){
+							<tr class="hover:bg-peps-dark-500" [ngClass]="{'bg-peps-dark-700': even, 'bg-peps-dark-600': !even}">
+								<td class="p-3">
 									{{ hero.name }}
 								</td>
-								<td class="border-b p-3 dark:border-gray-900 text-center">
+								<td class="p-3">
 									{{ hero.role }}
 								</td>
-								<td class="border-b p-3 dark:border-gray-900">
+								<td class="p-3">
 									<div class="flex flex-row items-center gap-2">
 										<img [src]="minioBaseUrl + hero.imageKey" alt="Image de {{hero.name}}" class="w-16">
 									</div>
@@ -73,22 +73,22 @@
 				<table class="w-full table-auto ">
 					<thead>
 					<tr>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Nom</div>
 							</div>
 						</th>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Role</div>
 							</div>
 						</th>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Image</div>
 							</div>
 						</th>
-						<th class="border-b border-t border-gray-900 bg-gray-900 text-white">
+						<th class="bg-peps-discord text-white">
 							<div class="flex items-center px-2 py-1">
 								<div class="flex-1 text-left font-normal">Actions</div>
 							</div>
@@ -96,15 +96,15 @@
 					</tr>
 					</thead>
 					<tbody>
-						@for (hero of heroesMarvelRivals; track hero.id){
-							<tr class="hover:bg-gray-200 dark:hover:bg-gray-700">
-								<td class="border-b p-3 dark:border-gray-900 text-center">
+						@for (hero of heroesMarvelRivals; track hero.id; let even = $even){
+							<tr class="hover:bg-peps-dark-500" [ngClass]="{'bg-peps-dark-700': even, 'bg-peps-dark-600': !even}">
+								<td class="p-3">
 									{{ hero.name }}
 								</td>
-								<td class="border-b p-3 dark:border-gray-900 text-center">
+								<td class="p-3">
 									{{ hero.role }}
 								</td>
-								<td class="border-b p-3 dark:border-gray-900">
+								<td class="p-3">
 									<div class="flex flex-row items-center gap-2">
 										<img [src]="minioBaseUrl + hero.imageKey" alt="Image de {{hero.name}}" class="w-16">
 									</div>

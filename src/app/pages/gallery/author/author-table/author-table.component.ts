@@ -1,11 +1,12 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Author} from '@/app/model/author';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 
 @Component({
 	selector: 'author-table',
 	imports: [
-		NgOptimizedImage
+		NgOptimizedImage,
+		NgClass
 	],
 	templateUrl: './author-table.component.html',
 })

@@ -1,16 +1,16 @@
 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-	<div class="fixed inset-0 bg-gray-800/75 transition-opacity" aria-hidden="true"></div>
+	<div class="fixed inset-0 bg-peps-dark-900/75 transition-opacity" aria-hidden="true"></div>
 
 	<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
 		<div class="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
-			<div class="relative transform overflow-hidden rounded-lg bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg py-4 px-8">
+			<div class="relative transform overflow-hidden rounded-lg bg-peps-dark-700 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg py-4 px-8">
 				<h3 class="text-center text-2xl mb-2">Ajouter des photos pour la galerie "{{ gallery.translations.fr.eventName }}"</h3>
 				<form [formGroup]="form" class="flex flex-col gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="author">Auteur</label>
 						<select class="p-2.5 border rounded-lg border-gray-300" id="author" formControlName="author">
 							@for (author of authors; track author.id){
-								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="author.id">{{ author.name }}</option>
+								<option class="bg-peps-dark-700 text-white" [value]="author.id">{{ author.name }}</option>
 							}
 						</select>
 					</div>

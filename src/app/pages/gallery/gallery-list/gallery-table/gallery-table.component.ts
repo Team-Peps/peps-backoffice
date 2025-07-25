@@ -1,12 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Gallery} from '@/app/model/gallery';
-import {DatePipe, NgOptimizedImage} from '@angular/common';
+import {DatePipe, NgClass, NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'gallery-table',
 	imports: [
 		NgOptimizedImage,
-		DatePipe
+		DatePipe,
+		NgClass
 	],
   templateUrl: './gallery-table.component.html',
 })

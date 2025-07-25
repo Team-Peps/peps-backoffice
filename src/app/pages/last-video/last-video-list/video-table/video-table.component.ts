@@ -1,12 +1,13 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {environment} from '@/environments/environment';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {Video} from '@/app/model/video';
 
 @Component({
   selector: 'app-video-table',
 	imports: [
-		NgOptimizedImage
+		NgOptimizedImage,
+		NgClass
 	],
   templateUrl: './video-table.component.html',
 })

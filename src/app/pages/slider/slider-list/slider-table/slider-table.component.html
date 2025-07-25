@@ -6,7 +6,7 @@
 	@defer {
 		@for (slider of sliders; track slider.id) {
 			<li
-				class="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0 px-4 py-4 border border-gray-500 transition-colors cursor-grab bg-gray-900 rounded-2xl"
+				class="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0 px-4 py-4 border border-white transition-colors cursor-grab bg-peps-dark-800 rounded-2xl"
 				cdkDrag
 			>
 
@@ -16,15 +16,15 @@
 				<div class="flex items-center gap-4">
 					<img [src]="minioBaseUrl + slider.translations.fr.imageKey" alt="Image du slider {{slider.id}} en version française" class="w-24 rounded shadow-sm" />
 					<img [src]="minioBaseUrl + slider.translations.fr.mobileImageKey " alt="Image mobile du slider {{slider.id}} en version française" class="w-24 rounded shadow-sm" />
-					<div class="text-gray-600 dark:text-gray-300 break-all font-bold">Place : {{ slider.order }}</div>
+					<div class="break-all">Place : {{ slider.order }}</div>
 				</div>
 
 				<div class="flex flex-col sm:flex-row gap-2 sm:gap-6 w-full sm:w-auto items-center">
 					<div class="flex flex-col gap-1">
-						<div class="font-semibold text-gray-800 dark:text-gray-100">{{ slider.translations.fr.ctaLabel }}</div>
-						<div class="font-semibold text-gray-800 dark:text-gray-100">{{ slider.translations.en.ctaLabel }}</div>
+						<div>{{ slider.translations.fr.ctaLabel }}</div>
+						<div>{{ slider.translations.en.ctaLabel }}</div>
 					</div>
-					<div class="text-sm text-gray-600 dark:text-gray-300 break-all">{{ slider.ctaLink }}</div>
+					<div class="text-sm break-all">{{ slider.ctaLink }}</div>
 				</div>
 
 				<div class="flex flex-col gap-2 min-w-[180px] mt-2 sm:mt-0">
@@ -53,13 +53,13 @@
 		}
 
 		@empty {
-			<li class="p-6 text-center text-gray-500 dark:text-gray-400">Aucune donnée</li>
+			<li class="p-6 text-center">Aucune donnée</li>
 		}
 	}
 	@loading (minimum 500ms) {
 		<div class="flex justify-center items-center h-48">
 			<div class="relative flex justify-center items-center">
-				<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-yellow-500"></div>
+				<div class="absolute animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-peps-gold"></div>
 				<div class="relative h-14 w-14">
 					<img ngSrc="/assets/pepite.webp" class="rounded-full" fill />
 				</div>

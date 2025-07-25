@@ -1,6 +1,6 @@
 <main class="container mx-auto p-4">
 	<div class="relative flex flex-col gap-4">
-		<form [formGroup]="articleForm" class="my-12 text-gray-900 dark:text-gray-100">
+		<form [formGroup]="articleForm" class="my-12">
 			@if(article){
 				<h2 class="text-center text-2xl mb-4">Modification de l'article "{{ article.translations.fr.title }}"</h2>
 			} @else {
@@ -12,27 +12,27 @@
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="titleFr">Titre (FR)</label>
-						<input type="text" id="titleFr" formControlName="titleFr" class="p-2 border border-gray-300 rounded-lg" placeholder="Le nouveau jersey est disponible !"/>
+						<input type="text" id="titleFr" formControlName="titleFr" class="p-2 border border-white rounded-lg" placeholder="Le nouveau jersey est disponible !"/>
 					</div>
 					<div class="flex flex-col flex-1">
 						<label for="titleEn">Titre (EN)</label>
-						<input type="text" id="titleEn" formControlName="titleEn" class="p-2 border border-gray-300 rounded-lg" placeholder="The new jersey is available!"/>
+						<input type="text" id="titleEn" formControlName="titleEn" class="p-2 border border-white rounded-lg" placeholder="The new jersey is available!"/>
 					</div>
 				</div>
 
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="flex flex-col flex-1">
 						<label for="articleType">Sujet</label>
-						<select class="p-2.5 border rounded-lg border-gray-300" id="articleType" formControlName="articleType">
+						<select class="p-2.5 border rounded-lg border-white" id="articleType" formControlName="articleType">
 							@for (type of enumKeysObject(ArticleType); track type){
-								<option class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white" [value]="type">{{ type }}</option>
+								<option class="bg-peps-dark-700 text-white" [value]="type">{{ type }}</option>
 							}
 						</select>
 					</div>
 
 				</div>
 
-				<div class="flex flex-col text-gray-900 dark:text-gray-300 gap-4">
+				<div class="flex flex-col gap-4">
 					<div>
 						<label for="contentFr">Contenu (FR)</label>
 						<editor [init]="init" [apiKey]="tinyMCEApiKey" formControlName="contentFr" id="contentFr"></editor>

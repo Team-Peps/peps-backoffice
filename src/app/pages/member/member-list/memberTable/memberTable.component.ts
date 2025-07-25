@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {Member, MemberRole} from '@/app/model/member';
 import {environment} from '@/environments/environment';
 import {determineRoleIcon} from '@/app/core/utils/range';
@@ -7,7 +7,8 @@ import {determineRoleIcon} from '@/app/core/utils/range';
 @Component({
 	selector: 'member-table',
 	imports: [
-		NgOptimizedImage
+		NgOptimizedImage,
+		NgClass
 	],
 	templateUrl: './memberTable.component.html',
 })
